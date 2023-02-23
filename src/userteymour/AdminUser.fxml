@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="692.0" prefWidth="1094.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.AdminUserController">
+   <children>
+      <TableView fx:id="utilisateur" layoutX="25.0" layoutY="55.0" prefHeight="248.0" prefWidth="1030.0">
+        <columns>
+          <TableColumn fx:id="idusercol" prefWidth="75.0" text="Iduser" />
+          <TableColumn fx:id="nomcol" prefWidth="75.0" text="nom" />
+            <TableColumn fx:id="prenomcol" prefWidth="75.0" text="prenom" />
+            <TableColumn fx:id="emailcol" prefWidth="125.0" text="email" />
+            <TableColumn fx:id="telcol" prefWidth="97.0" text="tel" />
+            <TableColumn fx:id="adrcol" prefWidth="92.0" text="adresse" />
+            <TableColumn fx:id="agecol" prefWidth="77.0" text="age" />
+            <TableColumn fx:id="passwdcol" prefWidth="84.0" text="passwd" />
+            <TableColumn fx:id="idrolecol" prefWidth="246.0" text="type" />
+            <TableColumn fx:id="sexecol" prefWidth="84.0" text="sexe" />
+        </columns>
+      </TableView>
+      <Button fx:id="supprimer" layoutX="69.0" layoutY="385.0" mnemonicParsing="false" onAction="#delete" text="supprimer" />
+            <Button fx:id="btnreturn" layoutX="942.0" layoutY="14.0" mnemonicParsing="false" onAction="#returnadmin" text="↩" />
+      <Button fx:id="modifier" layoutX="817.0" layoutY="590.0" mnemonicParsing="false" onAction="#modifieruser" text="modifier" />
+      <TextField fx:id="teltf" layoutX="706.0" layoutY="396.0" />
+      <TextField fx:id="passwdtf" layoutX="556.0" layoutY="589.0" />
+      <TextField fx:id="emailtf" layoutX="400.0" layoutY="515.0" />
+      <TextField fx:id="adrtf" layoutX="706.0" layoutY="455.0" />
+      <TextField fx:id="pretf" layoutX="400.0" layoutY="448.0" />
+      <TextField fx:id="nomtf" layoutX="400.0" layoutY="396.0" />
+      <Text layoutX="331.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom" />
+      <Text layoutX="622.0" layoutY="536.0" strokeType="OUTSIDE" strokeWidth="0.0" text="age" />
+      <Text layoutX="504.0" layoutY="610.0" strokeType="OUTSIDE" strokeWidth="0.0" text="passwd" />
+      <Text layoutX="331.0" layoutY="536.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" />
+      <Text layoutX="331.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="prenom" />
+      <Text layoutX="622.0" layoutY="469.0" strokeType="OUTSIDE" strokeWidth="0.0" text="adresse" />
+      <Text layoutX="622.0" layoutY="417.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tel" />
+      <ImageView fitHeight="248.0" fitWidth="312.0" layoutX="14.0" layoutY="453.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../image/logo.png" />
+         </image>
+      </ImageView>
+      <DatePicker fx:id="agetf" layoutX="708.0" layoutY="515.0" />
+   </children>
+</AnchorPane>
