@@ -16,10 +16,11 @@ import javax.management.relation.Role;
  * @author 21626
  */
 public class User {
+    
     private int iduser ;  
     private String nom ;
     private String prenom ;
-    private int tel ;
+    private String tel ;
     private String adresse ;
     private role id_role ;
     private String email ;
@@ -73,7 +74,7 @@ public class User {
         return prenom;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
@@ -106,7 +107,7 @@ public class User {
         this.prenom = prenom;
     }
 
-    public void setTel(int tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 
@@ -147,7 +148,7 @@ public class User {
      * @param sexe
      * @param image
      */
-    public User(String nom, String prenom, int tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
+    public User(String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
@@ -160,7 +161,7 @@ public class User {
         this.image = image;
     }
 
-    public User(int iduser, String nom, String prenom, int tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
+    public User(int iduser, String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
         this.iduser = iduser;
         this.nom = nom;
         this.prenom = prenom;

@@ -11,8 +11,8 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="765.0" layoutY="91.0" stroke="#c6ee4d" strokeType="INSIDE" strokeWidth="20.0" width="160.0" />
       <ImageView fx:id="userImageView" fitHeight="161.0" fitWidth="120.0" layoutX="785.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="nameLabel" layoutX="532.0" layoutY="130.0" prefHeight="32.0" prefWidth="200.0" />
-      <ListView fx:id="emailLabel" layoutX="532.0" layoutY="182.0" prefHeight="32.0" prefWidth="200.0" />
+      <ListView fx:id="nameLabel" layoutX="445.0" layoutY="130.0" prefHeight="32.0" prefWidth="287.0" />
+      <ListView fx:id="emailLabel" layoutX="445.0" layoutY="182.0" prefHeight="32.0" prefWidth="287.0" />
       <Label layoutX="58.0" layoutY="81.0" onMouseClicked="#gestionuser" text="Gestion du compte">
          <font>
             <Font size="24.0" />

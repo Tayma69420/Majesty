@@ -28,7 +28,7 @@
       <PasswordField fx:id="newpdw" layoutX="204.0" layoutY="148.0" />
       <PasswordField fx:id="newnewpdw" layoutX="204.0" layoutY="202.0" />
       <ToggleButton fx:id="showbtnold" layoutX="400.0" layoutY="89.0" mnemonicParsing="false" onAction="#showold" text="👁" />
-      <ToggleButton fx:id="showbtnnewnew" layoutX="400.0" layoutY="202.0" mnemonicParsing="false" onAction="#shownewnew" text="👁" />
+      <ToggleButton fx:id="showbtnnewnew" layoutX="400.0" layoutY="202.0" mnemonicParsing="false" onMouseClicked="#shownewnew" text="👁" />
       <ToggleButton fx:id="showbntnew" layoutX="400.0" layoutY="148.0" mnemonicParsing="false" onAction="#shownew" text="👁" />
    </children>
 </AnchorPane>

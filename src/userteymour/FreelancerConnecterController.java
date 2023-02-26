@@ -1,5 +1,8 @@
 package userteymour;
 
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import entities.User;
 import entities.role;
 import java.io.File;
@@ -8,6 +11,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,14 +24,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import service.UserService;
+import static userteymour.ConnecterUserController.ACCOUNT_SID;
+import static userteymour.ConnecterUserController.AUTH_TOKEN;
 
 public class FreelancerConnecterController implements Initializable {
 
@@ -60,15 +69,30 @@ public class FreelancerConnecterController implements Initializable {
     private ImageView imgusr;
     
      private ToggleGroup toggleGroup;
+    @FXML
+    private ToggleButton showbtnnewnew;
+    @FXML
+    private Label mdpfreelancer;
+    
+    private boolean labelVisible = false;
+    @FXML
+    private TextField vertel;
+    @FXML
+    private Button sendcode;
+    
+    
+    private String code;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
                 toggleGroup = new ToggleGroup();
         hommeb.setToggleGroup(toggleGroup);
         femmeb.setToggleGroup(toggleGroup);
+       mdpfreelancer.textProperty().bind(tfpasswd.textProperty());
+    mdpfreelancer.setVisible(false);
     }
 
-    @FXML
+  @FXML
     private void sauvgarder1(ActionEvent event) throws IOException {
         if (tfnom.getText().isEmpty() || tfprenom.getText().isEmpty() || tfemail.getText().isEmpty() ||
                 tftel.getText().isEmpty() || tfadresse.getText().isEmpty() || tfpasswd.getText().isEmpty() ||
@@ -91,7 +115,7 @@ public class FreelancerConnecterController implements Initializable {
             
          }
         
-        else if (!tfemail.getText().matches("\\w+@\\w+\\.\\w+")) {
+        else if (!tfemail.getText().matches("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w+([\\.-]?\\w+)*")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
             alert.setHeaderText(null);
@@ -100,13 +124,14 @@ public class FreelancerConnecterController implements Initializable {
             return;
         }
 
-         else if (!tftel.getText().matches("\\d{8}")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le numéro de téléphone doit contenir 8 chiffres !");
-            alert.showAndWait();
-            return;
+         else if (!tftel.getText().matches("\\+216\\d{8}")) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Erreur de saisie");
+    alert.setHeaderText(null);
+    alert.setContentText("Le numéro de téléphone doit commencer par +216 et contenir 8 chiffres après !");
+    alert.showAndWait();
+    return;
+
         } else if (!tfpasswd.getText().matches("(?=.*[A-Z])(?=.*\\d).+")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
@@ -115,10 +140,18 @@ public class FreelancerConnecterController implements Initializable {
             alert.showAndWait();
             return;
         }
+        if (!code.equals(vertel.getText())) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Erreur de saisie");
+    alert.setHeaderText(null);
+    alert.setContentText("Le code de vérification est incorrect !");
+    alert.showAndWait();
+    return;
+}
         role r1 = new role (2, "User");
         String nom = tfnom.getText();
         String prenom = tfprenom.getText();
-        int tel = Integer.parseInt(tftel.getText());
+        String tel = tftel.getText();
         String adresse = tfadresse.getText();
         String email = tfemail.getText();
         String passwd = tfpasswd.getText();
@@ -142,8 +175,25 @@ LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().
         User u = new User(nom, prenom, tel, adresse, r1, email, passwd, birthdate, sexe, image);
 
       
-        UserService userService = new UserService() {};
-        userService.insertFreelancer(u);
+           // check if email already exists
+    UserService userService = new UserService() {};
+    List<User> users = userService.readAll();
+    for (User user : users) {
+        if (user.getEmail().equals(email)) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur de saisie");
+            alert.setHeaderText(null);
+            alert.setContentText("L'adresse email existe déjà !");
+            alert.showAndWait();
+            return;
+        }
+      
+    }
+
+    // email doesn't exist, continue with saving the user
+  //  role r1 = new role(2, "User");
+        
+        userService.insert(u);
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation");
@@ -159,6 +209,7 @@ LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().
         tfpasswd.setText("");
         ftage.setValue(null);
     }
+
 
     @FXML
     private void return11(ActionEvent event) throws IOException {
@@ -207,6 +258,22 @@ private void importimg1(ActionEvent event) {
         imgusr.setImage(new Image(selectedFile.toURI().toString())); // Set the image of the selected file to the image view
     }
 }
+
+    @FXML
+    private void showfreelancerpw(ActionEvent event) {
+                            labelVisible = !labelVisible; // toggle the visibility
+    mdpfreelancer.setVisible(labelVisible);
+    }
+
+    @FXML
+    private void sendcode1(ActionEvent event) {
+        Random rand = new Random();
+code = String.format("%04d", rand.nextInt(10000));
+System.out.println("Code: " + code); // for testing purposes
+Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+Message message = Message.creator(new PhoneNumber(tftel.getText()), new PhoneNumber("+12706481625"), "Votre code de vérification est: " + code).create();
+
+    }
 }
 
 

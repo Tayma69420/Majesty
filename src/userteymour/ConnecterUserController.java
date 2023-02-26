@@ -21,14 +21,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import service.UserService;
+import com.twilio.Twilio;
+import static com.twilio.example.Example.ACCOUNT_SID;
+import static com.twilio.example.Example.AUTH_TOKEN;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+import java.time.LocalDateTime;
+import java.util.Random;
 
 public class ConnecterUserController implements Initializable {
 
@@ -62,12 +74,30 @@ public class ConnecterUserController implements Initializable {
     private ImageView imgusr;
     
      private ToggleGroup toggleGroup;
+    @FXML
+    private ToggleButton showbtnnewnew;
+    @FXML
+    private Label mdpshow;
+    private boolean labelVisible = false;
+    @FXML
+    private TextField vertel;
+    private String code;
+    
+    public static final String ACCOUNT_SID = "AC888b21cc1072373d1fb728a2315dc79f";
+public static final String AUTH_TOKEN = "37c13bf0ae627fa7a7fdcb2f1385775a";
+    @FXML
+    private Button sendcode;
+
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
                 toggleGroup = new ToggleGroup();
         hommeb.setToggleGroup(toggleGroup);
         femmeb.setToggleGroup(toggleGroup);
+            mdpshow.textProperty().bind(tfpasswd.textProperty());
+
+    mdpshow.setVisible(false);
     }
 
     @FXML
@@ -93,7 +123,7 @@ public class ConnecterUserController implements Initializable {
             
          }
         
-        else if (!tfemail.getText().matches("\\w+@\\w+\\.\\w+")) {
+        else if (!tfemail.getText().matches("\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*\\.\\w+([\\.-]?\\w+)*")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
             alert.setHeaderText(null);
@@ -102,13 +132,14 @@ public class ConnecterUserController implements Initializable {
             return;
         }
 
-         else if (!tftel.getText().matches("\\d{8}")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur de saisie");
-            alert.setHeaderText(null);
-            alert.setContentText("Le numéro de téléphone doit contenir 8 chiffres !");
-            alert.showAndWait();
-            return;
+         else if (!tftel.getText().matches("\\+216\\d{8}")) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Erreur de saisie");
+    alert.setHeaderText(null);
+    alert.setContentText("Le numéro de téléphone doit commencer par +216 et contenir 8 chiffres après !");
+    alert.showAndWait();
+    return;
+
         } else if (!tfpasswd.getText().matches("(?=.*[A-Z])(?=.*\\d).+")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erreur de saisie");
@@ -117,10 +148,18 @@ public class ConnecterUserController implements Initializable {
             alert.showAndWait();
             return;
         }
+        if (!code.equals(vertel.getText())) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Erreur de saisie");
+    alert.setHeaderText(null);
+    alert.setContentText("Le code de vérification est incorrect !");
+    alert.showAndWait();
+    return;
+}
         role r1 = new role (2, "User");
         String nom = tfnom.getText();
         String prenom = tfprenom.getText();
-        int tel = Integer.parseInt(tftel.getText());
+        String tel = tftel.getText();
         String adresse = tfadresse.getText();
         String email = tfemail.getText();
         String passwd = tfpasswd.getText();
@@ -156,6 +195,7 @@ LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().
             alert.showAndWait();
             return;
         }
+      
     }
 
     // email doesn't exist, continue with saving the user
@@ -177,6 +217,8 @@ LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().
         tfpasswd.setText("");
         ftage.setValue(null);
     }
+
+
 
     @FXML
     private void return1(ActionEvent event) throws IOException {
@@ -225,6 +267,27 @@ private void importimg(ActionEvent event) {
         imgusr.setImage(new Image(selectedFile.toURI().toString())); // Set the image of the selected file to the image view
     }
 }
+
+    @FXML
+    private void showuserpw(ActionEvent event) {
+                            labelVisible = !labelVisible; // toggle the visibility
+    mdpshow.setVisible(labelVisible);
+    }
+    
+    
+
+int verificationCode = (int) (Math.random() * 900000) + 100000;
+
+    @FXML
+    private void sendcode(ActionEvent event) {
+Random rand = new Random();
+code = String.format("%04d", rand.nextInt(10000));
+System.out.println("Code: " + code); // for testing purposes
+Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+Message message = Message.creator(new PhoneNumber(tftel.getText()), new PhoneNumber("+12706481625"), "Votre code de vérification est: " + code).create();
+
+    }
+
 }
 
 

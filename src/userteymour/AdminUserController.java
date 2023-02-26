@@ -245,7 +245,7 @@ private void modifieruser(ActionEvent event) {
             selectedUser.setNom(nomtf.getText());
             selectedUser.setPrenom(pretf.getText());
             selectedUser.setEmail(emailtf.getText());
-            selectedUser.setTel(Integer.parseInt(teltf.getText()));
+            selectedUser.setTel((teltf.getText()));
             selectedUser.setAdresse(adrtf.getText());
             selectedUser.setAge(agetf.getValue());
             selectedUser.setPasswd(passwdtf.getText());

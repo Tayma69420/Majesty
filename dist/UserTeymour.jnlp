@@ -8,8 +8,17 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="UserTeymour.jar" size="1124528" download="eager" />
+    <jar href="UserTeymour.jar" size="1130607" download="eager" />
+    <jar href="lib\javax.mail-1.6.2.jar" size="659031" download="eager" />
+    <jar href="lib\javax.mail-api-1.6.2.jar" size="219146" download="eager" />
     <jar href="lib\mysql-connector-java-5.1.23-bin.jar" size="834126" download="eager" />
+    <jar href="lib\restfb-2023.3.0-javadoc.jar" size="8279688" download="eager" />
+    <jar href="lib\restfb-2023.3.0-sources.jar" size="954123" download="eager" />
+    <jar href="lib\restfb-2023.3.0.jar" size="808191" download="eager" />
+    <jar href="lib\twilio-8.16.0-jar-with-dependencies.jar" size="8430202" download="eager" />
+    <jar href="lib\twilio-8.16.0-javadoc.jar" size="14556956" download="eager" />
+    <jar href="lib\twilio-8.16.0-sources.jar" size="2866747" download="eager" />
+    <jar href="lib\twilio-8.16.0.jar" size="4278000" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="UserTeymour" >
     <param name="requiredFXVersion" value="8.0+"/>

@@ -79,21 +79,10 @@ public class GestionFreelancerController implements Initializable {
     private ToggleButton showbntnew;
     @FXML
     private ToggleButton showbtnnewnew;
-        // Add a private static instance variable
-    private static GestionFreelancerController instance;
-
-    // Make the constructor public
-    public GestionFreelancerController() {
-    }
-
-    // Add a public static getInstance method that returns the instance of the controller
-    public static GestionFreelancerController getInstance() {
-        return instance;
-    }
-
     
     
-     private boolean labelVisible = false;
+    private boolean labelVisible = false;
+    
   
     
     
@@ -103,16 +92,23 @@ public class GestionFreelancerController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        shownpwold.setVisible(false);
-        shownpwnewnew.setVisible(false);
-        shownpwnew.setVisible(false);
-    }    
+   @Override
+public void initialize(URL url, ResourceBundle rb) {
+    // Bind labels to corresponding text fields
+    shownpwold.textProperty().bind(oldpdw.textProperty());
+    shownpwnew.textProperty().bind(newpdw.textProperty());
+    shownpwnewnew.textProperty().bind(newnewpdw.textProperty());
 
-    @FXML
-    private void changeimgu1(ActionEvent event) {
+    shownpwold.setVisible(false);
+    shownpwnewnew.setVisible(false);
+    shownpwnew.setVisible(false);
+}
+
+@FXML
+private void changeimgu1(ActionEvent event) {
     // Show a confirmation message
     Alert alert = new Alert(AlertType.CONFIRMATION);
     alert.setTitle("Confirmation");
@@ -136,19 +132,19 @@ public class GestionFreelancerController implements Initializable {
             ps.executeUpdate();
 
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(FreelancerMainController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GestionFreelancerController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
 
-    @FXML
-     void returnu1(ActionEvent event) {
+@FXML
+private void returnu1(ActionEvent event) {
     try {
-        // Load the FreelancerMain.fxml file
+        // Load the PageMain.fxml file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FreelancerMain.fxml"));
         Parent root = loader.load();
 
-        // Set the FreelancerMain.fxml file as the root of a new scene
+        // Set the PageMain.fxml file as the root of a new scene
         Scene scene = new Scene(root);
 
         // Get the current window and display the new scene in it
@@ -156,12 +152,12 @@ public class GestionFreelancerController implements Initializable {
         stage.setScene(scene);
         stage.show();
     } catch (IOException ex) {
-        Logger.getLogger(FreelancerMainController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(GestionFreelancerController.class.getName()).log(Level.SEVERE, null, ex);
     }
 }
 
-    @FXML
-    private void browse1(ActionEvent event) {
+  @FXML
+private void browse1(ActionEvent event) {
     // Open a file chooser dialog to select an image file
     FileChooser fileChooser = new FileChooser();
     File file = fileChooser.showOpenDialog(null);
@@ -176,8 +172,8 @@ public class GestionFreelancerController implements Initializable {
     }
 }
 
-    @FXML
-    private void changemdpu1(ActionEvent event) {
+@FXML
+private void changemdpu1(ActionEvent event) {
     String oldPassword = oldpdw.getText();
     String newPassword = newpdw.getText();
     String newNewPassword = newnewpdw.getText();
@@ -203,7 +199,7 @@ try {
     }
     
 } catch (SQLException ex) {
-    Logger.getLogger(FreelancerMainController.class.getName()).log(Level.SEVERE, null, ex);
+    Logger.getLogger(GestionFreelancerController.class.getName()).log(Level.SEVERE, null, ex);
     return;
 }
 
@@ -248,33 +244,33 @@ try {
     newnewpdw.clear();
     
 } catch (SQLException ex) {
-    Logger.getLogger(FreelancerMainController.class.getName()).log(Level.SEVERE, null, ex);
+    Logger.getLogger(GestionFreelancerController.class.getName()).log(Level.SEVERE, null, ex);
 }}
 
 
     @FXML
     private void showold1(ActionEvent event) {
-    String oldPassword = oldpdw.getText();
-    shownpwold.setText(oldPassword);
+  //  String oldPassword = oldpdw.getText();
+ //   shownpwold.setText(oldPassword);
     labelVisible = !labelVisible; // toggle the visibility
     shownpwold.setVisible(labelVisible);
     }
 
     @FXML
-    private void shownewnew1(ActionEvent event) {
-                    String oldPassword = newnewpdw.getText();
-    shownpwnewnew.setText(oldPassword);
-    labelVisible = !labelVisible; // toggle the visibility
-    shownpwnewnew.setVisible(labelVisible);
-    }
-
-    @FXML
     private void shownew1(ActionEvent event) {
-                                String oldPassword = newpdw.getText();
-    shownpwnew.setText(oldPassword);
+       //     String oldPassword = newpdw.getText();
+  //  shownpwnew.setText(oldPassword);
     labelVisible = !labelVisible; // toggle the visibility
     shownpwnew.setVisible(labelVisible);
     }
 
+    @FXML
+    private void shownewnew1(ActionEvent event) {
+     //               String oldPassword = newnewpdw.getText();
+   // shownpwnewnew.setText(oldPassword);
+    labelVisible = !labelVisible; // toggle the visibility
+    shownpwnewnew.setVisible(labelVisible);
+        
+    }
     
 }

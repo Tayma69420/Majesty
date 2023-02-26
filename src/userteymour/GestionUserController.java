@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.MyConx;
@@ -92,13 +93,20 @@ public class GestionUserController implements Initializable {
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        shownpwold.setVisible(false);
-        shownpwnewnew.setVisible(false);
-        shownpwnew.setVisible(false);
-    }    
+   @Override
+public void initialize(URL url, ResourceBundle rb) {
+    // Bind labels to corresponding text fields
+    shownpwold.textProperty().bind(oldpdw.textProperty());
+    shownpwnew.textProperty().bind(newpdw.textProperty());
+    shownpwnewnew.textProperty().bind(newnewpdw.textProperty());
+
+    shownpwold.setVisible(false);
+    shownpwnewnew.setVisible(false);
+    shownpwnew.setVisible(false);
+}
 
 @FXML
 private void changeimgu(ActionEvent event) {
@@ -243,22 +251,32 @@ try {
 
     @FXML
     private void showold(ActionEvent event) {
-    String oldPassword = oldpdw.getText();
-    shownpwold.setText(oldPassword);
+  //  String oldPassword = oldpdw.getText();
+ //   shownpwold.setText(oldPassword);
     labelVisible = !labelVisible; // toggle the visibility
     shownpwold.setVisible(labelVisible);
     }
 
     @FXML
     private void shownew(ActionEvent event) {
-            String oldPassword = oldpdw.getText();
-    shownpwnew.setText(oldPassword);
+       //     String oldPassword = newpdw.getText();
+  //  shownpwnew.setText(oldPassword);
     labelVisible = !labelVisible; // toggle the visibility
     shownpwnew.setVisible(labelVisible);
     }
+/*
+    private void shownewnew(ActionEvent event) {
+     //               String oldPassword = newnewpdw.getText();
+   // shownpwnewnew.setText(oldPassword);
+    labelVisible = !labelVisible; // toggle the visibility
+    shownpwnewnew.setVisible(labelVisible);
+        
+    }*/
 
     @FXML
-    private void shownewnew(ActionEvent event) {
+    private void shownewnew(MouseEvent event) {
+            labelVisible = !labelVisible; // toggle the visibility
+    shownpwnewnew.setVisible(labelVisible);
     }
     
 }

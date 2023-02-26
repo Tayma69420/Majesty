@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -11,9 +10,10 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="765.0" layoutY="91.0" stroke="#c6ee4d" strokeType="INSIDE" strokeWidth="20.0" width="160.0" />
       <ImageView fx:id="userImageView" fitHeight="161.0" fitWidth="120.0" layoutX="785.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="nameLabel" layoutX="516.0" layoutY="123.0" prefHeight="32.0" prefWidth="200.0" />
-      <ListView fx:id="emailLabel" layoutX="516.0" layoutY="175.0" prefHeight="32.0" prefWidth="200.0" />
-      <Label layoutX="83.0" layoutY="100.0" onMouseClicked="#GestionFreelancer" text="parametre du compte">
+   <Label fx:id="nameLabel" layoutX="502.0" layoutY="181.0" prefWidth="240.0" text="----" />
+<Label fx:id="emailLabel" layoutX="502.0" layoutY="122.0" prefWidth="240.0" text="----" />
+      <Label fx:id="ageLabel" layoutX="502.0" layoutY="221.0" prefHeight="21.0" prefWidth="88.0" text="----" />
+      <Label fx:id="allezfreelacner" layoutX="83.0" layoutY="100.0" onMouseClicked="#GestionFreelancer" text="parametre du compte">
          <font>
             <Font size="22.0" />
          </font>

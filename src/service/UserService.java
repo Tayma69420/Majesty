@@ -12,8 +12,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +30,7 @@ import utils.MyConx;
  *
  * @author teymour
  */
+
 public abstract class UserService implements IService<User>{
 
 
@@ -36,6 +40,7 @@ public abstract class UserService implements IService<User>{
 
     public UserService() {
         conn=MyConx.getInstance().getCnx();
+
     }
 
     
@@ -52,7 +57,7 @@ public void insert(User t) {
         usr.setString(1, t.getNom());
         usr.setString(2, t.getPrenom());       
         usr.setString(3, t.getEmail());
-        usr.setInt(4, t.getTel());
+        usr.setString(4, t.getTel());
         usr.setString(5, t.getAdresse());
         if (t.getAge() != null) {
             usr.setDate(6, Date.valueOf(t.getAge()));
@@ -98,7 +103,7 @@ public void insert(User t) {
         usr.setString(1, t.getNom());
         usr.setString(2, t.getPrenom());       
         usr.setString(3, t.getEmail());
-        usr.setInt(4, t.getTel());
+        usr.setString(4, t.getTel());
         usr.setString(5, t.getAdresse());
         usr.setDate(6, Date.valueOf(t.getAge()));
         usr.setString(7, t.getPasswd());
@@ -144,7 +149,7 @@ public void update(User t) {
         pst.setString(1, t.getNom());
         pst.setString(2, t.getPrenom());
         pst.setString(3, t.getEmail());
-        pst.setInt(4, t.getTel());
+        pst.setString(4, t.getTel());
         pst.setString(5, t.getAdresse());
         pst.setDate(6, Date.valueOf(t.getAge()));
         pst.setString(7, t.getPasswd());
@@ -171,7 +176,7 @@ public void update(User t) {
             r.setId_role(rs.getInt("id_role"));
             r.setType(rs.getString("type"));
             User t;
-            t = new User(rs.getInt("iduser"), rs.getString("nom"), rs.getString("prenom"), rs.getInt("tel"), rs.getString("adresse"), r, rs.getString("email"), rs.getString("passwd"), ((java.sql.Date)rs.getObject("age")).toLocalDate(), rs.getString("sexe"), null);
+            t = new User(rs.getInt("iduser"), rs.getString("nom"), rs.getString("prenom"), rs.getString("tel"), rs.getString("adresse"), r, rs.getString("email"), rs.getString("passwd"), ((java.sql.Date)rs.getObject("age")).toLocalDate(), rs.getString("sexe"), null);
             list.add(t);
         }
     } catch (SQLException ex) {
@@ -238,7 +243,7 @@ public void update(User t) {
             String sexeStr = rs.getString("sexe");
      
          FileInputStream image = new FileInputStream(rs.getString("image"));
-t = new User(rs.getInt("iduser"), rs.getString("nom"), rs.getString("prenom"), rs.getInt("tel"), rs.getString("adresse"), r, rs.getString("email"), rs.getString("passwd"), ((java.sql.Date)rs.getObject("age")).toLocalDate(), rs.getString("sexe"), null);
+t = new User(rs.getInt("iduser"), rs.getString("nom"), rs.getString("prenom"), rs.getString("tel"), rs.getString("adresse"), r, rs.getString("email"), rs.getString("passwd"), ((java.sql.Date)rs.getObject("age")).toLocalDate(), rs.getString("sexe"), null);
             }
     } catch (SQLException | FileNotFoundException ex) {
         Logger.getLogger(UserService.class.getName()).log(Level.SEVERE, null, ex);
