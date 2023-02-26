@@ -48,8 +48,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.Authenticator;
 import javax.mail.Transport;
-
-
+import java.security.MessageDigest;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.xml.bind.DatatypeConverter;
 
 public class ConnecterUserController implements Initializable {
 
@@ -101,6 +103,20 @@ public static final String AUTH_TOKEN = "e84b2bb96edad35f14b680389a128a28";
     private Button codeee;
     @FXML
     private TextField codee;
+public String encryptPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hash) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 
     
 private String generateCode() {
@@ -176,13 +192,15 @@ private String generateCode() {
     alert.showAndWait();
     return;
 }
+        String encryptedPassword = encryptPassword(tfpasswd.getText());
+
         role r1 = new role (2, "User");
         String nom = tfnom.getText();
         String prenom = tfprenom.getText();
         String tel = tftel.getText();
         String adresse = tfadresse.getText();
         String email = tfemail.getText();
-        String passwd = tfpasswd.getText();
+       // String passwd = tfpasswd.getText();
          String sexe;
         if (hommeb.isSelected()) {
             sexe = "Homme";
@@ -200,7 +218,7 @@ private String generateCode() {
   
 LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().getMonthValue(), ftage.getValue().getDayOfMonth());
         int age = Period.between(birthdate, LocalDate.now()).getYears();    
-        User u = new User(nom, prenom, tel, adresse, r1, email, passwd, birthdate, sexe, image);
+        User u = new User(nom, prenom, tel, adresse, r1, email, encryptedPassword, birthdate, sexe, image);
 
          // check the verification code
     if (!codee.getText().equals(codeemail)) {

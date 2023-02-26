@@ -42,6 +42,10 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.Transport;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.mail.MessagingException;
 
 
 
@@ -76,11 +80,28 @@ private boolean labelVisible = false;
     private Button congmail;
     @FXML
     private Button confc;
+    
+    
+    private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("SHA-256");
+    byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+    StringBuilder hexString = new StringBuilder();
+    for (byte b : hash) {
+        String hex = Integer.toHexString(0xff & b);
+        if (hex.length() == 1) hexString.append('0');
+        hexString.append(hex);
+    }
+    return hexString.toString();
+}
+    
+    
+    
     /**
      * Initializes the controller class.
      * @param url
      * @param rb
      */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
                mpd.textProperty().bind(password.textProperty());
@@ -106,7 +127,7 @@ private boolean labelVisible = false;
     }
 
    @FXML
-private void Connecter(ActionEvent event) throws SQLException, IOException {
+private void Connecter(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
 
     connection = MyConx.getInstance().getCnx();
     String email = donneradresse.getText();
@@ -122,11 +143,13 @@ private void Connecter(ActionEvent event) throws SQLException, IOException {
         return;
     }
 
-    try {
-        String requete = "SELECT * FROM utilisateur WHERE email = ? AND passwd = ?";
-        try (PreparedStatement statement = connection.prepareStatement(requete)) {
-            statement.setString(1, email);
-            statement.setString(2, mdp);
+    
+try {
+    String encryptedPassword = encryptPassword(mdp);
+    String requete = "SELECT * FROM utilisateur WHERE email = ? AND passwd = ?";
+    try (PreparedStatement statement = connection.prepareStatement(requete)) {
+        statement.setString(1, email);
+        statement.setString(2, encryptedPassword);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int idRole = resultSet.getInt("id_role");
@@ -277,11 +300,11 @@ case 3:
     }
 
 
-    @FXML
-private void mdpoublier(ActionEvent event) {
- connection = MyConx.getInstance().getCnx();
-    String email = donneradresse.getText();
+   @FXML
+private void mdpoublier(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException, MessagingException {
 
+    connection = MyConx.getInstance().getCnx();
+    String email = donneradresse.getText();
     if (email.isEmpty()) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Attention");
@@ -290,33 +313,27 @@ private void mdpoublier(ActionEvent event) {
         alert.showAndWait();
         return;
     }
-
-    try {
-        String requete = "SELECT * FROM utilisateur WHERE email = ?";
-        try (PreparedStatement statement = connection.prepareStatement(requete)) {
-            statement.setString(1, email);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    // email exists in the database
-                    // TODO: send email to the user with the forgotten password
-                } else {
-                    // email does not exist in the database
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Attention");
-                    alert.setHeaderText(null);
-                    alert.setContentText("L'email n'existe pas .");
-                    alert.showAndWait();
-                }
-            }
-        }
-    } catch (SQLException e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText("Une erreur s'est produite lors de la vérification de l'email.");
-        alert.showAndWait();
+    // Generate a new password
+    String newPassword = generateRandomPassword();
+    // Encrypt the new password
+    String encryptedPassword = encryptPassword(newPassword);
+    // Update the user's password in the database
+    String updateQuery = "UPDATE utilisateur SET passwd = ? WHERE email = ?";
+    try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+        statement.setString(1, encryptedPassword);
+        statement.setString(2, email);
+        statement.executeUpdate();
     }
+    // Send the new password to the user's email
+    sendEmail(email, "Nouveau mot de passe", "Votre nouveau mot de passe est: " + newPassword);
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Succès");
+    alert.setHeaderText(null);
+    alert.setContentText("Un nouveau mot de passe a été envoyé à votre adresse email!");
+    alert.showAndWait();
 }
+
 
 private String generateRandomPassword() {
     // Generate a new password with 8 characters
@@ -328,6 +345,37 @@ private String generateRandomPassword() {
     }
     return passwordBuilder.toString();
 }
+private void sendEmail(String to, String subject, String body) throws MessagingException {
+    // Send an email
+    // ...
+    String from = "pidevmajesty@gmail.com";
+    String password = "xfbyslhggajvfdjz";
+
+    Properties props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.starttls.enable", "true");
+    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.port", "587");
+
+    Session session = Session.getInstance(props, new Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(from, password);
+        }
+    });
+
+    Message message = new MimeMessage(session);
+    message.setFrom(new InternetAddress(from));
+    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+    message.setSubject(subject);
+    message.setText(body);
+
+    Transport.send(message);
+}
+
+
+
+
 
 private void sendPasswordEmail(String email, String newPassword) throws Exception {
     // Set up the properties of the email

@@ -29,9 +29,9 @@ import utils.MyConx;
 
 public class PageMainController implements Initializable {
     @FXML
-    private ListView<String> nameLabel;
+    private Label nameLabel;
     @FXML
-    private ListView<String> emailLabel;
+    private Label emailLabel;
     @FXML
     private ImageView userImageView;
 
@@ -82,11 +82,11 @@ public void initialize(URL url, ResourceBundle rb) {
     }
 
     public void setName(String name) {
-        nameLabel.getItems().add(name);
+        nameLabel.setText(name);
     }
 
     public void setEmailLabel(String email) {
-        emailLabel.getItems().add(email);
+        emailLabel.setText(email);
     }
 
     public void setImage(InputStream image) {
