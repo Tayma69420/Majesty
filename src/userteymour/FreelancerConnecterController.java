@@ -12,6 +12,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,6 +34,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import service.UserService;
 import static userteymour.ConnecterUserController.ACCOUNT_SID;
 import static userteymour.ConnecterUserController.AUTH_TOKEN;
@@ -82,6 +91,8 @@ public class FreelancerConnecterController implements Initializable {
     
     
     private String code;
+    @FXML
+    private TextField codee;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -274,6 +285,50 @@ Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 Message message = Message.creator(new PhoneNumber(tftel.getText()), new PhoneNumber("+12706481625"), "Votre code de vérification est: " + code).create();
 
     }
+private String generateCode() {
+    // Generate a 6-digit random code
+    Random random = new Random();
+    int code = 100000 + random.nextInt(900000);
+    return Integer.toString(code);
+}
+private String codeemail;
+    @FXML
+    private void CodeMail1(ActionEvent event) throws AddressException, MessagingException {
+      // generate a verification code
+    codeemail = generateCode();
+    
+    // create properties for the email session
+    Properties properties = new Properties();
+    properties.put("mail.smtp.host", "smtp.gmail.com");
+    properties.put("mail.smtp.port", "587");
+    properties.put("mail.smtp.auth", "true");
+    properties.put("mail.smtp.starttls.enable", "true");
+
+    // create a session with authentication
+    Session session = Session.getInstance(properties, new Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication("pidevmajesty@gmail.com", "xfbyslhggajvfdjz");
+        }
+    });
+
+    // Create a Mail message
+javax.mail.Message mailMessage = new MimeMessage(session);
+mailMessage.setFrom(new InternetAddress("your-email@gmail.com"));
+mailMessage.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(tfemail.getText()));
+mailMessage.setSubject("Verification code");
+mailMessage.setText("Your verification code is: " + codeemail);
+
+    // send the email
+    Transport.send(mailMessage);
+    
+    // notify the user
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Verification code sent");
+    alert.setHeaderText(null);
+    alert.setContentText("A verification code has been sent to your email address.");
+    alert.showAndWait();
+}
 }
 
 

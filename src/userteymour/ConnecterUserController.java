@@ -1,4 +1,3 @@
-
 package userteymour;
 
 import entities.User;
@@ -31,16 +30,26 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import service.UserService;
-import com.twilio.Twilio;
-import static com.twilio.example.Example.ACCOUNT_SID;
-import static com.twilio.example.Example.AUTH_TOKEN;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
+
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+
 import java.time.LocalDateTime;
+import java.util.Properties;
 import java.util.Random;
+
+//import javax.mail.Message;
+import javax.mail.Authenticator;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.Authenticator;
+import javax.mail.Transport;
+
+
 
 public class ConnecterUserController implements Initializable {
 
@@ -82,13 +91,24 @@ public class ConnecterUserController implements Initializable {
     @FXML
     private TextField vertel;
     private String code;
+    private String codeemail;
     
     public static final String ACCOUNT_SID = "AC888b21cc1072373d1fb728a2315dc79f";
-public static final String AUTH_TOKEN = "37c13bf0ae627fa7a7fdcb2f1385775a";
+public static final String AUTH_TOKEN = "e84b2bb96edad35f14b680389a128a28";
     @FXML
     private Button sendcode;
+    @FXML
+    private Button codeee;
+    @FXML
+    private TextField codee;
 
     
+private String generateCode() {
+    // Generate a 6-digit random code
+    Random random = new Random();
+    int code = 100000 + random.nextInt(900000);
+    return Integer.toString(code);
+}
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -182,7 +202,15 @@ LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().
         int age = Period.between(birthdate, LocalDate.now()).getYears();    
         User u = new User(nom, prenom, tel, adresse, r1, email, passwd, birthdate, sexe, image);
 
-      
+         // check the verification code
+    if (!codee.getText().equals(codeemail)) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Code de vérification incorrect");
+        alert.setHeaderText(null);
+        alert.setContentText("Le code de vérification que vous avez saisi est incorrect !");
+        alert.showAndWait();
+        return;}
+    
            // check if email already exists
     UserService userService = new UserService() {};
     List<User> users = userService.readAll();
@@ -279,14 +307,64 @@ private void importimg(ActionEvent event) {
 int verificationCode = (int) (Math.random() * 900000) + 100000;
 
     @FXML
-    private void sendcode(ActionEvent event) {
-Random rand = new Random();
-code = String.format("%04d", rand.nextInt(10000));
-System.out.println("Code: " + code); // for testing purposes
-Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-Message message = Message.creator(new PhoneNumber(tftel.getText()), new PhoneNumber("+12706481625"), "Votre code de vérification est: " + code).create();
+private void sendcode(ActionEvent event) {
+    Random rand = new Random();
+    code = String.format("%04d", rand.nextInt(10000));
+    System.out.println("Code: " + code); // for testing purposes
 
-    }
+    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    com.twilio.rest.api.v2010.account.Message twilioMessage = 
+        com.twilio.rest.api.v2010.account.Message.creator(new PhoneNumber(tftel.getText()), 
+        new PhoneNumber("+12706481625"), "Votre code de vérification est: " + code).create();
+
+    // notify the user
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Verification code sent");
+    alert.setHeaderText(null);
+    alert.setContentText("A verification code has been sent to your phone number.");
+    alert.showAndWait();
+}
+
+@FXML
+private void CodeMail(ActionEvent event) throws MessagingException {
+    // generate a verification code
+    codeemail = generateCode();
+    
+    // create properties for the email session
+    Properties properties = new Properties();
+    properties.put("mail.smtp.host", "smtp.gmail.com");
+    properties.put("mail.smtp.port", "587");
+    properties.put("mail.smtp.auth", "true");
+    properties.put("mail.smtp.starttls.enable", "true");
+
+    // create a session with authentication
+    Session session = Session.getInstance(properties, new Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication("pidevmajesty@gmail.com", "xfbyslhggajvfdjz");
+        }
+    });
+
+    // Create a Mail message
+javax.mail.Message mailMessage = new MimeMessage(session);
+mailMessage.setFrom(new InternetAddress("your-email@gmail.com"));
+mailMessage.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(tfemail.getText()));
+mailMessage.setSubject("Verification code");
+mailMessage.setText("Your verification code is: " + codeemail);
+
+    // send the email
+    Transport.send(mailMessage);
+    
+    // notify the user
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Verification code sent");
+    alert.setHeaderText(null);
+    alert.setContentText("A verification code has been sent to your email address.");
+    alert.showAndWait();
+}
+
+
+  
 
 }
 

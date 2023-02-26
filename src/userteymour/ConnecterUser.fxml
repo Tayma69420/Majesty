@@ -39,5 +39,7 @@
       <Label fx:id="mdpshow" layoutX="284.0" layoutY="475.0" text="Label" />
       <TextField fx:id="vertel" layoutX="589.0" layoutY="185.0" prefHeight="31.0" prefWidth="76.0" />
       <Button fx:id="sendcode" layoutX="494.0" layoutY="185.0" mnemonicParsing="false" onAction="#sendcode" text="sendcode" />
+      <Button fx:id="codeee" layoutX="482.0" layoutY="408.0" mnemonicParsing="false" onAction="#CodeMail" text="code" />
+      <TextField fx:id="codee" layoutX="543.0" layoutY="408.0" prefHeight="31.0" prefWidth="105.0" promptText="Saisir Email" />
    </children>
 </AnchorPane>
