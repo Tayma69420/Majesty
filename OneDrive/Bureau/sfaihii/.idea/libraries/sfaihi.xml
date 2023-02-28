@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="sfaihi">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sfaihii/sfaihi/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/sfaihii/sfaihi/mysql-connector-j-8.0.32.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
