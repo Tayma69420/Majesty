@@ -43,6 +43,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableRow;
@@ -55,6 +56,12 @@ import javafx.stage.Stage;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import sfaihi.msg;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ComboBox;
+import static org.apache.http.client.methods.RequestBuilder.options;
+
 
 public class FXMLDocumentController implements Initializable {
     
@@ -102,17 +109,23 @@ public class FXMLDocumentController implements Initializable {
     private FileInputStream fis;
     private File selectedFile;
     
+    ObservableList<portfolio> datalist;
     
     
     
     
-    
-Alert alert;
+    Alert alert;
     @FXML
     private Button ptdate;
     @FXML
     private TextField rech;
+    @FXML
+    private Button pdf;
+    @FXML
+    private Button dwd;
     
+    
+
   
     @FXML
     void Add(ActionEvent event) throws SQLException, FileNotFoundException, MessagingException {
@@ -163,16 +176,13 @@ alert.setTitle("Test Connection") ;
    cvpt.setText("");
    imgpt.setText("");
    despt.requestFocus();
-   //mailutil.sendmail("majesty.projet@gmail.com");
+  //mailutil.sendmail("majesty.projet@gmail.com");
+  //msg.sendSMS("+21650381852");
     }
 
 }}
     
-
-
-    
-    
-     ObservableList<portfolio> datalist;
+     
     
  
 void search(){
@@ -213,12 +223,12 @@ public void table() {
             pt.setImg(rs.getString("image"));
             portfolio.add(pt);
 
-            String imagePath = rs.getString("image");
+            /*String imagePath = rs.getString("image");
             File imageFile = new File(imagePath);
             if (imageFile.exists()) {
                 Image img = new Image("file:" + imagePath, imageview.getFitWidth(), imageview.getFitHeight(), true, true);
                 imageview.setImage(img);
-            }
+            }*/
         }
         table.setItems(portfolio);
         id_portfolio.setCellValueFactory(f -> f.getValue().idProperty());
@@ -263,8 +273,15 @@ public void table() {
     @FXML
     void Delete(ActionEvent event) throws SQLException {
         myIndex = table.getSelectionModel().getSelectedIndex();
-        id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).getId()));
-             
+       // id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).getId()));
+       //Volet 1: Validation de champs de texte vides
+ if (despt.getText().isEmpty() || cvpt.getText().isEmpty()) {
+        alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Erreur");
+        alert.setHeaderText("Champ(s) vide(s)");
+        alert.setContentText("Veuillez remplir tous les champs obligatoires");
+        alert.showAndWait();
+    } else {      
         
         //Volet 4: Boîte de dialogue de confirmation pour la modification/suppression
  Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -272,14 +289,7 @@ public void table() {
     alert.setHeaderText("Supprimer le produit?");
     alert.setContentText("Êtes-vous sûr de vouloir supprimer ce produit?");
     Optional<ButtonType> result = alert.showAndWait();
-    //Volet 1: Validation de champs de texte vides
- if (despt.getText().isEmpty() || cvpt.getText().isEmpty()) {
-        alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText("Champ(s) vide(s)");
-        alert.setContentText("Veuillez remplir tous les champs obligatoires");
-        alert.showAndWait();
-    } else {
+    
     if (result.get() == ButtonType.OK) {
             pst = con.prepareStatement("delete from portfolio where idportfolio = ? ");
             pst.setInt(1, id);
@@ -303,19 +313,12 @@ alert.showAndWait();
        String  des, cv,img;
         
          myIndex = table.getSelectionModel().getSelectedIndex();
-        id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).getId()));
+       // id = Integer.parseInt(String.valueOf(table.getItems().get(myIndex).getId()));
           
             des = despt.getText();
             cv = cvpt.getText();
             img = imgpt.getText();
-           
-            //Volet 4: Boîte de dialogue de confirmation pour la modification/suppression
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-    alert.setTitle("Confirmation");
-    alert.setHeaderText("Supprimer le produit?");
-    alert.setContentText("Êtes-vous sûr de vouloir supprimer ce produit?");
-    Optional<ButtonType> result = alert.showAndWait();
-     //Volet 1: Validation de champs de texte vides
+             //Volet 1: Validation de champs de texte vides
  if (despt.getText().isEmpty() || cvpt.getText().isEmpty()) {
          alert = new Alert(AlertType.ERROR);
         alert.setTitle("Erreur");
@@ -323,6 +326,14 @@ alert.showAndWait();
         alert.setContentText("Veuillez remplir tous les champs obligatoires");
         alert.showAndWait();
     } else {
+           
+            //Volet 4: Boîte de dialogue de confirmation pour la modification/suppression
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Confirmation");
+    alert.setHeaderText("Modifier le portfolio?");
+    alert.setContentText("Êtes-vous sûr de vouloir modifier ce portfolio?");
+    Optional<ButtonType> result = alert.showAndWait();
+    
     if (result.get() == ButtonType.OK) {
       
             pst = con.prepareStatement("update portfolio set description = ? ,cv = ?,image = ? where idportfolio = ? ");
@@ -441,7 +452,6 @@ try {
         stage.show();
     }      
 
-    @FXML
     private void sendSMS(ActionEvent event) {
                                       try{   
      FXMLLoader loader =new FXMLLoader(getClass().getResource("message.fxml"));
@@ -460,7 +470,112 @@ try {
         }
     
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+   @FXML
+private void importpdf(ActionEvent event) {
+    // Create a FileChooser to select the PDF file
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.getExtensionFilters().add(new ExtensionFilter("PDF files", "*.pdf"));
+    File selectedFile = fileChooser.showOpenDialog(null);
+
+    if (selectedFile != null) {
+        try {
+            // Get the absolute path of the selected PDF file
+            String pdfPath = selectedFile.getAbsolutePath();
+
+            // Set the path in the cvpt TextField
+            cvpt.setText(pdfPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+   @FXML
+private void downloadCV(ActionEvent event) {
+    portfolio selectedPortfolio = table.getSelectionModel().getSelectedItem();
+    if (selectedPortfolio == null) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("No portfolio item selected");
+        alert.setContentText("Please select a portfolio item to download CV");
+        alert.showAndWait();
+    } else {
+        try {
+            // Retrieve CV file data from database
+            pst = con.prepareStatement("SELECT cv FROM portfolio WHERE idportfolio = ?");
+            pst.setString(1, selectedPortfolio.getId());
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                Blob cvBlob = rs.getBlob("cv");
+                InputStream cvStream = cvBlob.getBinaryStream();
+                
+                // Show file chooser dialog to choose download location
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save CV");
+                fileChooser.setInitialFileName(selectedPortfolio.getDesc() + ".pdf");
+                File selectedFile = fileChooser.showSaveDialog(null);
+                
+                // Write CV data to file
+                OutputStream outputStream = new FileOutputStream(selectedFile);
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+                while ((bytesRead = cvStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                cvStream.close();
+                outputStream.close();
+                
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Success");
+                alert.setHeaderText(null);
+                alert.setContentText("CV downloaded successfully");
+                alert.showAndWait();
+            } else {
+                // Portfolio item not found in database
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Portfolio item not found");
+                alert.setContentText("The selected portfolio item could not be found in the database");
+                alert.showAndWait();
+            }
+        } catch (SQLException | IOException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("CV download failed");
+            alert.setContentText("An error occurred while downloading the CV. Please try again later.");
+            alert.showAndWait();
+        }
+    }
+   
+}
+
 
 }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
 
 

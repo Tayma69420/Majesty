@@ -28,6 +28,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import java.sql.*;
+import java.util.Optional;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -35,7 +37,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableRow;
 import javafx.stage.Stage;
 /**
@@ -51,11 +55,6 @@ public class AvisController implements Initializable {
  @FXML
     private Button ptaddavis;
  
-     @FXML
-    private TableColumn<avis,String> avis;
-     
-     @FXML
-    private TableView<avis> table3;
  
     @FXML
     private TableView<portfolio> table2;
@@ -69,98 +68,60 @@ public class AvisController implements Initializable {
     @FXML
     private TableColumn<portfolio,String>cv;
     
-    @FXML
-    private TableColumn<portfolio,String>image;
+  
     @FXML
     private Button ptback;
+    
+    private portfolio selectedPortfolio;
+    private avis selectedavis;
+    
+    
+    @FXML
+    private TableView<avis> table3;
+    @FXML
+    private TableColumn<avis,String> idav;
+    @FXML
+    private TableColumn<avis,String> avav;
+    @FXML
+    private Button supprimer;
+    @FXML
+    private Button stat;
 
     
-      @FXML
-    void addavis(ActionEvent event) {
-String  commentaire;
-Connect ();
-commentaire= avpt.getText();
-try
-{
-pst = con.prepareStatement ("insert into avis (commentaire) values (?)  ") ;
-pst.setString(1,commentaire) ;
-pst.executeUpdate () ;
+@FXML
+void addavis(ActionEvent event) {
+    String commentaire;
+    Connect();
+    commentaire = avpt.getText();
 
-
-Alert alert= new Alert(Alert.AlertType.INFORMATION) ;
-alert.setTitle("Test Connection") ;
-
-    alert.setHeaderText("Avis Aded");
-    alert.setTitle("SUCCES") ;
-
-    alert.showAndWait();
-    
-    
-    table3();
-    
-    avpt.setText("");
-  avpt.requestFocus();
-    
-    
+    // Perform input validation and replace "bad" with asterisks
+    if (commentaire.equalsIgnoreCase("bad")) {
+        commentaire = "********";
     }
-catch(SQLException ex)
-{
-    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE,null, ex);
+
+    try {
+        pst = con.prepareStatement("INSERT INTO avis (commentaire, idportfolio) VALUES (?, ?)");
+        pst.setString(1, commentaire);
+        pst.setString(2, selectedPortfolio.getId());
+        pst.executeUpdate();
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Test Connection");
+
+        alert.setHeaderText("Avis Added");
+        alert.setTitle("SUCCESS");
+
+        alert.showAndWait();
+
+        avpt.setText("");
+        avpt.requestFocus();
+
+    } catch (SQLException ex) {
+        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+    }
 }
-    }
 
-    
-    
-    public void table3()
-      {
-          Connect();
-          ObservableList<avis> aviss = FXCollections.observableArrayList();
-       try
-       {
-           pst = con.prepareStatement("SELECT commentaire FROM avis");  
-           ResultSet rs = pst.executeQuery();
-      {
-        while (rs.next())
-        {
-avis av= new avis () ;
-av.setcommentaire(rs.getString ("commentaire")) ;
-aviss.add(av) ;
-       }
-    }
-                table3.setItems(aviss) ;
-    avis.setCellValueFactory(f->f.getValue().idavisProperty());
-               
-       }
-      
-       catch (SQLException ex)
-       {
-           Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-       }
  
-                table3.setRowFactory( tv -> {
-     TableRow<avis> myRow = new TableRow<>();
-     myRow.setOnMouseClicked (event ->
-     {
-          if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
-                    myIndex = table3.getSelectionModel().getSelectedIndex();
-                    //id = Integer.parseInt(String.valueOf(table3.getItems().get(myIndex).getId()));               
-                          
-        }
-     });
-        return myRow;
-                   });
-      } 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   public void table2()
       {
           Connect();
@@ -176,7 +137,6 @@ portfolio pt= new portfolio () ;
 pt.setId (rs.getString ("idportfolio")) ;
 pt.setDesc (rs.getString ("description")) ;
 pt.setCv(rs.getString("cv"));
-pt.setImg(rs.getString("image"));
 portfolio.add(pt) ;
        }
     }
@@ -184,7 +144,6 @@ portfolio.add(pt) ;
     id_portfolio.setCellValueFactory(f->f.getValue().idProperty());
     description.setCellValueFactory(f->f.getValue().descProperty());
     cv.setCellValueFactory(f->f.getValue ().cvProperty()) ;
-    image.setCellValueFactory(f->f.getValue().imgProperty());
                
        }
       
@@ -193,24 +152,56 @@ portfolio.add(pt) ;
            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
        }
  
-                table2.setRowFactory( tv -> {
-     TableRow<portfolio> myRow = new TableRow<>();
-     myRow.setOnMouseClicked (event ->
-     {
-          if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
-                    myIndex = table2.getSelectionModel().getSelectedIndex();
-                    id = Integer.parseInt(String.valueOf(table2.getItems().get(myIndex).getId()));               
-                          
+                table2.setRowFactory(tv -> {
+    TableRow<portfolio> myRow = new TableRow<>();
+    myRow.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
+            selectedPortfolio = myRow.getItem();
         }
-     });
-        return myRow;
-                   });
-      } 
+    });
+    return myRow;
+});
+      }
     
  
    
    
-     
+public void table3()
+{
+    Connect();
+    ObservableList<avis> aviList = FXCollections.observableArrayList();
+    try
+    {
+        pst = con.prepareStatement("SELECT * FROM avis INNER JOIN portfolio ON avis.idportfolio = portfolio.idportfolio");
+        ResultSet rs = pst.executeQuery();
+        while (rs.next())
+        {
+            avis av = new avis();
+            av.setidportfolio(rs.getString("idportfolio"));
+            av.setcommentaire(rs.getString("commentaire"));
+            aviList.add(av);
+        }
+    }
+    catch (SQLException ex)
+    {
+        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    table3.setItems(aviList);
+    idav.setCellValueFactory(f->f.getValue().idportfolioProperty());
+    avav.setCellValueFactory(f->f.getValue().commentaireProperty());
+
+    table3.setRowFactory(tv -> {
+        TableRow<avis> myRow = new TableRow<>();
+        myRow.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 1 && (!myRow.isEmpty())) {
+                selectedavis = myRow.getItem();
+            }
+        });
+        return myRow;
+    });
+}
+    
      
      
      
@@ -251,7 +242,6 @@ try {
        Connect();
        table2();
        table3();
-       
     }    
 
     @FXML
@@ -272,6 +262,79 @@ try {
        
         }
     }
+
+    
+    public void deleteSelectedAvis() {
+    if(selectedavis != null) {
+        try {
+            pst = con.prepareStatement("DELETE FROM avis WHERE idportfolio = ?");
+            pst.setString(1, selectedavis.getidportfolio());
+            int result = pst.executeUpdate();
+            if(result > 0) {
+                table3.getItems().remove(selectedavis);
+                selectedavis = null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+    
+    
+    @FXML
+    private void suppavis(ActionEvent event) {
+         // Boîte de dialogue de confirmation pour la modification/suppression
+ Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmation");
+    alert.setHeaderText("Supprimer le produit?");
+    alert.setContentText("Êtes-vous sûr de vouloir supprimer ce produit?");
+    Optional<ButtonType> result = alert.showAndWait();
+    
+    if (result.get() == ButtonType.OK) {
+      deleteSelectedAvis();
+    }}
+
+   @FXML
+private void viewStatistics(ActionEvent event) {
+    Connect();
+    try {
+        // Query the database to get the statistics for each portfolio
+        pst = con.prepareStatement("SELECT idportfolio, COUNT(*) FROM avis GROUP BY idportfolio");
+        ResultSet rs = pst.executeQuery();
+
+        // Create a PieChart object and set its title
+        PieChart pieChart = new PieChart();
+        pieChart.setTitle("Statistics by Portfolio");
+
+        // Add each portfolio's statistics to the pie chart as a new slice
+        while (rs.next()) {
+            String id = rs.getString(1);
+            int count = rs.getInt(2);
+            PieChart.Data slice = new PieChart.Data(id, count);
+            pieChart.getData().add(slice);
+        }
+
+        // Set the colors for the pie chart slices
+        ObservableList<PieChart.Data> data = pieChart.getData();
+        for (int i = 0; i < data.size(); i++) {
+            data.get(i).getNode().setStyle("-fx-pie-color: #" + getRandomColor() + ";");
+        }
+
+        // Create a new scene and display the pie chart in a new window
+        Scene scene = new Scene(pieChart, 800, 600);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    } catch (SQLException ex) {
+        Logger.getLogger(AvisController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
+// Helper method to generate a random hex color code
+private String getRandomColor() {
+    Random random = new Random();
+    return String.format("%02x%02x%02x", random.nextInt(256), random.nextInt(256), random.nextInt(256));
+}
        
     
 }

@@ -8,14 +8,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="1012.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.AvisController">
+<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="932.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.AvisController">
    <children>
-      <TableView fx:id="table2" layoutX="363.0" layoutY="22.0" prefHeight="396.0" prefWidth="634.0">
+      <TableView fx:id="table2" layoutX="220.0" layoutY="28.0" prefHeight="390.0" prefWidth="701.0">
          <columns>
-            <TableColumn fx:id="id_portfolio" prefWidth="131.1999969482422" text="id_portfolio" />
-            <TableColumn fx:id="description" prefWidth="182.4000244140625" text="description" />
-            <TableColumn fx:id="cv" prefWidth="158.39996337890625" text="cv" />
-            <TableColumn fx:id="image" prefWidth="161.5999755859375" text="image" />
+            <TableColumn fx:id="id_portfolio" prefWidth="213.0" text="id_portfolio" />
+            <TableColumn fx:id="description" minWidth="0.0" prefWidth="305.0" text="description" />
+            <TableColumn fx:id="cv" prefWidth="181.0" text="cv" />
          </columns>
       </TableView>
       <Label layoutX="22.0" layoutY="29.0" text="AVIS">
@@ -25,12 +24,14 @@
       </Label>
       <TextField fx:id="avpt" layoutX="8.0" layoutY="61.0" prefHeight="32.0" prefWidth="198.0" />
       <Button fx:id="ptaddavis" layoutX="28.0" layoutY="103.0" mnemonicParsing="false" onAction="#addavis" text="Commenter" />
-      <TableView fx:id="table3" layoutX="211.0" layoutY="22.0" prefHeight="396.0" prefWidth="149.0">
+      <Button fx:id="ptback" layoutX="849.0" layoutY="424.0" mnemonicParsing="false" onAction="#back" prefHeight="32.0" prefWidth="70.0" text="back" />
+      <TableView fx:id="table3" layoutX="14.0" layoutY="147.0" prefHeight="271.0" prefWidth="200.0">
         <columns>
-          <TableColumn fx:id="avis" prefWidth="150.40003967285156" text="avis" />
-          <TableColumn minWidth="0.0" prefWidth="0.0" text="C2" />
+          <TableColumn fx:id="idav" prefWidth="95.20001411437988" text="id_portfolio" />
+          <TableColumn fx:id="avav" prefWidth="102.39998626708984" text="avis" />
         </columns>
       </TableView>
-      <Button fx:id="ptback" layoutX="8.0" layoutY="418.0" mnemonicParsing="false" onAction="#back" text="back" />
+      <Button fx:id="supprimer" layoutX="14.0" layoutY="424.0" mnemonicParsing="false" onAction="#suppavis" prefHeight="32.0" prefWidth="95.0" text="Supprimer" />
+      <Button fx:id="stat" layoutX="114.0" layoutY="424.0" mnemonicParsing="false" onAction="#viewStatistics" prefHeight="32.0" prefWidth="95.0" text="Stat" />
    </children>
 </AnchorPane>
