@@ -62,7 +62,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 
-public class FXMLDocumentController implements Initializable {
+public class FreelancerController implements Initializable {
     
  @FXML
     private TextField cvpt;
@@ -98,8 +98,6 @@ public class FXMLDocumentController implements Initializable {
     private Button ptmd;
     
     @FXML
-    private Button avis;
-    @FXML
     private ImageView imageview;
     @FXML
     private Button btnimport;
@@ -114,10 +112,6 @@ public class FXMLDocumentController implements Initializable {
     
     
     Alert alert;
-    @FXML
-    private Button ptdate;
-    @FXML
-    private TextField rech;
     @FXML
     private Button pdf;
     @FXML
@@ -180,34 +174,7 @@ alert.setTitle("Test Connection") ;
     }
 
 }}
-    
-     
-    
- 
-void search(){
-      
-          ObservableList<portfolio> portfolio = FXCollections.observableArrayList();
-  rech.textProperty().addListener((observable, oldValue, newValue) -> {
-    ObservableList<portfolio> searchResults = FXCollections.observableArrayList();
-    try {
-        pst = con.prepareStatement("SELECT * FROM portfolio WHERE description LIKE ?");
-        pst.setString(1, "%" + newValue + "%");
-        ResultSet rs = pst.executeQuery();
-        while (rs.next()) {
-            portfolio pt = new portfolio();
-            pt.setId(rs.getString("idportfolio"));
-            pt.setDesc(rs.getString("description"));
-            pt.setCv(rs.getString("cv"));
-            pt.setImg(rs.getString("image"));
-            searchResults.add(pt);
-        }
-        table.setItems(searchResults);
-    } catch (SQLException ex) {
-        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-    }
-});
-}
-    
+  
  
 public void table() {
     ObservableList<portfolio> portfolio = FXCollections.observableArrayList();
@@ -235,7 +202,7 @@ public void table() {
         cv.setCellValueFactory(f -> f.getValue().cvProperty());
         image.setCellValueFactory(f -> f.getValue().imgProperty());
     } catch (SQLException ex) {
-        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(FreelancerController.class.getName()).log(Level.SEVERE, null, ex);
     }
     table.setRowFactory(tv -> {
         TableRow<portfolio> myRow = new TableRow<>();
@@ -379,27 +346,9 @@ try {
     public void initialize(URL url, ResourceBundle rb) {
        Connect();
        table();
-       search();
     }    
 
-    @FXML
-    private void Avis(ActionEvent event) {
-                             try{   
-     FXMLLoader loader =new FXMLLoader(getClass().getResource("avis.fxml"));
-     Parent root=(Parent) loader.load();
-    AvisController controller =loader. getController();
-    
-    
-    Scene scene= new Scene(root);
-    Stage stage = new Stage() ;
-    stage.setScene(scene);
-    stage.show();
- 
-    }catch(IOException e) {
-    System.out.append("erreur d'affichage ");
-       
-        }
-    }
+
 
     
 
@@ -421,36 +370,7 @@ try {
     }  
     }
     
-    
-    @FXML
-    private void date(ActionEvent event) {
-     // Create a label to display the date
-        Label dateLabel = new Label();
-        Label timeLabel = new Label();
-        // Create a button and set its action
-        Button dateButton = new Button("Show Date");
-        dateButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                LocalDate date = LocalDate.now();
-                LocalTime time = LocalTime.now();
-                dateLabel.setText("Today's date is: " + date.toString());
-                timeLabel.setText("The current time is: " + time.toString());
-            }
-        });
-        
-        // Add the label and button to a VBox
-        VBox root = new VBox();
-        root.getChildren().addAll(dateLabel, timeLabel, dateButton);
-        
-        // Create a scene and set it on the stage
-        Scene scene = new Scene(root, 300, 250);
-        Stage stage = new Stage() ;
-        stage.setScene(scene);
-        stage.setTitle("Date Button");
-        stage.show();
-    }      
-
+  
     private void sendSMS(ActionEvent event) {
                                       try{   
      FXMLLoader loader =new FXMLLoader(getClass().getResource("message.fxml"));
@@ -470,16 +390,7 @@ try {
     
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
 
    @FXML
 private void importpdf(ActionEvent event) {
@@ -550,7 +461,7 @@ private void downloadCV(ActionEvent event) {
                 alert.showAndWait();
             }
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FreelancerController.class.getName()).log(Level.SEVERE, null, ex);
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("CV download failed");

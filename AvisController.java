@@ -97,6 +97,11 @@ void addavis(ActionEvent event) {
     // Perform input validation and replace "bad" with asterisks
     if (commentaire.equalsIgnoreCase("bad")) {
         commentaire = "********";
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Input Validation");
+        alert.setHeaderText("Invalid Input");
+        alert.setContentText("The input contains a banned word.");
+        alert.showAndWait();
     }
 
     try {
@@ -107,10 +112,8 @@ void addavis(ActionEvent event) {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Test Connection");
-
         alert.setHeaderText("Avis Added");
         alert.setTitle("SUCCESS");
-
         alert.showAndWait();
 
         avpt.setText("");
@@ -166,30 +169,38 @@ portfolio.add(pt) ;
  
    
    
-public void table3()
-{
+public void table3() {
     Connect();
     ObservableList<avis> aviList = FXCollections.observableArrayList();
-    try
-    {
+    try {
         pst = con.prepareStatement("SELECT * FROM avis INNER JOIN portfolio ON avis.idportfolio = portfolio.idportfolio");
         ResultSet rs = pst.executeQuery();
-        while (rs.next())
-        {
+        while (rs.next()) {
             avis av = new avis();
             av.setidportfolio(rs.getString("idportfolio"));
             av.setcommentaire(rs.getString("commentaire"));
             aviList.add(av);
         }
-    }
-    catch (SQLException ex)
-    {
+    } catch (SQLException ex) {
         Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
     }
 
     table3.setItems(aviList);
     idav.setCellValueFactory(f->f.getValue().idportfolioProperty());
     avav.setCellValueFactory(f->f.getValue().commentaireProperty());
+
+    table2.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        if (newSelection != null) {
+            String selectedId = newSelection.getId(); // assuming the portfolio class has a getId() method
+            ObservableList<avis> filteredAvisList = FXCollections.observableArrayList();
+            for (avis av : aviList) {
+                if (av.getidportfolio().equals(selectedId)) { // assuming the avis class has a getidportfolio() method
+                    filteredAvisList.add(av);
+                }
+            }
+            table3.setItems(filteredAvisList);
+        }
+    });
 
     table3.setRowFactory(tv -> {
         TableRow<avis> myRow = new TableRow<>();
@@ -294,12 +305,14 @@ try {
       deleteSelectedAvis();
     }}
 
-   @FXML
+  @FXML
 private void viewStatistics(ActionEvent event) {
     Connect();
     try {
         // Query the database to get the statistics for each portfolio
-        pst = con.prepareStatement("SELECT idportfolio, COUNT(*) FROM avis GROUP BY idportfolio");
+        pst = con.prepareStatement("SELECT portfolio.description, COUNT(*) FROM avis "
+                + "INNER JOIN portfolio ON avis.idportfolio = portfolio.idportfolio "
+                + "GROUP BY portfolio.description");
         ResultSet rs = pst.executeQuery();
 
         // Create a PieChart object and set its title
@@ -308,9 +321,9 @@ private void viewStatistics(ActionEvent event) {
 
         // Add each portfolio's statistics to the pie chart as a new slice
         while (rs.next()) {
-            String id = rs.getString(1);
+            String description = rs.getString(1);
             int count = rs.getInt(2);
-            PieChart.Data slice = new PieChart.Data(id, count);
+            PieChart.Data slice = new PieChart.Data(description, count);
             pieChart.getData().add(slice);
         }
 

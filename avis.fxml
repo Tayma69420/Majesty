@@ -8,30 +8,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="464.0" prefWidth="932.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.AvisController">
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" stylesheets="@meessage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.AvisController">
    <children>
-      <TableView fx:id="table2" layoutX="220.0" layoutY="28.0" prefHeight="390.0" prefWidth="701.0">
+      <TableView fx:id="table2" layoutX="398.0" layoutY="29.0" prefHeight="487.0" prefWidth="908.0" stylesheets="@meessage.css">
          <columns>
-            <TableColumn fx:id="id_portfolio" prefWidth="213.0" text="id_portfolio" />
-            <TableColumn fx:id="description" minWidth="0.0" prefWidth="305.0" text="description" />
-            <TableColumn fx:id="cv" prefWidth="181.0" text="cv" />
+            <TableColumn fx:id="id_portfolio" minWidth="0.0" prefWidth="0.0" text="id_portfolio" />
+            <TableColumn fx:id="description" minWidth="0.0" prefWidth="566.4000244140625" text="description" />
+            <TableColumn fx:id="cv" prefWidth="340.79998779296875" text="cv" />
          </columns>
       </TableView>
-      <Label layoutX="22.0" layoutY="29.0" text="AVIS">
+      <Label layoutX="22.0" layoutY="29.0" prefHeight="37.0" prefWidth="115.0" text="AVIS">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="avpt" layoutX="8.0" layoutY="61.0" prefHeight="32.0" prefWidth="198.0" />
-      <Button fx:id="ptaddavis" layoutX="28.0" layoutY="103.0" mnemonicParsing="false" onAction="#addavis" text="Commenter" />
-      <Button fx:id="ptback" layoutX="849.0" layoutY="424.0" mnemonicParsing="false" onAction="#back" prefHeight="32.0" prefWidth="70.0" text="back" />
-      <TableView fx:id="table3" layoutX="14.0" layoutY="147.0" prefHeight="271.0" prefWidth="200.0">
+      <TextField fx:id="avpt" layoutX="6.0" layoutY="73.0" prefHeight="32.0" prefWidth="198.0" />
+      <Button fx:id="ptaddavis" layoutX="216.0" layoutY="73.0" mnemonicParsing="false" onAction="#addavis" text="Commenter" />
+      <Button fx:id="ptback" layoutX="1197.0" layoutY="545.0" mnemonicParsing="false" onAction="#back" prefHeight="48.0" prefWidth="139.0" stylesheets="@meessage.css" text="back" />
+      <TableView fx:id="table3" layoutX="6.0" layoutY="151.0" prefHeight="366.0" prefWidth="375.0">
         <columns>
-          <TableColumn fx:id="idav" prefWidth="95.20001411437988" text="id_portfolio" />
-          <TableColumn fx:id="avav" prefWidth="102.39998626708984" text="avis" />
+          <TableColumn fx:id="idav" minWidth="0.0" prefWidth="0.0" text="id_portfolio" />
+          <TableColumn fx:id="avav" prefWidth="371.999981880188" text="avis" />
         </columns>
       </TableView>
-      <Button fx:id="supprimer" layoutX="14.0" layoutY="424.0" mnemonicParsing="false" onAction="#suppavis" prefHeight="32.0" prefWidth="95.0" text="Supprimer" />
-      <Button fx:id="stat" layoutX="114.0" layoutY="424.0" mnemonicParsing="false" onAction="#viewStatistics" prefHeight="32.0" prefWidth="95.0" text="Stat" />
+      <Button fx:id="supprimer" layoutX="90.0" layoutY="545.0" mnemonicParsing="false" onAction="#suppavis" prefHeight="48.0" prefWidth="198.0" stylesheets="@meessage.css" text="Supprimer" />
+      <Button fx:id="stat" layoutX="467.0" layoutY="545.0" mnemonicParsing="false" onAction="#viewStatistics" prefHeight="0.0" prefWidth="115.0" stylesheets="@meessage.css" text="Stat" />
    </children>
 </AnchorPane>

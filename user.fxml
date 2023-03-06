@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.UserController">
+   <children>
+      <AnchorPane id="AnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="674.0" prefWidth="995.0" stylesheets="@meessage.css">
+         <children>
+            <VBox layoutX="239.0" layoutY="26.0" prefHeight="211.0" prefWidth="110.0" spacing="50.0">
+               <children>
+                  <Label prefHeight="38.0" prefWidth="119.0" text="descrption :" textFill="#ccff00" />
+                  <Label text="CV :" textFill="#ccff00" />
+                  <Label text="IMG :" textFill="#ccff00" />
+               </children>
+            </VBox>
+            <TableView fx:id="table" layoutX="789.0" layoutY="25.0" prefHeight="446.0" prefWidth="660.0" stylesheets="@meessage.css">
+               <columns>
+                  <TableColumn fx:id="id_portfolio" minWidth="0.0" prefWidth="0.0" text="id_portfolio" />
+                  <TableColumn fx:id="description" prefWidth="351.199951171875" text="description" />
+                  <TableColumn fx:id="cv" prefWidth="308.79998779296875" text="cv" />
+                  <TableColumn fx:id="image" minWidth="0.0" prefWidth="0.0" text="image" />
+               </columns>
+            </TableView>
+            <ImageView fx:id="imageview" fitHeight="219.0" fitWidth="213.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+            <Button fx:id="avis" layoutX="379.0" layoutY="248.0" mnemonicParsing="false" onAction="#Avis" prefHeight="26.0" prefWidth="134.0" text="Avis" textFill="#640e80">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="780.0" layoutY="489.0" prefHeight="37.0" prefWidth="119.0" text="Recherche" />
+            <TextField fx:id="rech" layoutX="918.0" layoutY="484.0" promptText="recherche" />
+            <TextField fx:id="despt" layoutX="364.0" layoutY="26.0" />
+            <TextField fx:id="cvpt" layoutX="364.0" layoutY="108.0" prefHeight="48.0" prefWidth="230.0" />
+            <TextField fx:id="imgpt" layoutX="364.0" layoutY="189.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

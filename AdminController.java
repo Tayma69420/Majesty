@@ -62,7 +62,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
 
 
-public class FXMLDocumentController implements Initializable {
+public class AdminController implements Initializable {
     
  @FXML
     private TextField cvpt;
@@ -126,62 +126,7 @@ public class FXMLDocumentController implements Initializable {
     
 
   
-    @FXML
-    void Add(ActionEvent event) throws SQLException, FileNotFoundException, MessagingException {
-String  des, cv,img;
-Connect ();
-des= despt.getText();
-cv= cvpt.getText();
-img= imgpt.getText();
-//fis = new FileInputStream(selectedFile);
-
-
-//Volet 1: Validation de champs de texte vides
- if (despt.getText().isEmpty() || cvpt.getText().isEmpty()) {
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText("Champ(s) vide(s)");
-        alert.setContentText("Veuillez remplir tous les champs obligatoires");
-        alert.showAndWait();
-    } else {
-     //Volet 2: Vérification des doublons dans la base de données
- PreparedStatement stmt = con.prepareStatement("SELECT COUNT(*) FROM portfolio WHERE cv = ?");
-stmt.setString(1, cv);
-ResultSet rs = stmt.executeQuery();
-if (rs.next() && rs.getInt(1) > 0) {
-    alert = new Alert(AlertType.ERROR);
-    alert.setTitle("Erreur");
-    alert.setHeaderText("Produit déjà existant");
-    alert.setContentText("Le produit " + cv + " existe déjà dans la base de données");
-    alert.showAndWait();
-} else{
-pst = con.prepareStatement ("insert into portfolio (description,cv,image) values (?,?,?)  ") ;
-pst.setString(1,des) ;
-pst.setString (2,cv) ;
-pst.setString(3,img);
-pst.executeUpdate () ;
-
-
-Alert alert= new Alert(Alert.AlertType.INFORMATION) ;
-alert.setTitle("Test Connection") ;
-
-    alert.setHeaderText("portfolio Aded");
-    alert.setTitle("SUCCES") ;
-
-    alert.showAndWait();
-    table();
-    
-    despt.setText("");
-   cvpt.setText("");
-   imgpt.setText("");
-   despt.requestFocus();
-  //mailutil.sendmail("majesty.projet@gmail.com");
-  //msg.sendSMS("+21650381852");
-    }
-
-}}
-    
-     
+ 
     
  
 void search(){
@@ -203,7 +148,7 @@ void search(){
         }
         table.setItems(searchResults);
     } catch (SQLException ex) {
-        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
     }
 });
 }
@@ -235,7 +180,7 @@ public void table() {
         cv.setCellValueFactory(f -> f.getValue().cvProperty());
         image.setCellValueFactory(f -> f.getValue().imgProperty());
     } catch (SQLException ex) {
-        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
     }
     table.setRowFactory(tv -> {
         TableRow<portfolio> myRow = new TableRow<>();
@@ -422,60 +367,7 @@ try {
     }
     
     
-    @FXML
-    private void date(ActionEvent event) {
-     // Create a label to display the date
-        Label dateLabel = new Label();
-        Label timeLabel = new Label();
-        // Create a button and set its action
-        Button dateButton = new Button("Show Date");
-        dateButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                LocalDate date = LocalDate.now();
-                LocalTime time = LocalTime.now();
-                dateLabel.setText("Today's date is: " + date.toString());
-                timeLabel.setText("The current time is: " + time.toString());
-            }
-        });
-        
-        // Add the label and button to a VBox
-        VBox root = new VBox();
-        root.getChildren().addAll(dateLabel, timeLabel, dateButton);
-        
-        // Create a scene and set it on the stage
-        Scene scene = new Scene(root, 300, 250);
-        Stage stage = new Stage() ;
-        stage.setScene(scene);
-        stage.setTitle("Date Button");
-        stage.show();
-    }      
 
-    private void sendSMS(ActionEvent event) {
-                                      try{   
-     FXMLLoader loader =new FXMLLoader(getClass().getResource("message.fxml"));
-     Parent root=(Parent) loader.load();
-    MessageController controller =loader. getController();
-    
-    
-    Scene scene= new Scene(root);
-    Stage stage = new Stage() ;
-    stage.setScene(scene);
-    stage.show();
- 
-    }catch(IOException e) {
-    System.out.append("erreur d'affichage ");
-       
-        }
-    
-    }
-    
-    
-    
-    
-    
-    
-    
     
     
     
@@ -550,7 +442,7 @@ private void downloadCV(ActionEvent event) {
                 alert.showAndWait();
             }
         } catch (SQLException | IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AdminController.class.getName()).log(Level.SEVERE, null, ex);
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("CV download failed");

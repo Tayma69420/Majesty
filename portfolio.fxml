@@ -10,58 +10,58 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="497.0" prefWidth="1102.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" stylesheets="@meessage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sfaihi.FXMLDocumentController">
    <children>
-      <VBox layoutX="246.0" layoutY="26.0" prefHeight="160.0" prefWidth="87.0" spacing="50.0">
+      <VBox layoutX="239.0" layoutY="26.0" prefHeight="211.0" prefWidth="110.0" spacing="50.0">
          <children>
-            <Label text="descrption :" textFill="#ccff00" />
+            <Label prefHeight="38.0" prefWidth="119.0" text="descrption :" textFill="#ccff00" />
             <Label text="CV :" textFill="#ccff00" />
             <Label text="IMG :" textFill="#ccff00" />
          </children>
       </VBox>
-      <Button fx:id="ptadd" layoutX="30.0" layoutY="224.0" mnemonicParsing="false" onAction="#Add" prefHeight="26.0" prefWidth="134.0" text="Ajouter" textFill="#0599ff">
+      <Button fx:id="ptadd" layoutX="14.0" layoutY="460.0" mnemonicParsing="false" onAction="#Add" prefHeight="26.0" prefWidth="134.0" text="Ajouter" textFill="#0599ff">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="ptdele" layoutX="398.0" layoutY="224.0" mnemonicParsing="false" onAction="#Delete" prefHeight="26.0" prefWidth="134.0" text="Supprimer" textFill="RED">
+      <Button fx:id="ptdele" layoutX="358.0" layoutY="460.0" mnemonicParsing="false" onAction="#Delete" prefHeight="26.0" prefWidth="134.0" text="Supprimer" textFill="RED">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="ptmd" layoutX="222.0" layoutY="224.0" mnemonicParsing="false" onAction="#Update" prefHeight="26.0" prefWidth="134.0" text="Modifier" textFill="#26800d">
+      <Button fx:id="ptmd" layoutX="191.0" layoutY="460.0" mnemonicParsing="false" onAction="#Update" prefHeight="26.0" prefWidth="134.0" text="Modifier" textFill="#26800d">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <TableView fx:id="table" layoutX="575.0" layoutY="26.0" prefHeight="368.0" prefWidth="489.0">
+      <TableView fx:id="table" layoutX="789.0" layoutY="25.0" prefHeight="446.0" prefWidth="660.0" stylesheets="@meessage.css">
          <columns>
-            <TableColumn fx:id="id_portfolio" prefWidth="75.0" text="id_portfolio" />
-            <TableColumn fx:id="description" prefWidth="138.0" text="description" />
-            <TableColumn fx:id="cv" prefWidth="118.0" text="cv" />
-            <TableColumn fx:id="image" prefWidth="157.0" text="image" />
+            <TableColumn fx:id="id_portfolio" minWidth="0.0" prefWidth="0.0" text="id_portfolio" />
+            <TableColumn fx:id="description" prefWidth="351.199951171875" text="description" />
+            <TableColumn fx:id="cv" prefWidth="308.79998779296875" text="cv" />
+            <TableColumn fx:id="image" minWidth="0.0" prefWidth="0.0" text="image" />
          </columns>
       </TableView>
-      <ImageView fx:id="imageview" fitHeight="154.0" fitWidth="177.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="avis" layoutX="222.0" layoutY="302.0" mnemonicParsing="false" onAction="#Avis" prefHeight="26.0" prefWidth="134.0" text="Avis" textFill="#640e80">
+      <ImageView fx:id="imageview" fitHeight="219.0" fitWidth="213.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="avis" layoutX="191.0" layoutY="523.0" mnemonicParsing="false" onAction="#Avis" prefHeight="26.0" prefWidth="134.0" text="Avis" textFill="#640e80">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="btnimport" layoutX="43.0" layoutY="185.0" mnemonicParsing="false" onAction="#importimage" prefHeight="25.0" prefWidth="109.0" text="Import" />
-      <Button fx:id="ptdate" layoutX="14.0" layoutY="396.0" mnemonicParsing="false" onAction="#date" prefHeight="26.0" prefWidth="134.0" text="Date" textFill="#640e80">
+      <Button fx:id="btnimport" layoutX="50.0" layoutY="248.0" mnemonicParsing="false" onAction="#importimage" prefHeight="25.0" prefWidth="109.0" text="Import" />
+      <Button fx:id="ptdate" layoutX="14.0" layoutY="523.0" mnemonicParsing="false" onAction="#date" prefHeight="26.0" prefWidth="134.0" text="Date" textFill="#640e80">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label layoutX="575.0" layoutY="406.0" prefHeight="18.0" prefWidth="78.0" text="Recherche" />
-      <TextField fx:id="rech" layoutX="670.0" layoutY="402.0" promptText="recherche" />
-      <Button fx:id="pdf" layoutX="437.0" layoutY="95.0" mnemonicParsing="false" onAction="#importpdf" prefHeight="22.0" prefWidth="43.0" text="pdf" textFill="#640e80">
+      <Label layoutX="780.0" layoutY="489.0" prefHeight="37.0" prefWidth="119.0" text="Recherche" />
+      <TextField fx:id="rech" layoutX="918.0" layoutY="484.0" promptText="recherche" />
+      <Button fx:id="pdf" layoutX="474.0" layoutY="108.0" mnemonicParsing="false" onAction="#importpdf" prefHeight="48.0" prefWidth="119.0" text="Votre_Cv" textFill="#640e80">
          <font>
             <Font size="10.0" />
          </font>
       </Button>
-      <TextField fx:id="despt" layoutX="339.0" layoutY="26.0" />
-      <TextField fx:id="cvpt" layoutX="339.0" layoutY="93.0" prefHeight="26.0" prefWidth="90.0" />
-      <TextField fx:id="imgpt" layoutX="339.0" layoutY="155.0" />
-      <Button fx:id="dwd" layoutX="489.0" layoutY="96.0" mnemonicParsing="false" onAction="#downloadCV" prefHeight="20.0" prefWidth="62.0" text="download" textFill="#640e80">
+      <TextField fx:id="despt" layoutX="364.0" layoutY="26.0" />
+      <TextField fx:id="cvpt" layoutX="364.0" layoutY="108.0" prefHeight="26.0" prefWidth="90.0" />
+      <TextField fx:id="imgpt" layoutX="364.0" layoutY="189.0" />
+      <Button fx:id="dwd" layoutX="610.0" layoutY="108.0" mnemonicParsing="false" onAction="#downloadCV" prefHeight="48.0" prefWidth="152.0" text="Télechager" textFill="#640e80">
          <font>
             <Font size="9.0" />
          </font>
