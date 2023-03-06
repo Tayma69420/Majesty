@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" stylesheets="@meessage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.majesety.gui.AcceuilController">
+   <children>
+      <Button fx:id="btn_reclamation" layoutX="81.0" layoutY="167.0" mnemonicParsing="false" onAction="#reclamation" prefHeight="93.0" prefWidth="223.0" text="Reclamation" />
+      <Button fx:id="btn_categoriedureclamation" layoutX="466.0" layoutY="166.0" mnemonicParsing="false" onAction="#categoriedureclamation" prefHeight="94.0" prefWidth="308.0" text="Categorie du reclamation" />
+      <ImageView fitHeight="212.0" fitWidth="348.0" layoutX="2.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/325300490_1397193247690775_8748510563310506080_n.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="169.0" fitWidth="258.0" layoutX="254.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="file:/C:/Users/Haith/Desktop/Majesty/engagement1.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

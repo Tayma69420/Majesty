@@ -1,0 +1,115 @@
+/* Style for button */
+.button {
+-fx-background-color: #0077c2;
+-fx-background-radius: 5px;
+-fx-text-fill: #fff;
+-fx-font-weight: bold;
+-fx-font-size: 14pt;
+-fx-padding: 10px 20px;
+-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0);
+}
+
+/* Style for text fields */
+.text-field {
+-fx-background-color: #fff;
+-fx-font-size: 14pt;
+-fx-text-fill: #333;
+-fx-padding: 8px;
+-fx-border-color: #0077c2;
+-fx-border-radius: 5px;
+-fx-border-width: 2px;
+-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 0);
+}
+
+/* Style for labels */
+.label {
+-fx-font-size: 14pt;
+-fx-text-fill: #0077c2;
+-fx-font-weight: bold;
+-fx-padding: 5px 0;
+}
+
+.image-view {
+    -fx-border-color: gray;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 5, 0, 0, 1);
+}
+/* Style for table view */
+.table-view {
+    -fx-font-size: 14pt;
+}
+
+/* Style for table header */
+.table-header {
+    -fx-font-size: 14pt;
+    -fx-background-color: #0077c2;
+    -fx-text-fill: #fff;
+}
+
+/* Style for table row */
+.table-row-cell {
+    -fx-background-color: #f2f2f2;
+    -fx-text-fill: #333;
+    -fx-font-size: 14pt;
+}
+
+/* Style for alternating table row */
+.table-row-cell:odd {
+    -fx-background-color: #e6e6e6;
+}
+
+/* Style for selected table row */
+.table-row-cell:selected {
+    -fx-background-color: #0077c2;
+    -fx-text-fill: #fff;
+}
+
+/* Style for text */
+.text {
+  -fx-font-family: "Helvetica";
+  -fx-font-size: 14pt;
+  -fx-text-fill: #333;
+  -fx-font-weight: bold;
+  -fx-text-alignment: center;
+  -fx-underline: true;
+}
+/* Style for radio button */
+.radio-button {
+  -fx-font-size: 14pt;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333;
+  -fx-background-color: transparent;
+}
+
+/* Style for selected radio button */
+.radio-button:selected {
+  -fx-text-fill: #0077c2;
+}
+
+/* Style for radio button label */
+.radio-button .radio {
+  -fx-background-color: #fff;
+  -fx-border-color: #0077c2;
+  -fx-border-radius: 50%;
+  -fx-border-width: 2px;
+  -fx-padding: 5px;
+}
+
+/* Style for selected radio button label */
+.radio-button:selected .radio {
+  -fx-background-color: #0077c2;
+}
+
+/* Style for radio button icon */
+.radio-button .radio-icon {
+  -fx-background-color: #0077c2;
+  -fx-shape: "M 0 0 L 5 5 L 10 0 L 10 10 L 0 10 Z";
+  -fx-padding: 2px;
+  -fx-scale-shape: false;
+}
+
+/* Style for selected radio button icon */
+.radio-button:selected .radio-icon {
+  -fx-background-color: #fff;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" stylesheets="@meessage.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.majesety.gui.Categorie_recController">
+   <children>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="3.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../Downloads/325300490_1397193247690775_8748510563310506080_n.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="add" layoutX="235.0" layoutY="261.0" mnemonicParsing="false" onAction="#handleAjouterCategorie_rec" text="ajouter" />
+      <Button fx:id="modifier" layoutX="20.0" layoutY="413.0" mnemonicParsing="false" onAction="#handleModifierCategorie_rec" prefHeight="48.0" prefWidth="134.0" text="modifier" />
+      <Button fx:id="del" layoutX="167.0" layoutY="413.0" mnemonicParsing="false" onAction="#DeleteHandler" prefHeight="48.0" prefWidth="170.0" text="supprimer" />
+      <TextField fx:id="typeField" layoutX="54.0" layoutY="261.0" prefHeight="26.0" prefWidth="159.0" />
+      <Label layoutX="8.0" layoutY="166.0" prefHeight="37.0" prefWidth="159.0" text="type reclamation" />
+      <TableView fx:id="categorie_recTable" layoutX="351.0" onMouseClicked="#SelectItems" prefHeight="534.0" prefWidth="632.0">
+        <columns>
+          <TableColumn fx:id="IdColumn" prefWidth="321.5999755859375" text="id" />
+          <TableColumn fx:id="typeColumn" prefWidth="310.40008544921875" text="type" />
+        </columns>
+      </TableView>
+      <Button fx:id="btn_retour" layoutX="682.0" layoutY="590.0" mnemonicParsing="false" onAction="#retour" prefHeight="48.0" prefWidth="242.0" text="Retour a l'acceuil" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../images/325300490_1397193247690775_8748510563310506080_n.png" />
+         </image>
+      </ImageView>
+      <ComboBox fx:id="comb" layoutX="167.0" layoutY="167.0" onAction="#select" prefHeight="26.0" prefWidth="159.0" />
+      <Button fx:id="stat" layoutX="533.0" layoutY="590.0" mnemonicParsing="false" onAction="#viewStatistics" text="Statistique" />
+      <Button fx:id="mail" layoutX="309.0" layoutY="584.0" mnemonicParsing="false" onAction="#send_mail" text="Envoyer mail" />
+      <Button fx:id="locationBtn" layoutX="37.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleLocation" text="location" />
+   </children>
+</AnchorPane>

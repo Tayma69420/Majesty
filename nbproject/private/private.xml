@@ -3,23 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/entities/role.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/utils/MyConx.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/FreelancerConnecter.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/FreelancerConnecterController.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/ConnecterUserController.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/entities/User.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/service/RoleService.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/service/IService.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/AdminUserController.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/ConnecterController.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/Connecter.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/ConnecterUser.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/service/UserService.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/UserTeymour.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/PageMainController.java</file>
-            <file>file:/C:/Users/21626/Desktop/pidev/UserTeymour/src/userteymour/AdminUser.fxml</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesty/entities/Reclamation.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesety/gui/Main.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesety/services/ReclamationCrud.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesety/gui/SendMailController.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesty/entities/Categorie_rec.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesety/gui/ReclamtionController.java</file>
+            <file>file:/C:/Users/Haith/Desktop/Majestyyy/src/edu/majesety/services/Categorie_recCrud.java</file>
         </group>
     </open-files>
 </project-private>
