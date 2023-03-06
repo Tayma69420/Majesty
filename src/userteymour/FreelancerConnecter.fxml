@@ -11,35 +11,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="531.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.FreelancerConnecterController">
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.FreelancerConnecterController">
    <children>
       <Text layoutX="56.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom" />
       <Text layoutX="56.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="prenom" />
-      <Text layoutX="63.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" />
+      <Text layoutX="50.0" layoutY="507.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
       <Text layoutX="56.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de telephone" />
-      <Text layoutX="55.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" />
-      <Text layoutX="56.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de Naissence" />
-      <Text layoutX="54.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
-      <TextField fx:id="tfnom" layoutX="284.0" layoutY="47.0" promptText="Saisir Nom" />
-      <TextField fx:id="tfprenom" layoutX="284.0" layoutY="87.0" promptText="Saisir Prenom" />
-      <TextField fx:id="tfemail" layoutX="284.0" layoutY="408.0" promptText="Saisir Email" />
-      <TextField fx:id="tftel" layoutX="284.0" layoutY="185.0" promptText="Saisir Num Tel" />
-      <TextField fx:id="tfadresse" layoutX="284.0" layoutY="223.0" promptText="Saisir adresse" />
-      <Button fx:id="inscrire" layoutX="818.0" layoutY="470.0" mnemonicParsing="false" onAction="#sauvgarder1" text="S'Inscrire autant que freelancer" />
-      <DatePicker fx:id="ftage" layoutX="278.0" layoutY="266.0" promptText="Choisir Date De Naissence" />
-      <PasswordField fx:id="tfpasswd" layoutX="284.0" layoutY="440.0" promptText="Saisir Mdp" />
-      <Button fx:id="btnreturn" layoutX="685.0" layoutY="21.0" mnemonicParsing="false" onAction="#return11" text="↩" />
+      <Text layoutX="56.0" layoutY="298.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" />
+      <Text layoutX="56.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de Naissence" />
+      <Text layoutX="54.0" layoutY="601.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
+      <TextField fx:id="tfnom" layoutX="226.0" layoutY="46.0" promptText="Saisir Nom" />
+      <TextField fx:id="tfprenom" layoutX="225.0" layoutY="87.0" promptText="Saisir Prenom" />
+      <TextField fx:id="tfemail" layoutX="233.0" layoutY="497.0" promptText="Saisir Email" />
+      <TextField fx:id="tftel" layoutX="225.0" layoutY="185.0" promptText="Saisir Num Tel" />
+      <TextField fx:id="tfadresse" layoutX="225.0" layoutY="277.0" promptText="Saisir adresse" />
+      <Button fx:id="inscrire" layoutX="736.0" layoutY="620.0" mnemonicParsing="false" onAction="#sauvgarder1" text="S'Inscrire autant que freelancer" />
+      <DatePicker fx:id="ftage" layoutX="225.0" layoutY="322.0" promptText="Choisir Date De Naissence" />
+      <PasswordField fx:id="tfpasswd" layoutX="233.0" layoutY="574.0" promptText="Saisir Mdp" />
+      <Button fx:id="btnreturn" layoutX="946.0" layoutY="21.0" mnemonicParsing="false" onAction="#return11" text="↩" />
       <Text layoutX="53.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sexe" />
-      <RadioButton fx:id="hommeb" layoutX="278.0" layoutY="145.0" mnemonicParsing="false" text="Homme" />
-      <RadioButton fx:id="femmeb" layoutX="400.0" layoutY="145.0" mnemonicParsing="false" text="Femme" />
-      <Button fx:id="imagebtn" layoutX="56.0" layoutY="317.0" mnemonicParsing="false" onAction="#importimg1" text="Importer image" />
-      <TextField fx:id="imgurltf" layoutX="52.0" layoutY="362.0" onAction="#importimage1" prefHeight="31.0" prefWidth="453.0" />
+      <RadioButton fx:id="hommeb" layoutX="223.0" layoutY="145.0" mnemonicParsing="false" text="Homme" />
+      <RadioButton fx:id="femmeb" layoutX="334.0" layoutY="145.0" mnemonicParsing="false" text="Femme" />
+      <Button fx:id="imagebtn" layoutX="56.0" layoutY="363.0" mnemonicParsing="false" onAction="#importimg1" text="Importer image" />
+      <TextField fx:id="imgurltf" layoutX="52.0" layoutY="408.0" onAction="#importimage1" prefHeight="31.0" prefWidth="453.0" />
       <ImageView fx:id="imgusr" fitHeight="150.0" fitWidth="200.0" layoutX="536.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true" />
-      <ToggleButton fx:id="showbtnnewnew" layoutX="479.0" layoutY="440.0" mnemonicParsing="false" onAction="#showfreelancerpw" text="👁" />
-      <Label fx:id="mdpfreelancer" layoutX="284.0" layoutY="475.0" text="Label" />
-      <TextField fx:id="vertel" layoutX="571.0" layoutY="185.0" prefHeight="31.0" prefWidth="76.0" />
-      <Button fx:id="sendcode" layoutX="485.0" layoutY="185.0" mnemonicParsing="false" onAction="#sendcode1" text="envoyer" />
-      <Button layoutX="482.0" layoutY="407.0" mnemonicParsing="false" onAction="#CodeMail1" text="envoyer" />
-      <TextField fx:id="codee" layoutX="560.0" layoutY="407.0" prefHeight="31.0" prefWidth="76.0" />
+      <ToggleButton fx:id="showbtnnewnew" layoutX="480.0" layoutY="574.0" mnemonicParsing="false" onAction="#showfreelancerpw" text="👁" />
+      <Label fx:id="mdpfreelancer" layoutX="237.0" layoutY="614.0" text="Label" />
+      <TextField fx:id="vertel" layoutX="225.0" layoutY="223.0" prefHeight="31.0" prefWidth="76.0" />
+      <Button fx:id="sendcode" layoutX="50.0" layoutY="223.0" mnemonicParsing="false" onAction="#sendcode1" text="Verrifier Numero" />
+      <Button layoutX="46.0" layoutY="535.0" mnemonicParsing="false" onAction="#CodeMail1" text="Verrifier Email" />
+      <TextField fx:id="codee" layoutX="178.0" layoutY="535.0" prefHeight="31.0" prefWidth="76.0" />
    </children>
 </AnchorPane>

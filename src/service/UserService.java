@@ -67,7 +67,7 @@ public void insert(User t) {
         usr.setString(7, t.getPasswd());
         usr.setInt(8, 2);
         usr.setString(9, t.getSexe());
-        usr.setBinaryStream(10, t.getImage());
+        usr.setString(10, t.getImage());
         
         usr.executeUpdate();
 
@@ -110,7 +110,7 @@ public void insert(User t) {
 
         usr.setInt(8, 3);
         usr.setString(9, t.getSexe().toString());
-        usr.setBinaryStream(10, t.getImage());
+        usr.setString(10, t.getImage());
 
         
         usr.executeUpdate();

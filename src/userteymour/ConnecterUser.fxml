@@ -7,39 +7,43 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="531.0" prefWidth="939.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.ConnecterUserController">
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.ConnecterUserController">
    <children>
-      <Text layoutX="56.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="nom" />
-      <Text layoutX="56.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="prenom" />
-      <Text layoutX="63.0" layoutY="429.0" strokeType="OUTSIDE" strokeWidth="0.0" text="email" />
-      <Text layoutX="56.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de telephone" />
-      <Text layoutX="55.0" layoutY="244.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Adresse" />
-      <Text layoutX="56.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date de Naissence" />
-      <Text layoutX="54.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
-      <TextField fx:id="tfnom" layoutX="284.0" layoutY="47.0" promptText="Saisir Nom" />
-      <TextField fx:id="tfprenom" layoutX="284.0" layoutY="87.0" promptText="Saisir Prenom" />
-      <TextField fx:id="tfemail" layoutX="284.0" layoutY="408.0" promptText="Saisir Email" />
-      <TextField fx:id="tftel" layoutX="284.0" layoutY="185.0" promptText="Saisir Num Tel" />
-      <TextField fx:id="tfadresse" layoutX="284.0" layoutY="223.0" promptText="Saisir adresse" />
-      <Button fx:id="inscrire" layoutX="818.0" layoutY="470.0" mnemonicParsing="false" onAction="#sauvgarder" text="S'Inscrire" />
-      <DatePicker fx:id="ftage" layoutX="278.0" layoutY="266.0" promptText="Choisir Date De Naissence" />
-      <PasswordField fx:id="tfpasswd" layoutX="284.0" layoutY="440.0" promptText="Saisir Mdp" />
-      <Button fx:id="btnreturn" layoutX="685.0" layoutY="21.0" mnemonicParsing="false" onAction="#return1" text="↩" />
-      <Text layoutX="53.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sexe" />
-      <RadioButton fx:id="hommeb" layoutX="278.0" layoutY="145.0" mnemonicParsing="false" text="Homme" />
-      <RadioButton fx:id="femmeb" layoutX="400.0" layoutY="145.0" mnemonicParsing="false" text="Femme" />
-      <Button fx:id="imagebtn" layoutX="56.0" layoutY="317.0" mnemonicParsing="false" onAction="#importimg" text="Importer image" />
-      <TextField fx:id="imgurltf" layoutX="52.0" layoutY="362.0" onAction="#importimage" prefHeight="31.0" prefWidth="453.0" />
-      <ImageView fx:id="imgusr" fitHeight="150.0" fitWidth="200.0" layoutX="536.0" layoutY="273.0" pickOnBounds="true" preserveRatio="true" />
-      <ToggleButton fx:id="showbtnnewnew" layoutX="479.0" layoutY="440.0" mnemonicParsing="false" onAction="#showuserpw" text="👁" />
-      <Label fx:id="mdpshow" layoutX="284.0" layoutY="475.0" text="Label" />
-      <TextField fx:id="vertel" layoutX="589.0" layoutY="185.0" prefHeight="31.0" prefWidth="76.0" />
-      <Button fx:id="sendcode" layoutX="494.0" layoutY="185.0" mnemonicParsing="false" onAction="#sendcode" text="sendcode" />
-      <Button fx:id="codeee" layoutX="482.0" layoutY="408.0" mnemonicParsing="false" onAction="#CodeMail" text="code" />
-      <TextField fx:id="codee" layoutX="543.0" layoutY="408.0" prefHeight="31.0" prefWidth="105.0" promptText="Saisir Email" />
+      <TextField fx:id="tfnom" layoutX="196.0" layoutY="29.0" promptText="Saisir Nom" stylesheets="@stylesheets.css" />
+      <TextField fx:id="tfprenom" layoutX="196.0" layoutY="87.0" promptText="Saisir Prenom" stylesheets="@stylesheets.css" />
+      <TextField fx:id="tfemail" layoutX="196.0" layoutY="490.0" prefHeight="31.0" prefWidth="257.0" promptText="Saisir Email" stylesheets="@stylesheets.css" />
+      <TextField fx:id="tftel" layoutX="251.0" layoutY="173.0" promptText="Saisir Num Tel" stylesheets="@stylesheets.css" />
+      <TextField fx:id="tfadresse" layoutX="196.0" layoutY="249.0" promptText="Saisir adresse" stylesheets="@stylesheets.css" />
+      <Button fx:id="inscrire" layoutX="830.0" layoutY="589.0" mnemonicParsing="false" onAction="#sauvgarder" stylesheets="@stylesheets.css" text="S'Inscrire" />
+      <DatePicker fx:id="ftage" layoutX="216.0" layoutY="314.0" promptText="Choisir Date De Naissence" stylesheets="@stylesheets.css" />
+      <PasswordField fx:id="tfpasswd" layoutX="196.0" layoutY="570.0" prefHeight="31.0" prefWidth="257.0" promptText="Saisir Mdp" stylesheets="@stylesheets.css" />
+      <Button fx:id="btnreturn" layoutX="898.0" layoutY="34.0" mnemonicParsing="false" onAction="#return1" stylesheets="@stylesheets.css" text="↩" />
+      <RadioButton fx:id="hommeb" layoutX="207.0" layoutY="142.0" mnemonicParsing="false" stylesheets="@stylesheets.css" text="Homme" />
+      <RadioButton fx:id="femmeb" layoutX="325.0" layoutY="142.0" mnemonicParsing="false" stylesheets="@stylesheets.css" text="Femme" />
+      <Button fx:id="imagebtn" layoutX="32.0" layoutY="376.0" mnemonicParsing="false" onAction="#importimg" stylesheets="@stylesheets.css" text="Importer image" />
+      <TextField fx:id="imgurltf" layoutX="33.0" layoutY="433.0" onAction="#importimage" prefHeight="31.0" prefWidth="453.0" stylesheets="@stylesheets.css" />
+      <ImageView fx:id="imgusr" fitHeight="150.0" fitWidth="200.0" layoutX="512.0" layoutY="306.0" pickOnBounds="true" preserveRatio="true">
+         <effect>
+            <DropShadow />
+         </effect></ImageView>
+      <ToggleButton fx:id="showbtnnewnew" layoutX="460.0" layoutY="578.0" mnemonicParsing="false" onAction="#showuserpw" text="👁" />
+      <TextField fx:id="vertel" layoutX="498.0" layoutY="173.0" prefHeight="31.0" prefWidth="76.0" promptText="Code Num" stylesheets="@stylesheets.css" />
+      <Button fx:id="sendcode" layoutX="597.0" layoutY="173.0" mnemonicParsing="false" onAction="#sendcode" stylesheets="@stylesheets.css" text="Verrifier Numero" />
+      <Button fx:id="codeee" layoutX="631.0" layoutY="490.0" mnemonicParsing="false" onAction="#CodeMail" stylesheets="@stylesheets.css" text="Verrifier Email" />
+      <TextField fx:id="codee" layoutX="476.0" layoutY="490.0" prefHeight="31.0" prefWidth="121.0" promptText="Code email" stylesheets="@stylesheets.css" />
+      <Label fx:id="mdpshow" layoutX="204.0" layoutY="623.0" stylesheets="@stylesheets.css" text="Label" />
+      <Label layoutX="51.0" layoutY="575.0" stylesheets="@stylesheets.css" text="Mot de passe" />
+      <Label layoutX="51.0" layoutY="495.0" stylesheets="@stylesheets.css" text="Email" />
+      <Label layoutX="41.0" layoutY="319.0" stylesheets="@stylesheets.css" text="Date de Naissence" />
+      <Label layoutX="43.0" layoutY="249.0" stylesheets="@stylesheets.css" text="Adressee" />
+      <Label layoutX="41.0" layoutY="178.0" stylesheets="@stylesheets.css" text="Numero de telephone" />
+      <Label layoutX="41.0" layoutY="137.0" stylesheets="@stylesheets.css" text="Sexe" />
+      <Label layoutX="40.0" layoutY="92.0" stylesheets="@stylesheets.css" text="Prenom" />
+      <Label layoutX="40.0" layoutY="34.0" stylesheets="@stylesheets.css" text="Nom" />
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="687.0" layoutY="239.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

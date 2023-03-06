@@ -179,7 +179,7 @@ public class FreelancerConnecterController implements Initializable {
             alert.showAndWait();
             return;
         }
-       FileInputStream image = new FileInputStream(imgurltf.getText());
+       String image = (imgurltf.getText());
   
 LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().getMonthValue(), ftage.getValue().getDayOfMonth());
         int age = Period.between(birthdate, LocalDate.now()).getYears();    

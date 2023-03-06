@@ -1,13 +1,13 @@
 package userteymour;
 
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
+
 import java.io.IOException;
 import java.io.InputStream;
-
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import javax.mail.PasswordAuthentication;
 import java.net.URL;
-import java.security.Permission;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -17,22 +17,16 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import javafx.application.HostServices;
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 
 
 import javax.mail.Session;
@@ -45,42 +39,116 @@ import javax.mail.Transport;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javafx.application.Application;
 import javax.mail.MessagingException;
 
+import javafx.scene.web.WebView;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+
+import javafx.application.HostServices;
+import javafx.scene.control.CheckBox;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Stage;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 
 
-/**
- * FXML Controller class
- *
- * @author 21626
- */
-public class ConnecterController implements Initializable {
+
+public class ConnecterController  implements Initializable {
 
     @FXML
     private Button inscrire_user;
-    
     @FXML
     private TextField donneradresse;
     @FXML
     private TextField password;
     @FXML
-    private Button connect;
-    @FXML
     private Button inscrire_freelancer;
     private Connection connection;
     @FXML
-    private ToggleButton show;
+    private JFXButton show;
     @FXML
     private Label mpd;
 private boolean labelVisible = false;
     @FXML
     private Button mdpoub;
+     private Application application;
+    private String captchaResponse;
     @FXML
-    private Button congmail;
+    private AnchorPane anchorPane;
     @FXML
-    private Button confc;
+    private JFXButton Connecter;
+private Timeline timeline;
+    @FXML
+    private ImageView imageView;
+
+    private void sendRequest(String captchaResponse) throws IOException {
+        String secret = "6Le8eL4kAAAAAL_Xn9fmTNiDjeuJ-gu4TkzF5Zu0";
+        String url = "https://www.google.com/recaptcha/api/siteverify";
+        String parameters = "secret=" + URLEncoder.encode(secret, "UTF-8") + "&response=" + URLEncoder.encode(captchaResponse, "UTF-8");
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
+            outputStream.writeBytes(parameters);
+            outputStream.flush();
+        }
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            JsonObject json = new JsonParser().parse(response.toString()).getAsJsonObject();
+            boolean success = json.get("success").getAsBoolean();
+            if (success) {
+                // reCAPTCHA was successful, continue with your code
+            } else {
+                // reCAPTCHA failed, show an error message
+            }
+        }
+    }
+
     
+     public void setApplication(Application application) {
+        this.application = application;
+    }
+    
+    // other methods in your controller
+    
+    public void someMethod() {
+        HostServices hostServices = application.getHostServices();
+        // use hostServices as needed
+    }
     
     private String encryptPassword(String password) throws NoSuchAlgorithmException {
     MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -105,9 +173,14 @@ private boolean labelVisible = false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
                mpd.textProperty().bind(password.textProperty());
+               mpd.setVisible(false);
+               
 
-        mpd.setVisible(false);
-    }    
+         
+    }
+
+
+    
     @FXML
     private void freelancer(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("FreelancerConnecter.fxml"));
@@ -126,14 +199,19 @@ private boolean labelVisible = false;
     stage.show();
     }
 
+    
+    
+    
+    
    @FXML
 private void Connecter(ActionEvent event) throws SQLException, IOException, NoSuchAlgorithmException {
 
     connection = MyConx.getInstance().getCnx();
     String email = donneradresse.getText();
     String mdp = password.getText();
-    
+ 
 
+        
     if (email.isEmpty() || mdp.isEmpty()) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Attention");
@@ -175,7 +253,7 @@ case 2:
     controller.setEmail(email); // set the email parameter in the existing PageMainController instance
     
     String name = "";
-    InputStream image = null;
+    String image = null;
     try {
         PreparedStatement statement2 = connection.prepareStatement("SELECT nom, prenom, image FROM utilisateur WHERE email = ?");
         statement2.setString(1, email);
@@ -186,7 +264,7 @@ case 2:
             if (nom != null && !nom.isEmpty() && prenom != null && !prenom.isEmpty()) {
                 name = nom + " " + prenom;
             }
-            image = resultSet2.getBinaryStream("image");
+            image = resultSet2.getString("image");
         }
     } catch (SQLException e) {
         alert.setTitle("Erreur");
@@ -405,13 +483,36 @@ private void sendPasswordEmail(String email, String newPassword) throws Exceptio
     // Send the email
     Transport.send(message);
 }
-@FXML
-private void connecterfacebook(ActionEvent event) {
-
-}
 
     @FXML
-    private void connecterGmail(ActionEvent event) {
+    private void imgani(MouseEvent event) {
     }
 
+@FXML
+private void imganiEntered(MouseEvent event) {
+
 }
+
+@FXML
+private void imganiExited(MouseEvent event) {
+
+}
+
+
+
+
+
+
+   
+    
+
+
+
+
+}
+
+
+
+
+
+

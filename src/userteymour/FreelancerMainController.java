@@ -2,7 +2,14 @@
 
 package userteymour;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.mysql.jdbc.PreparedStatement;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -14,6 +21,7 @@ import java.time.Period;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -54,6 +62,8 @@ public class FreelancerMainController implements Initializable {
     private Label allezfreelacner;
     @FXML
     private Label ageLabel;
+    @FXML
+    private ImageView qrcodee;
     @Override
 public void initialize(URL url, ResourceBundle rb) {
     // Check if there is a current user email
@@ -78,6 +88,7 @@ public void initialize(URL url, ResourceBundle rb) {
               emailLabel.setText("Email: "+email);
               ageLabel.setText("Age: " + age);
               setImage(image);
+               generateQRCode();
             }
         } catch (SQLException ex) {
             Logger.getLogger(PageMainController.class.getName()).log(Level.SEVERE, null, ex);
@@ -86,6 +97,41 @@ public void initialize(URL url, ResourceBundle rb) {
 }
 
     
+
+private void generateQRCode() {
+    try {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        String nomPrenom = nameLabel.getText();
+        String email = emailLabel.getText();
+        String message = "Bonjour " + nomPrenom + ", vous êtes connecté à Majesty Freelance avec l'email: " + email + " en tant que Freelancer";
+        int width = 300;
+        int height = 300;
+
+        BufferedImage bufferedImage = null;
+        BitMatrix byteMatrix = qrCodeWriter.encode(message, BarcodeFormat.QR_CODE, width, height);
+        bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        bufferedImage.createGraphics();
+
+        Graphics2D graphics = (Graphics2D) bufferedImage.getGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0, 0, width, height);
+        graphics.setColor(Color.BLACK);
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (byteMatrix.get(i, j)) {
+                    graphics.fillRect(i, j, 1, 1);
+                }
+            }
+        }
+
+        System.out.println("Success...");
+
+        qrcodee.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
+    } catch (WriterException ex) {
+        Logger.getLogger(PageMainController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
 
     public void setEmail(String email) {
         this.email = email;

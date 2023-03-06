@@ -26,7 +26,7 @@ public class User {
     private String email ;
     private String passwd ;
     private LocalDate  age;
-    private FileInputStream image;
+    private String image;
 /*
     public User(String nom, String prenom, int tel, String adresse, role r1, String email, String passwd, LocalDate birthdate, String sexe, FileInputStream image) {
    
@@ -34,11 +34,11 @@ public class User {
  */
    
 
-    public void setImage(FileInputStream image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
-    public FileInputStream getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -148,7 +148,7 @@ public class User {
      * @param sexe
      * @param image
      */
-    public User(String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
+    public User(String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,String image) {
         this.nom = nom;
         this.prenom = prenom;
         this.tel = tel;
@@ -161,7 +161,7 @@ public class User {
         this.image = image;
     }
 
-    public User(int iduser, String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,FileInputStream image) {
+    public User(int iduser, String nom, String prenom, String tel, String adresse, role id_role, String email, String passwd, LocalDate  age,String sexe,String image) {
         this.iduser = iduser;
         this.nom = nom;
         this.prenom = prenom;

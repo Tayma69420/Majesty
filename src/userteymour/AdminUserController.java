@@ -74,7 +74,6 @@ public class AdminUserController {
     private User selectedUser;
     @FXML
     private TextField teltf;
-    @FXML
     private TextField passwdtf;
     @FXML
     private TextField emailtf;
@@ -94,7 +93,7 @@ public class AdminUserController {
     @FXML
     private TableColumn<?, ?> sexecol;
     @FXML
-   // private TableColumn<?, ?> imgcol;
+    private TextField rech;
     
 
 public void initialize() {
@@ -267,4 +266,8 @@ private void modifieruser(ActionEvent event) {
         window.setScene(connecterScene);
         window.show();
 }
+
+    @FXML
+    private void rech(ActionEvent event) {
+    }
 }

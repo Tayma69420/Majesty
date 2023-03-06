@@ -9,10 +9,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -140,7 +144,7 @@ private void changeimgu(ActionEvent event) {
 
 @FXML
 private void returnu(ActionEvent event) {
-    try {
+   try {
         // Load the PageMain.fxml file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("PageMain.fxml"));
         Parent root = loader.load();
@@ -159,7 +163,7 @@ private void returnu(ActionEvent event) {
 
   @FXML
 private void browse(ActionEvent event) {
-    // Open a file chooser dialog to select an image file
+   // Open a file chooser dialog to select an image file
     FileChooser fileChooser = new FileChooser();
     File file = fileChooser.showOpenDialog(null);
 
@@ -174,79 +178,84 @@ private void browse(ActionEvent event) {
 }
 
 @FXML
-private void changemdpu(ActionEvent event) {
-    String oldPassword = oldpdw.getText();
+private void changemdpu(ActionEvent event) throws NoSuchAlgorithmException {
+       String oldPassword = oldpdw.getText();
     String newPassword = newpdw.getText();
     String newNewPassword = newnewpdw.getText();
-    
-   // Check if the old password is correct
-try {
-    connection = MyConx.getInstance().getCnx();
-    PreparedStatement ps = connection.prepareStatement(
-        "SELECT * FROM utilisateur WHERE email = ? AND passwd = ?"
-    );
-    ps.setString(1, email);
-    ps.setString(2, oldPassword);
-    ResultSet rs = ps.executeQuery();
-    
-    if (!rs.next()) {
-        // Old password is incorrect
-        Alert alert = new Alert(AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText("L'ancien mot de passe est incorrect.");
-        alert.showAndWait();
-        return;
+
+    // Check if the old password is correct
+    try {
+        connection = MyConx.getInstance().getCnx();
+        PreparedStatement ps = connection.prepareStatement(
+            "SELECT * FROM utilisateur WHERE email = ?"
+        );
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            // Get the hashed password from the database
+            String hashedPassword = rs.getString("passwd");
+
+            // Compute the hash of the old password
+            String hashedOldPassword = encryptPassword(oldPassword);
+
+            if (hashedPassword.equals(hashedOldPassword)) {
+                // The old password is correct, so change the password
+                String hashedNewPassword = encryptPassword(newPassword);
+                String hashedNewNewPassword = encryptPassword(newNewPassword);
+
+                if (hashedNewPassword.equals(hashedNewNewPassword)) {
+                    PreparedStatement ps2 = connection.prepareStatement(
+                        "UPDATE utilisateur SET passwd = ? WHERE email = ?"
+                    );
+                    ps2.setString(1, hashedNewPassword);
+                    ps2.setString(2, email);
+                    ps2.executeUpdate();
+
+                    // Show a success message
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Le mot de passe a été modifié avec succès.");
+                    alert.showAndWait();
+
+                    // Clear the text fields
+                    oldpdw.setText("");
+                    newpdw.setText("");
+                    newnewpdw.setText("");
+                } else {
+                    // The new passwords do not match
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Erreur");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Les nouveaux mots de passe ne correspondent pas.");
+                    alert.showAndWait();
+                }
+            } else {
+                // The old password is incorrect
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Erreur");
+                alert.setHeaderText(null);
+                alert.setContentText("Le mot de passe actuel est incorrect.");
+                alert.showAndWait();
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(GestionUserController.class.getName()).log(Level.SEVERE, null, ex);
     }
-    
-} catch (SQLException ex) {
-    Logger.getLogger(GestionUserController.class.getName()).log(Level.SEVERE, null, ex);
-    return;
 }
 
-// Check if the new passwords match
-if (!newPassword.equals(newNewPassword)) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle("Erreur");
-    alert.setHeaderText(null);
-    alert.setContentText("Les nouveaux mots de passe ne correspondent pas.");
-    alert.showAndWait();
-    return;
+ private String encryptPassword(String password) throws NoSuchAlgorithmException {
+    MessageDigest md = MessageDigest.getInstance("SHA-256");
+    byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+    StringBuilder hexString = new StringBuilder();
+    for (byte b : hash) {
+        String hex = Integer.toHexString(0xff & b);
+        if (hex.length() == 1) hexString.append('0');
+        hexString.append(hex);
+    }
+    return hexString.toString();
 }
-
-// Check if the new password meets the complexity requirements
-if (!newPassword.matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).+$")) {
-    Alert alert = new Alert(AlertType.ERROR);
-    alert.setTitle("Erreur");
-    alert.setHeaderText(null);
-    alert.setContentText("Le nouveau mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule et un chiffre.");
-    alert.showAndWait();
-    return;
-}
-
-// Update the password in the database
-try {
-    PreparedStatement ps = connection.prepareStatement(
-        "UPDATE utilisateur SET passwd = ? WHERE email = ?"
-    );
-    ps.setString(1, newPassword);
-    ps.setString(2, email);
-    ps.executeUpdate();
-    
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Information");
-    alert.setHeaderText(null);
-    alert.setContentText("Le mot de passe a été changé avec succès.");
-    alert.showAndWait();
-    
-    // Clear the password fields
-    oldpdw.clear();
-    newpdw.clear();
-    newnewpdw.clear();
-    
-} catch (SQLException ex) {
-    Logger.getLogger(GestionUserController.class.getName()).log(Level.SEVERE, null, ex);
-}}
 
 
     @FXML

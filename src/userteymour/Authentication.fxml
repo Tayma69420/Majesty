@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="400" prefWidth="600" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.AuthenticationController">
+    <stylesheets>
+
+    </stylesheets>
+    <children>
+        <VBox alignment="CENTER" layoutY="41.0" prefHeight="625.0" prefWidth="600" spacing="20.0">
+            <Label text="Bienvenue dans nos offres" />
+         <ImageView fitHeight="183.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../image/logo1.png" />
+            </image>
+         </ImageView>
+            <HBox spacing="20.0">
+                <ImageView fitHeight="150" fitWidth="210.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../image/creelogo.jpg" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" prefHeight="150.0" prefWidth="318.0" spacing="10.0">
+                    <Label text="creation du logo" />
+                    <Button fx:id="ajouter1" mnemonicParsing="false" onAction="#addToCart1" prefHeight="31.0" prefWidth="139.0" text="Ajouter au panier" />
+                </VBox>
+            </HBox>
+            <HBox spacing="20.0">
+                <ImageView fitHeight="150" fitWidth="181.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../image/photographie.jpg" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" prefHeight="120.0" prefWidth="410.0" spacing="10.0">
+                    <Label text="photographie" />
+                    <Button fx:id="ajouter2" mnemonicParsing="false" onAction="#addToCart2" prefHeight="31.0" prefWidth="136.0" text="Ajouter au panier" />
+                </VBox>
+            </HBox>
+            <HBox spacing="20.0">
+                <ImageView fitHeight="150" fitWidth="210.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../image/videdi.jpg" />
+                    </image>
+                </ImageView>
+                <VBox alignment="CENTER" prefHeight="135.0" prefWidth="298.0" spacing="10.0">
+                    <Label text="video editing" />
+                    <Button fx:id="ajouter3" mnemonicParsing="false" onAction="#addToCart3" text="Ajouter au panier" />
+                </VBox>
+            </HBox>
+        </VBox>
+      <ImageView fx:id="notif" fitHeight="20.0" fitWidth="37.0" layoutX="51.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/red.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="pan" fitHeight="31.0" fitWidth="37.0" layoutX="6.0" layoutY="8.0" onMouseClicked="#pagechange" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/logo_pan.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="notiflab" layoutX="53.0" layoutY="21.0" text="-" textFill="WHITE" />
+    </children>
+</AnchorPane>

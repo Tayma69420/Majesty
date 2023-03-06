@@ -4,28 +4,30 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/AdminUserController.java</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerConnecterController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/service/UserService.java</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerMainController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/entities/User.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerMain.fxml</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/Connecter.fxml</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/nbproject/build-impl.xml</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/GestionFreelancer.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/service/RoleService.java</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/PageMainController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/service/IService.java</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/AdminUser.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/ConnecterUserController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/GestionUserController.java</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/PageMain.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerConnecter.fxml</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/stylesheets.css</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/ConnecterController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/GestionUser.fxml</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/GestionFreelancerController.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerConnecterController.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerMainController.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/service/RoleService.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/PageMainController.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/AdminUser.fxml</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/ConnecterUserController.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/PageMain.fxml</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/FreelancerConnecter.fxml</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/utils/MyConx.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/ConnecterUser.fxml</file>
-            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/userteymour/GestionFreelancerController.java</file>
             <file>file:/C:/Users/21626/Desktop/UserTeymour/src/entities/role.java</file>
+            <file>file:/C:/Users/21626/Desktop/UserTeymour/src/com/twilio/rest/api/v2010/account/Messagee.java</file>
         </group>
     </open-files>
 </project-private>

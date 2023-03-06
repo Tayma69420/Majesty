@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.DetailsController">
+   <children>
+      <TableView fx:id="panierTable" layoutX="79.0" layoutY="17.0" prefHeight="269.0" prefWidth="841.0" stylesheets="@css.css">
+        <columns>
+          <TableColumn fx:id="nomcol" prefWidth="388.0" text="nom" />
+            <TableColumn fx:id="qntcol" minWidth="0.0" prefWidth="145.0" text="quantite" />
+            <TableColumn fx:id="prixcol" prefWidth="307.0" text="prix tot" />
+        </columns>
+      </TableView>
+      <Button fx:id="supprimerpan" layoutX="93.0" layoutY="583.0" mnemonicParsing="false" onAction="#supppan" stylesheets="@css.css" text="Supprimer" />
+      <Button fx:id="ckpan" layoutX="731.0" layoutY="583.0" mnemonicParsing="false" onAction="#checkpan" prefHeight="47.0" prefWidth="165.0" stylesheets="@css.css" text="checkout" />
+      <Button fx:id="moins" layoutX="484.0" layoutY="306.0" mnemonicParsing="false" onAction="#moinsqnt" prefHeight="31.0" prefWidth="50.0" stylesheets="@css.css" text="-" />
+      <Button fx:id="plus" layoutX="557.0" layoutY="306.0" mnemonicParsing="false" onAction="#plusqnt" prefHeight="31.0" prefWidth="43.0" stylesheets="@css.css" text="+" />
+   </children>
+</AnchorPane>

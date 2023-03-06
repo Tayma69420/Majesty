@@ -91,12 +91,43 @@ public class ConnecterUserController implements Initializable {
     private Label mdpshow;
     private boolean labelVisible = false;
     @FXML
+   
+    
     private TextField vertel;
     private String code;
     private String codeemail;
+     private String nom;
+      private String prenom;
+       private String email;
+
+    public String getNom() {
+        return nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
     
     public static final String ACCOUNT_SID = "AC888b21cc1072373d1fb728a2315dc79f";
-public static final String AUTH_TOKEN = "e84b2bb96edad35f14b680389a128a28";
+    public static final String AUTH_TOKEN = "e84b2bb96edad35f14b680389a128a28";
+    
+    
     @FXML
     private Button sendcode;
     @FXML
@@ -214,7 +245,7 @@ private String generateCode() {
             alert.showAndWait();
             return;
         }
-       FileInputStream image = new FileInputStream(imgurltf.getText());
+       String image = (imgurltf.getText());
   
 LocalDate birthdate = LocalDate.of(ftage.getValue().getYear(), ftage.getValue().getMonthValue(), ftage.getValue().getDayOfMonth());
         int age = Period.between(birthdate, LocalDate.now()).getYears();    

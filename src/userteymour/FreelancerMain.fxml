@@ -3,12 +3,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="697.0" prefWidth="988.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.FreelancerMainController">
+<AnchorPane id="AnchorPane" prefHeight="674.0" prefWidth="995.0" stylesheets="@stylesheets.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="userteymour.FreelancerMainController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="200.0" layoutX="765.0" layoutY="91.0" stroke="#c6ee4d" strokeType="INSIDE" strokeWidth="20.0" width="160.0" />
       <ImageView fx:id="userImageView" fitHeight="161.0" fitWidth="120.0" layoutX="785.0" layoutY="110.0" pickOnBounds="true" preserveRatio="true" />
    <Label fx:id="nameLabel" layoutX="502.0" layoutY="181.0" prefWidth="240.0" text="----" />
 <Label fx:id="emailLabel" layoutX="502.0" layoutY="122.0" prefWidth="240.0" text="----" />
@@ -18,5 +16,6 @@
             <Font size="22.0" />
          </font>
       </Label>
+      <ImageView fx:id="qrcodee" fitHeight="103.0" fitWidth="112.0" layoutX="789.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
