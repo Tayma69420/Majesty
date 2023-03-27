@@ -1,0 +1,76 @@
+{{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inscription Utilisateur</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+      $( function() {
+        $( "#datepicker" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          yearRange:  '1900:2050'
+        });
+      } );
+
+      function showFilePath() {
+        var input = document.getElementById('user_image');
+        var fileName = input.files[0].name;
+        var filePathDisplay = document.getElementById('imageFileName');
+        filePathDisplay.innerHTML = fileName;
+      }
+    </script>
+</head>
+<body>
+
+
+
+
+    {{ form_start(form) }}
+    <div>
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom) }}
+    </div>
+    <div>
+        {{ form_label(form.prenom) }}
+        {{ form_widget(form.prenom) }}
+    </div>
+{{ form_label(form.email) }}
+{{ form_widget(form.email) }}{% if form.email.vars.errors|length > 0 %}
+    <class="alert alert-danger">
+        {% for error in form.email.vars.errors %}
+            {{ error.message }}
+        {% endfor %}
+
+{% endif %}
+
+
+    <div>
+        {{ form_label(form.tel) }}
+        {{ form_widget(form.tel) }}
+    </div>
+    <div>
+        {{ form_label(form.adresse) }}
+        {{ form_widget(form.adresse) }}
+    </div>
+    <div>
+      <label for="age">Date de naissance:</label>
+      {{ form_widget(form.age, {'attr': {'id': 'datepicker'}}) }}
+    </div>
+    <div>
+        {{ form_label(form.passwd) }}
+        {{ form_widget(form.passwd) }}
+    </div>
+    <div>
+        {{ form_label(form.sexe) }}
+        {{ form_widget(form.sexe, {'expanded': true, 'multiple': false}) }}
+    </div>
+{{ form_row(form.image) }}
+
+
+    <button type="submit" name="submit">S'inscrire</button>
+    {{ form_end(form) }}
+</body>
+</html>

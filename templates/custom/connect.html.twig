@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Connexion</title>
+</head>
+<body>
+{% block body %}
+    <h1>Connexion</h1>
+    <form action="{{ path('app_login') }}" method="post" novalidate>
+        <label for="email">Adresse email</label>
+        <input type="email" id="email" name="_username" required>
+
+
+        <br><label for="password">Mot de passe</label>
+        <input type="password" id="password" name="_password" required>
+
+        {% if errorMessage %}
+            <div class="error">{{ errorMessage }}</div>
+        {% endif %}
+
+        <button type="submit">connexion</button>
+    </form>
+
+    {% block additional_links %}
+        <a href="{{ path('user_registration') }}">S'inscrire en tant qu'utilisateur</a>
+        <a href="{{ path('freelancer_registration') }}">S'inscrire en tant que freelancer</a>
+    {% endblock %}
+{% endblock %}
+</body>
+</html>

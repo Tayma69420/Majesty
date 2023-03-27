@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}hi user{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* CSS for the dashboard sidebar */
+        .dashboard {
+            display: flex;
+            flex-direction: row;
+        }
+        .dashboard-menu {
+            width: 200px;
+            background-color: #f5f5f5;
+            padding: 10px;
+        }
+        .dashboard-content {
+            flex: 1;
+            padding: 10px;
+        }
+        .dashboard-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard-menu li {
+            margin-bottom: 10px;
+        }
+        .dashboard-menu a {
+            display: block;
+            padding: 5px;
+            color: #333;
+            text-decoration: none;
+        }
+        .dashboard-menu a:hover {
+            background-color: #ddd;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard">
+        <div class="dashboard-menu">
+            <ul>
+                <li><a href="{{ path('user_settings') }}">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="{{ path('app_login') }}">Logout</a></li>
+            </ul>
+        </div>
+        <div class="dashboard-content">
+            <h1>Welcome to my website!</h1>
+            <p>Connecté comme  Utilisateur  {{ app.session.get('user').getNom }} {{ app.session.get('user').getPrenom }} </p>
+            <img src="{{ asset('images/' ~ app.session.get('user').getImage) }}" alt="User Image">
+
+        </div>
+    </div>
+{% endblock %}

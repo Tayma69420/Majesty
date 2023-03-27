@@ -1,3 +1,28 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+
+
+    # config/routes.yaml
+app_login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+
+user_registration:
+    path: /register/user
+    controller: App\Controller\RegistrationController::userRegistration
+
+freelancer_registration:
+    path: /register/freelancer
+    controller: App\Controller\RegistrationController::freelancerRegistration
+
+
+admin_dashboard:
+    path: /login/admin
+    controller: App\Controller\AdminController::adminPage
+    
+user_dashboard:
+    path: /login/user
+    controller: App\Controller\UserController::UserPage
+    
+freelancer_dashboard:
+    path: /login/freelancer
+    controller: App\Controller\FreelancerController::dashboard

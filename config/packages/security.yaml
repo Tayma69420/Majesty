@@ -13,6 +13,8 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            
+            
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -25,6 +27,10 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+     # Restrict access to the admin page to users with role "ROLE_ADMIN"
+        - { path: ^/admin_page, roles: ROLE_ADMIN }
+
+
 
 when@test:
     security:
