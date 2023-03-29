@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\FormError;
 
 use App\Entity\Utilisateur;
 
@@ -28,76 +30,111 @@ class RegistrationController extends AbstractController
     return hash('sha256', $password);
 }
 
-    public function userRegistration(Request $request): Response
-    {
-        $user = new Utilisateur();
+public function userRegistration(Request $request): Response
+{
+    $user = new Utilisateur();
 
-        $form = $this->createFormBuilder($user)
-            ->add('nom')
-            ->add('prenom')
-            ->add('email', null, [
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => '',
-                    ]),
-                    new Assert\Email([
-                        'message' => '',
-                    ]),
-                ],
-            ])
-            ->add('tel')
-            ->add('adresse')
-            ->add('age')
-            ->add('passwd') 
-            ->add('image', FileType::class, [
-                'label' => 'Image',
-                'mapped' => false,
-                'required' => false,
-            ])
-            ->add('sexe', ChoiceType::class, [
-                'choices' => [
-                    'Homme' => 'homme',
-                    'Femme' => 'femme',
-                ],
-                'expanded' => true,
-                'multiple' => false,
-            ])
-            ->getForm();
-            
 
-        $form->handleRequest($request);
+    $form = $this->createFormBuilder($user)
+    ->add('nom', null, [
+        'constraints' => [
+            new Assert\NotBlank(['message' => 'Nom doit pas etre vide']),
+        ],
+    ])
+    ->add('prenom', null, [
+        'constraints' => [
+            new Assert\NotBlank(['message' => 'Prenom doit pas etre vide']),
+        ],
+    ])
+    ->add('email', null, [
+        'constraints' => [
+           // new Assert\NotBlank(['message' => 'Email doit pas etre vide']),
+            new Email(['message' => '']),
+        ],
+    ])
+    ->add('tel', null, [
+        'constraints' => [
+            new Assert\Regex([
+                'pattern' => '/^\+216\d{8}$/',
+                'message' => 'Tel doit commencer par +216 et être suivi de 8 chiffres',
+            ]),
+        ],
+    ])
+    ->add('adresse', null, [
+        'constraints' => [
+            new Assert\NotBlank(['message' => 'Adresse doit pas etre vide']),
+        ],
+    ])
+    ->add('age', DateType::class, [
+        'widget' => 'single_text',
+        'format' => 'yyyy-MM-dd',
+    ])
+    ->add('passwd', null, [
+        'constraints' => [
+            new Assert\NotBlank(['message' => 'Password doit pas etre vide']),
+            new Assert\Regex([
+                'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/',
+                'message' => 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et comporter au moins 8 caractères.',
+            ]),
+        ],
+    ]) 
+    ->add('image', FileType::class, [
+        'label' => 'Image',
+        'mapped' => false,
+        'required' => false,
+    ])
+    ->add('sexe', ChoiceType::class, [
+        'choices' => [
+            'Homme' => 'homme',
+            'Femme' => 'femme',
+        ],
+        'expanded' => true,
+        'multiple' => false,
+        'constraints' => [
+            new Assert\NotBlank(['message' => 'Veuillez sélectionner un sexe']),
+        ],
+    ])
+    ->getForm();
 
-        if ($form->isSubmitted()) {
-            
-            
-            if ($form->isValid()) {
+    $form->handleRequest($request);
 
-                $password = $form->get('passwd')->getData();
-                $encryptedPassword = $this->encryptPassword($password);
-                // handle image upload
-                $image = $form['image']->getData();
-                $imagePath = $request->request->get('imagePath');
+    if ($form->isSubmitted() && $form->isValid()) {
+        $email = $form->get('email')->getData();
+        $entityManager = $this->getDoctrine()->getManager();
+        $existingUser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
 
-                if ($image && is_uploaded_file($image)) {
-                    $imageFileName = uniqid().'.'.$image->guessExtension();
-                    move_uploaded_file($image, $this->getParameter('images_directory').'/'.$imageFileName);
-                    $user->setImage($imageFileName);
-                }
-                $user->setPasswd($encryptedPassword);
-                $user->setIdRole(2);
-
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_login');
-            }
+        if ($existingUser) {
+            $form->get('email')->addError(new FormError('This email address is already registered.'));
+            return $this->render('custom/user_registration.html.twig', [
+                'form' => $form->createView(),
+            ]);
         }
 
-        return $this->render('custom/user_registration.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $password = $form->get('passwd')->getData();
+        $encryptedPassword = $this->encryptPassword($password);
+        // handle image upload
+        $image = $form['image']->getData();
+        $imagePath = $request->request->get('imagePath');
+
+        if ($image && is_uploaded_file($image)) {
+            $imageFileName = uniqid().'.'.$image->guessExtension();
+            move_uploaded_file($image, $this->getParameter('images_directory').'/'.$imageFileName);
+            $user->setImage($imageFileName);
+        }
+
+        $user->setPasswd($encryptedPassword);
+        $user->setIdRole(2);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_login');
     }
+
+    return $this->render('custom/user_registration.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
 
 
     /**
@@ -109,21 +146,49 @@ class RegistrationController extends AbstractController
 
         $form = $this->createFormBuilder($freelancer)
     
-        ->add('nom')
-        ->add('prenom')
-        ->add('email', EmailType::class, [
-            
+        ->add('nom', null, [
             'constraints' => [
-                new Assert\Email([
-                    'message' => 'The email "{{ value }}" is not a valid email.',
+                new Assert\NotBlank(['message' => 'Nom doit pas etre vide']),
+            ],
+        ])
+        ->add('prenom', null, [
+            'constraints' => [
+                new Assert\NotBlank(['message' => 'Prenom doit pas etre vide']),
+            ],
+        ])
+        ->add('email', null, [
+            'constraints' => [
+               // new Assert\NotBlank(['message' => 'Email doit pas etre vide']),
+                new Email(['message' => '']),
+            ],
+        ])
+        ->add('tel', null, [
+            'constraints' => [
+                new Assert\Regex([
+                    'pattern' => '/^\+216\d{8}$/',
+                    'message' => 'Tel doit commencer par +216 et être suivi de 8 chiffres',
                 ]),
             ],
         ])
-        ->add('tel')
-        ->add('adresse')
-        ->add('age')
-        ->add('passwd') 
-                   ->add('image', FileType::class, [
+        ->add('adresse', null, [
+            'constraints' => [
+                new Assert\NotBlank(['message' => 'Adresse cannot be empty']),
+            ],
+        ])
+        ->add('age', DateType::class, [
+            'widget' => 'single_text',
+            'format' => 'yyyy-MM-dd',
+        ])
+        ->add('passwd', null, [
+            'constraints' => [
+                new Assert\NotBlank(['message' => 'Password cannot be empty']),
+                new Assert\Regex([
+                    'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/',
+                    'message' => 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et comporter au moins 8 caractères.',
+                ]),
+            ],
+        ]) 
+        ->add('image', FileType::class, [
             'label' => 'Image',
             'mapped' => false,
             'required' => false,
@@ -135,10 +200,10 @@ class RegistrationController extends AbstractController
             ],
             'expanded' => true,
             'multiple' => false,
+            'constraints' => [
+                new Assert\NotBlank(['message' => 'Please select a gender']),
+            ],
         ])
-
-
-
         ->getForm();
         
 
@@ -154,10 +219,10 @@ $imagePath = $request->request->get('imagePath');
 if ($image && is_uploaded_file($image)) {
 $imageFileName = uniqid().'.'.$image->guessExtension();
 move_uploaded_file($image, $this->getParameter('images_directory').'/'.$imageFileName);
-$user->setImage($imageFileName);
+$freelancer->setImage($imageFileName);
 }
 
-        $user->setIdRole(3);
+        $freelancer->setIdRole(3);
 
       
 
@@ -165,7 +230,7 @@ $user->setImage($imageFileName);
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        $entityManager->persist($user);
+        $entityManager->persist($freelancer);
         $entityManager->flush();
         
 

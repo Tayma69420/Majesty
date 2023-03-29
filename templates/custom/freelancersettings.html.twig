@@ -5,7 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-/* CSS for the dashboard sidebar */
+  /* CSS for the dashboard sidebar */
 .dashboard {
   display: flex;
   flex-direction: row;
@@ -114,21 +114,21 @@
     <div class="dashboard">
         <div class="dashboard-menu">
             <ul>
-                <li><a href="{{ path('user_dashboard') }}">Settings</a></li>
+                <li><a href="{{ path('freelancer_dashboard') }}">Home</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ path('app_login') }}">Logout</a></li>
             </ul>
         </div>
         <div class="dashboard-content">
             <h1>User Settings</h1>
-            <form action="{{ path('user_update_image') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ path('freelancer_update_image') }}" method="POST" enctype="multipart/form-data">
                 <h2>Update Profile Picture</h2>
                 <input type="file" name="image_file">
                 <br><br>
                 <input type="submit" value="Update">
             </form>
             <br><br>
-            <form action="{{ path('user_update_password') }}" method="POST">
+            <form action="{{ path('freelancer_update_password') }}" method="POST">
                 <h2>Change Password</h2>
                 <label for="old_password">Old Password:</label>
                 <input type="password" name="old_password" required>

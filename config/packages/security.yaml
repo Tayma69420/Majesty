@@ -10,9 +10,12 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            
         main:
             lazy: true
             provider: users_in_memory
+          
+           
             
             
 
@@ -29,6 +32,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
      # Restrict access to the admin page to users with role "ROLE_ADMIN"
         - { path: ^/admin_page, roles: ROLE_ADMIN }
+
 
 
 

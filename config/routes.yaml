@@ -25,4 +25,4 @@ user_dashboard:
     
 freelancer_dashboard:
     path: /login/freelancer
-    controller: App\Controller\FreelancerController::dashboard
+    controller: App\Controller\FreelancerController::freelancerPage

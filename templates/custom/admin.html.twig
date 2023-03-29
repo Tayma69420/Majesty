@@ -1,9 +1,140 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{% block title %}Admin{% endblock %}</title>
-</head>
-<body>
-    <h1>Hello Admin</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #ccc;
+}
+
+
+
+
+
+thead {
+  background-color: #f5f5f5;
+}
+
+th {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+td img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+
+.btn {
+ display: block;
+  width: 80px;
+  padding: 10px;
+  margin-top: 20px; /* Add this line to create space above the button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 12px;
+}
+.btn:hover {
+  background-color: #0069d9;
+}
+a[href="{{ path('app_login') }}"] {
+  display: block;
+  width: 50px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 1300px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+a[href="{{ path('app_login') }}"]:hover {
+  background-color: #0069d9;
+}
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div>
+  <a href="{{ path('app_login') }}">↩</a>
+</div>
+
+    <h1>Liste des utilisateurs</h1>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Age</th>
+                <th>Sexe</th>
+                <th>Role</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{ utilisateur.iduser }}</td>
+                    <td>{{ utilisateur.nom }}</td>
+                    <td>{{ utilisateur.prenom }}</td>
+                    <td>{{ utilisateur.email }}</td>
+                    <td>{{ utilisateur.tel }}</td>
+                    <td>{{ utilisateur.adresse }}</td>
+                    <td>{{ utilisateur.age|date('d/m/Y') }}</td>
+                    <td>{{ utilisateur.sexe }}</td>
+                    <td>
+    {% if utilisateur.idrole == 1 %}
+        Admin
+    {% elseif utilisateur.idrole == 2 %}
+        User
+    {% elseif utilisateur.idrole == 3 %}
+        Freelancer
+    {% endif %}
+</td>
+
+                    <td>{% if utilisateur.image %}<img src="{{ asset('images/'~utilisateur.image) }}" width="100" alt="{{ utilisateur.nom }}">{% endif %}</td>
+                    <td>
+                        <form action="{{ path('admin_page_delete') }}" method="POST">
+                            <input type="hidden" name="idToDelete" value="{{ utilisateur.iduser }}">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?')">Supprimer</button>
+                        </form>
+                       <a href="{{ path('admin_modifier_utilisateur', { 'id': utilisateur.iduser }) }}" class="btn btn-info">Modifier</a>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    
+{% endblock %}

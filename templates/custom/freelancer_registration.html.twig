@@ -1,37 +1,199 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <h1>Inscription freelancer</h1>
-    <form action="{{ path('freelancer_registration') }}" method="post"novalidate>
-        <label for="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" required>
-        
-        <label for="prenom">Prénom:</label>
-        <input type="text" id="prenom" name="prenom" required>
-        
-        <label for="email">Adresse email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="tel">Téléphone:</label>
-        <input type="tel" id="tel" name="tel" required>
-        
-        <label for="adresse">Adresse:</label>
-        <input type="text" id="adresse" name="adresse" required>
-        
-        <label for="age">Âge:</label>
-        <input type="date" id="age" name="age" required>
-        
-        <label for="passwd">Mot de passe:</label>
-        <input type="password" id="passwd" name="passwd" required>
-        
-        <label for="sexe">Sexe:</label>
-        <input type="text" id="sexe" name="sexe" required>
-        
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required>
-        
-        <button type="submit" name="submit">S'inscrire</button>
-    </form>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+        <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+}
 
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+input[type="file"] {
+  display: block;
+  margin-top: 10px;
+}
+
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px; /* Add this line to create space above the button */
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+
+button[type="submit"]:hover {
+  background-color: #0069d9;
+}
+input[type="radio"] {
+  display: inline-block;
+  margin-right: 10px;
+}
+img {
+  float: right;
+  max-width: 200px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+.radio-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.radio-group label {
+ display: inline-block;
+  align-items: center;
+  margin-right: 10px;
+
+}
+
+.radio-group img {
+  max-width: 200px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+a[href="{{ path('app_login') }}"] {
+  display: block;
+  width: 100px;
+  padding: 10px;
+  margin-top: 20px;
+  margin-left: 700px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+a[href="{{ path('app_login') }}"]:hover {
+  background-color: #0069d9;
+}
+
+
+    </style>
+    {% endblock %}
+
+
+
+{% block body %}
+<div class="container">
+    <div>
+  <a href="{{ path('app_login') }}">↩</a>
+</div>
+  <h1>Inscription Freelancer</h1>
+  {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div>
+           <label for="nom">Votre nom :</label>
+        {{ form_widget(form.nom) }}
+        {{ form_errors(form.nom) }}
+    </div>
+    <div>
+        <label for="prenom">Votre prenom :</label>
+        {{ form_widget(form.prenom) }}
+        {{ form_errors(form.prenom) }}
+    </div>
+    <div>
+          <label for="email">Votre adresse email :</label>
+        {{ form_widget(form.email) }}
+       {{ form_errors(form.email) }}
+    
+    </div>
+    <div>
+          <label for="tel">Votre numero de telephone :</label>
+        {{ form_widget(form.tel) }}
+         {{ form_errors(form.tel) }}
+    </div>
+    <div>
+        <label for="adresse">Votre adresse :</label>
+        {{ form_widget(form.adresse) }}
+         {{ form_errors(form.adresse) }}
+    </div>
+    <div>
+      <label for="age">Date de naissance :</label>
+      {{ form_widget(form.age, {'attr': {'id': 'datepicker'}}) }}
+       {{ form_errors(form.age) }}
+    </div>
+    <div>
+     <label for="passwd">Mot de passe :</label>
+ 
+        {{ form_widget(form.passwd) }}
+         {{ form_errors(form.passwd) }}
+    </div>
+<div class="radio-group">
+  {{ form_label(form.sexe, null, {'label_attr': {'class': 'radio-label'}}) }}
+  <div>
+    {{ form_widget(form.sexe, {'attr': {'class': 'radio-input'}}) }}
+    
+    {{ form_errors(form.sexe) }}
+     
+  </div></div>
+    <div>
+   {{ form_row(form.image) }}
+     {{ form_errors(form.image) }}
+  
+  </div>
+
+   
+    
+    <button type="submit" name="submit">S'inscrire</button>
+
+
+
+  {{ form_end(form) }}
+</div>
+{% endblock %}
