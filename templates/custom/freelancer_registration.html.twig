@@ -2,6 +2,7 @@
 {% block stylesheets %}
     {{ parent() }}
         <style>
+        
     body {
   font-family: Arial, sans-serif;
   background-color: #f8f8f8;
@@ -69,6 +70,7 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.2s;
+  font-size: 16px;
 }
 
 
@@ -104,6 +106,7 @@ img {
   margin-left: 20px;
   margin-bottom: 20px;
 }
+
 a[href="{{ path('app_login') }}"] {
   display: block;
   width: 100px;
@@ -124,7 +127,6 @@ a[href="{{ path('app_login') }}"]:hover {
   background-color: #0069d9;
 }
 
-
     </style>
     {% endblock %}
 
@@ -135,6 +137,7 @@ a[href="{{ path('app_login') }}"]:hover {
     <div>
   <a href="{{ path('app_login') }}">↩</a>
 </div>
+
   <h1>Inscription Freelancer</h1>
   {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
     <div>
@@ -190,8 +193,6 @@ a[href="{{ path('app_login') }}"]:hover {
 
    
     
-    <button type="submit" name="submit">S'inscrire</button>
-
 
 
   {{ form_end(form) }}

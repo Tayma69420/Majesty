@@ -26,3 +26,6 @@ user_dashboard:
 freelancer_dashboard:
     path: /login/freelancer
     controller: App\Controller\FreelancerController::freelancerPage
+app_forgot_password_confirm:
+    path: /forgot-password/confirm
+    controller: App\Controller\SecurityController::forgotPasswordConfirm

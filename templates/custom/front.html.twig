@@ -81,14 +81,14 @@
     <div class="dashboard">
         <div class="dashboard-menu">
             <ul>
-                <li><a href="{{ path('freelancer_settings') }}">Settings</a></li>
+                <li><a href="{{ path('user_settings') }}">Settings</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="{{ path('app_login') }}">Logout</a></li>
             </ul>
         </div>
         <div class="dashboard-content">
             <h1>Welcome to my website!</h1>
-            <p>Connecté comme  Freelancer {{ app.session.get('user').getNom }} {{ app.session.get('user').getPrenom }} </p>
+            <p>Connecté comme  Utilisateur {{ app.session.get('user').getNom }} {{ app.session.get('user').getPrenom }} </p>
             <img src="{{ asset('images/' ~ app.session.get('user').getImage) }}" alt="User Image">
         </div>
     </div>
