@@ -8,25 +8,65 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\SessionInterface ;
 use App\Entity\Utilisateur;
+use PragmaRX\Google2FAQRCode\Google2FAQRCode;
+use PragmaRX\Google2FA\Google2FA;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Writer\ImageWriter;
+use Symfony\Component\HttpFoundation\Response;
+use BaconQrCode\Encoder\QrCode;
+use BaconQrCode\Common\Mode;
+use BaconQrCode\Encoder\Encoder;
+use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+
+
+
+
+
+
+
+
 
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/admin_page", name="admin_page")
-     */
-    public function userPage()
-    {
-        return $this->render('custom/front.html.twig');
+   /**
+ * @Route("/admin_page", name="admin_page")
+ */
+public function userPage(SessionInterface $session)
+{
+    $user = $session->get('user');
+    $is2faEnabled = $user->getIs2faEnabled();
+
+    if ($is2faEnabled === false) {
+        $message = 'Vous n\'avez pas votre Google Authentication activé. <a href="/enable2fa">Cliquez ici</a> pour l\'activer.';
+    } else {
+        $message = null;
     }
 
-    /**
-     * @Route("/settings", name="user_settings")
-     */
-    public function userSettings()
-    {
-        return $this->render('custom/settingsuser.html.twig');
-   
+    return $this->render('custom/front.html.twig', [
+        'message' => $message,
+    ]);
+}
+
+
+
+/**
+ * @Route("/settings", name="user_settings")
+ */
+public function userSettings(SessionInterface $session)
+{
+    $user = $session->get('user');
+
+    if ($user->getIs2faEnabled() === false) {
+        $message = 'Vous n\'avez pas votre Google Authentication active. Cliquez ici pour l\'activer.';
+    } else {
+        $message = null;
     }
+
+    return $this->render('custom/settingsuser.html.twig', [
+        'message' => $message,
+    ]);
+}
+
 /**
  * @Route("/update-image", name="user_update_image", methods={"POST"})
  */
@@ -104,5 +144,51 @@ private function encryptPassword(string $password): string
 {
     return hash('sha256', $password);
 }
+/**
+ * @Route("/logout", name="user_logout")
+ */
+public function logout(SessionInterface $session)
+{
+    // Remove all session data
+    $session->clear();
 
+    return $this->redirectToRoute('app_login'); // Redirect to home page after logout
+}
+/**
+ * @Route("/enable2fa", name="user_enable_2fa", methods={"GET"})
+ */
+public function enable2fa(SessionInterface $session)
+{
+    $userId = $session->get('user');
+    $entityManager = $this->getDoctrine()->getManager();
+    $user = $entityManager->getRepository(Utilisateur::class)->find($userId);
+
+    // Generate a secret key for the user
+    $google2fa = new Google2FA();
+    $secret = $google2fa->generateSecretKey();
+
+    // Generate a QR code for the secret key
+    $google2faQr = new Google2FAQRCode();
+    $qrCodeUrl = $google2faQr->getQRCodeUrl(
+        'My App', // Name of your application
+        $user->getEmail(),
+        $secret
+    );
+
+    // Store the secret key and set 2FA enabled in the user's record
+    $user->setfaSecretKey($secret);
+    $user->setIs2faEnabled(true);
+    $entityManager = $this->getDoctrine()->getManager();
+    $entityManager->persist($user);
+    $entityManager->flush();
+    
+    
+    // Render the 2FA setup page with the QR code
+    return $this->render('custom/2fa_setup.html.twig', [
+        'qr_code_url' => $qrCodeUrl,
+    
+    
+        var_dump($qrCodeUrl)
+    ]);
+}
 }

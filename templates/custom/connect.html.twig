@@ -29,7 +29,8 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
   display: block;
   width: 380px;
   padding: 10px;
@@ -41,7 +42,8 @@ input[type="password"] {
 }
 
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="text"]:focus {
   outline: none;
   border-color: #007bff;
 }
@@ -98,6 +100,9 @@ a:hover {
         {% if errorMessage %}
             <div class="error">{{ errorMessage }}</div>
         {% endif %}
+
+   <br> <label for="code">Authentication Code</label>
+    <input type="text" id="code" name="code" required>
 
         <button type="submit">connexion</button>
          <a href="{{ path('app_forgot_password') }}">Mot de passe oublié</a>

@@ -15,6 +15,43 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class Utilisateur
 {
+    
+    /**
+ * @ORM\Column(type="string", length=255, nullable=true)
+ */
+private $faSecretKey;
+
+/**
+ * @ORM\Column(type="boolean")
+ */
+private $is2faEnabled = false;
+
+public function getfaSecretKey(): ?string
+{
+    return $this->faSecretKey;
+}
+
+public function setfaSecretKey(?string $faSecretKey): self
+{
+    $this->faSecretKey = $faSecretKey;
+
+    return $this;
+}
+
+public function getIs2faEnabled(): bool
+{
+    return $this->is2faEnabled;
+}
+
+public function setIs2faEnabled(bool $is2faEnabled): self
+{
+    $this->is2faEnabled = $is2faEnabled;
+
+    return $this;
+}
+
+    
+    
     /**
      * @var int
      *
@@ -39,11 +76,12 @@ class Utilisateur
     private $prenom;
 
 /**
- * @ORM\Column(type="string", length=255)
+ * @ORM\Column(type="string", length=255, unique=true)
  * @Assert\NotBlank(message="Email is required")
  * @Assert\Email(message="Invalid email address")
  */
-    private $email;
+private $email;
+
 
     /**
      * @var string|null
@@ -93,7 +131,7 @@ class Utilisateur
      * @ORM\Column(name="image", type="string", length=250, nullable=true)
      */
     private $image;
-
+ 
     public function getIduser(): ?int
     {
         return $this->iduser;

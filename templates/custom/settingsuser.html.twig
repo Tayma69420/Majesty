@@ -119,8 +119,18 @@
                 <li><a href="{{ path('app_login') }}">Logout</a></li>
             </ul>
         </div>
+        
         <div class="dashboard-content">
+ 
             <h1>User Settings</h1>
+
+
+                   {% if message %}
+    <p>{{ message }}</p>
+    <a href="{{ path('user_settings') }}">Cliquez ici pour l'activer</a>
+{% endif %}
+
+
             <form action="{{ path('user_update_image') }}" method="POST" enctype="multipart/form-data">
                 <h2>Update Profile Picture</h2>
                 <input type="file" name="image_file">

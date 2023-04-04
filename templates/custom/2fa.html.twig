@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enable 2FA{% endblock %}
+
+{% block body %}
+    <h1>Enable Two-Factor Authentication</h1>
+
+    <p>Scan the following QR code with an authenticator app:</p>
+
+    <img src="data:image/png;base64,{{ qrCodeImage }}" alt="QR Code">
+
+    <p>Or manually enter the following key into your authenticator app:</p>
+
+    <pre>{{ qrCodeUrl }}</pre>
+{% endblock %}

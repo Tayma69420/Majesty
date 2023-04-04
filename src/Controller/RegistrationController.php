@@ -40,7 +40,7 @@ public function userRegistration(Request $request, SessionInterface $session): R
     $user = new Utilisateur();
 // replace with your own Twilio credentials
 $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-$token = '359d14a4b43158e739ae65aab336151f';
+$token = 'c08b63254503320e3081f613bc65e09d';
 
 // A Twilio phone number you purchased at twilio.com/console
 $twilioPhoneNumber = '+12706481625';
@@ -214,7 +214,7 @@ $twilioClient = new Client($sid, $token);
         $Freelancer = new Utilisateur();
         // replace with your own Twilio credentials
         $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-        $token = '359d14a4b43158e739ae65aab336151f';
+        $token = 'c08b63254503320e3081f613bc65e09d';
         
         // A Twilio phone number you purchased at twilio.com/console
         $twilioPhoneNumber = '+12706481625';

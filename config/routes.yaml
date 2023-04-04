@@ -29,3 +29,7 @@ freelancer_dashboard:
 app_forgot_password_confirm:
     path: /forgot-password/confirm
     controller: App\Controller\SecurityController::forgotPasswordConfirm
+
+app_2fa:
+    path: /2fa
+    controller: App\Controller\SecurityController::enable2FA

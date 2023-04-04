@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}2FA Setup{% endblock %}
+
+{% block body %}
+
+    <h1>Configurez votre Google Authenticator</h1>
+    <p>Scannez le QR code ci-dessous avec votre application Google Authenticator :</p>
+   <img src="{{ qr_code_url }}" alt="QR code">
+
+{% endblock %}
