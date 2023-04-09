@@ -49,30 +49,35 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin_dashboard/delete", name="admin_page_delete")
+/**
+ * @Route("/admin_dashboard/delete", name="admin_page_delete")
+ */
+public function deleteUtilisateur(Request $request)
+{
+    $entityManager = $this->getDoctrine()->getManager();
+    $idToDelete = $request->request->get('idToDelete');
+    $utilisateurToDelete = $entityManager->getRepository(Utilisateur::class)->find($idToDelete);
 
-     */
-    public function deleteUtilisateur(Request $request)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $idToDelete = $request->request->get('idToDelete');
-        $utilisateurToDelete = $entityManager->getRepository(Utilisateur::class)->find($idToDelete);
-
-        if ($utilisateurToDelete) {
-            // Delete the user from the database
-            $entityManager->remove($utilisateurToDelete);
-            $entityManager->flush();
-
-            // Redirect back to the admin page with a success message
-            $this->addFlash('success', 'Utilisateur supprimé avec succès.');
+    if ($utilisateurToDelete) {
+        // Check if the user is an admin before deleting
+        if ($utilisateurToDelete->getIdrole() == 1) {
+            $this->addFlash('warning', 'Vous ne pouvez ni modifier ni supprimer un Admin');
             return $this->redirectToRoute('admin_dashboard');
-        } else {
-            // Handle invalid id
         }
-    }
 
-   /**
+        // Delete the user from the database
+        $entityManager->remove($utilisateurToDelete);
+        $entityManager->flush();
+
+        // Redirect back to the admin page with a success message
+        $this->addFlash('success', 'Utilisateur supprimé avec succès.');
+        return $this->redirectToRoute('admin_dashboard');
+    } else {
+        // Handle invalid id
+    }
+}
+
+/**
  * @Route("/admin_dashboard/modifier/{id}", name="admin_modifier_utilisateur")
  */
 public function modifierUtilisateur(Request $request, $id)
@@ -82,6 +87,12 @@ public function modifierUtilisateur(Request $request, $id)
 
     if (!$utilisateur) {
         throw $this->createNotFoundException('Utilisateur non trouvé');
+    }
+
+    // Check if the user is an admin before modifying
+    if ($utilisateur->getIdrole() == 1) {
+        $this->addFlash('warning', 'Vous ne pouvez ni modifier ni supprimer un Admin');
+        return $this->redirectToRoute('admin_dashboard');
     }
 
     // Create the edit form
@@ -104,7 +115,7 @@ public function modifierUtilisateur(Request $request, $id)
         ])
         ->add('idrole', ChoiceType::class, [
             'choices' => [
-                'Admin' => 1,
+               
                 'User' => 2,
                 'Freelancer' => 3,
             ],

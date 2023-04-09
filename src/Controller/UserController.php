@@ -17,6 +17,7 @@ use BaconQrCode\Encoder\QrCode;
 use BaconQrCode\Common\Mode;
 use BaconQrCode\Encoder\Encoder;
 use BaconQrCode\Renderer\Image\SvgImageBackEnd;
+use App\Services\QrcodeService;
 
 
 
@@ -157,7 +158,7 @@ public function logout(SessionInterface $session)
 /**
  * @Route("/enable2fa", name="user_enable_2fa", methods={"GET"})
  */
-public function enable2fa(SessionInterface $session)
+public function enable2fa(SessionInterface $session, QrcodeService $qrcodeService)
 {
     $userId = $session->get('user');
     $entityManager = $this->getDoctrine()->getManager();
@@ -170,10 +171,11 @@ public function enable2fa(SessionInterface $session)
     // Generate a QR code for the secret key
     $google2faQr = new Google2FAQRCode();
     $qrCodeUrl = $google2faQr->getQRCodeUrl(
-        'My App', // Name of your application
+        'Majesty Website', // Name of your application
         $user->getEmail(),
         $secret
     );
+    $qrCodeData = $qrcodeService->qrcode($qrCodeUrl);
 
     // Store the secret key and set 2FA enabled in the user's record
     $user->setfaSecretKey($secret);
@@ -185,10 +187,10 @@ public function enable2fa(SessionInterface $session)
     
     // Render the 2FA setup page with the QR code
     return $this->render('custom/2fa_setup.html.twig', [
-        'qr_code_url' => $qrCodeUrl,
-    
-    
-        var_dump($qrCodeUrl)
+        
+        'qr_code_data' => $qrCodeData,
+        
     ]);
 }
+
 }

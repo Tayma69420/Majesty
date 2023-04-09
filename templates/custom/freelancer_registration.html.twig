@@ -126,7 +126,11 @@ a[href="{{ path('app_login') }}"] {
 a[href="{{ path('app_login') }}"]:hover {
   background-color: #0069d9;
 }
-
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
     </style>
     {% endblock %}
 
@@ -140,58 +144,58 @@ a[href="{{ path('app_login') }}"]:hover {
 
   <h1>Inscription Freelancer</h1>
   {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    <div>
+ <div>
            <label for="nom">Votre nom :</label>
         {{ form_widget(form.nom) }}
-        {{ form_errors(form.nom) }}
+       <div class="error">{{ form_errors(form.nom) }}</div>
+
     </div>
     <div>
         <label for="prenom">Votre prenom :</label>
         {{ form_widget(form.prenom) }}
-        {{ form_errors(form.prenom) }}
+        <div class="error">{{ form_errors(form.prenom) }}</div>
     </div>
     <div>
           <label for="email">Votre adresse email :</label>
         {{ form_widget(form.email) }}
-       {{ form_errors(form.email) }}
+        <div class="error">{{ form_errors(form.email) }}</div>
     
     </div>
     <div>
           <label for="tel">Votre numero de telephone :</label>
         {{ form_widget(form.tel) }}
-         {{ form_errors(form.tel) }}
+          <div class="error">{{ form_errors(form.tel) }}</div>
     </div>
     <div>
         <label for="adresse">Votre adresse :</label>
         {{ form_widget(form.adresse) }}
-         {{ form_errors(form.adresse) }}
+         <div class="error">{{ form_errors(form.adresse) }}</div>
     </div>
     <div>
       <label for="age">Date de naissance :</label>
-      {{ form_widget(form.age, {'attr': {'id': 'datepicker'}}) }}
-       {{ form_errors(form.age) }}
+      {{ form_widget(form.age, {'attr': {'id': 'datepicker', 'class': 'form-control', 'type': 'date'}}) }}
+
+        <div class="error">{{ form_errors(form.age) }}</div>
     </div>
     <div>
      <label for="passwd">Mot de passe :</label>
  
         {{ form_widget(form.passwd) }}
-         {{ form_errors(form.passwd) }}
+          <div class="error">{{ form_errors(form.passwd) }}</div>
     </div>
 <div class="radio-group">
   {{ form_label(form.sexe, null, {'label_attr': {'class': 'radio-label'}}) }}
   <div>
     {{ form_widget(form.sexe, {'attr': {'class': 'radio-input'}}) }}
     
-    {{ form_errors(form.sexe) }}
+     <div class="error">{{ form_errors(form.sexe) }}</div>
      
   </div></div>
     <div>
    {{ form_row(form.image) }}
-     {{ form_errors(form.image) }}
+      <div class="error">{{ form_errors(form.image) }}</div>
   
   </div>
-
-   
     
 
 

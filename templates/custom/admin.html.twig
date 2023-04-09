@@ -38,6 +38,9 @@ td img {
   height: 100px;
   object-fit: contain;
 }
+.alert-danger {
+  background-color: #ffcccc;
+}
 
 
 .btn {
@@ -70,6 +73,15 @@ a[href="{{ path('app_login') }}"] {
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+/* Target the default flash message class */
+.flash-message {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
 
 a[href="{{ path('app_login') }}"]:hover {
@@ -120,6 +132,12 @@ a[href="{{ path('app_login') }}"]:hover {
         Freelancer
     {% endif %}
 </td>
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-danger">{{ message|join(', ') }}</div>
+    {% endfor %}
+{% endfor %}
+
 
                     <td>{% if utilisateur.image %}<img src="{{ asset('images/'~utilisateur.image) }}" width="100" alt="{{ utilisateur.nom }}">{% endif %}</td>
                     <td>

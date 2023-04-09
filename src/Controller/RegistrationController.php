@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormError;
 use Twilio\Rest\Client;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,7 +24,8 @@ use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 use Twilio\Exceptions\RestException;
-
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationController extends AbstractController
 {
@@ -40,18 +43,21 @@ public function userRegistration(Request $request, SessionInterface $session): R
     $user = new Utilisateur();
 // replace with your own Twilio credentials
 $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-$token = 'c08b63254503320e3081f613bc65e09d';
+$token = '7b2ddef0a7e2753c3afd1afcd9cf949f';
 
 // A Twilio phone number you purchased at twilio.com/console
 $twilioPhoneNumber = '+12706481625';
 
 $twilioClient = new Client($sid, $token);
+$lastDayOfPreviousMonth = new \DateTime('last day of previous month');
+$lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
 
     $form = $this->createFormBuilder($user)
     ->add('nom', null, [
         'constraints' => [
             new Assert\NotBlank(['message' => 'Nom doit pas etre vide']),
         ],
+      
     ])
     ->add('prenom', null, [
         'constraints' => [
@@ -66,6 +72,9 @@ $twilioClient = new Client($sid, $token);
     ])
     ->add('tel', null, [
         'constraints' => [
+            new Assert\NotBlank([
+                'message' => 'Veuillez entrer un Numero de Telephone valide.',
+            ]),
             new Assert\Regex([
                 'pattern' => '/^\+216\d{8}$/',
                 'message' => 'Tel doit commencer par +216 et être suivi de 8 chiffres',
@@ -87,11 +96,23 @@ $twilioClient = new Client($sid, $token);
             new Assert\NotBlank(['message' => 'Adresse doit pas etre vide']),
         ],
     ])
+
+    
     ->add('age', DateType::class, [
         'widget' => 'single_text',
         'format' => 'yyyy-MM-dd',
+        'constraints' => [
+            new Assert\NotBlank([
+                'message' => 'Veuillez entrer une date de naissance valide.',
+            ]),
+            new Assert\LessThanOrEqual([
+                'value' => $lastDayOfPreviousMonthAsString,
+                'message' => 'La date de naissance doit être antérieure au dernier jour du mois précédent.',
+            ]),
+        ],
     ])
-    ->add('passwd', null, [
+    
+    ->add('passwd', PasswordType::class, [
         'constraints' => [
             new Assert\NotBlank(['message' => 'Password doit pas etre vide']),
             new Assert\Regex([
@@ -220,12 +241,15 @@ $twilioClient = new Client($sid, $token);
         $twilioPhoneNumber = '+12706481625';
         
         $twilioClient = new Client($sid, $token);
+        $lastDayOfPreviousMonth = new \DateTime('last day of previous month');
+$lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
         
             $form = $this->createFormBuilder($Freelancer)
             ->add('nom', null, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Nom doit pas etre vide']),
                 ],
+
             ])
             ->add('prenom', null, [
                 'constraints' => [
@@ -240,6 +264,9 @@ $twilioClient = new Client($sid, $token);
             ])
             ->add('tel', null, [
                 'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez entrer un Numero de Telephone valide.',
+                    ]),
                     new Assert\Regex([
                         'pattern' => '/^\+216\d{8}$/',
                         'message' => 'Tel doit commencer par +216 et être suivi de 8 chiffres',
@@ -264,6 +291,15 @@ $twilioClient = new Client($sid, $token);
             ->add('age', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Veuillez entrer une date de naissance valide.',
+                    ]),
+                    new Assert\LessThanOrEqual([
+                        'value' => $lastDayOfPreviousMonthAsString,
+                        'message' => 'La date de naissance doit être antérieure au dernier jour du mois précédent.',
+                    ]),
+                ],
             ])
             ->add('passwd', null, [
                 'constraints' => [

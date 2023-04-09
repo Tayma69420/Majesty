@@ -38,6 +38,9 @@
             "./migrations/.gitignore"
         ]
     },
+    "mercuryseries/flashy-bundle": {
+        "version": "v5.1.0"
+    },
     "php-http/httplug-bundle": {
         "version": "1.27",
         "recipe": {
