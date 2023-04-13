@@ -77,8 +77,8 @@ public function setIs2faEnabled(bool $is2faEnabled): self
 
 /**
  * @ORM\Column(type="string", length=255, unique=true)
- * @Assert\NotBlank(message="Email is required")
- * @Assert\Email(message="Invalid email address")
+ * @Assert\NotBlank(message="Email doit pas etre vide")
+ * @Assert\Email(message="Email Invalid")
  */
 private $email;
 

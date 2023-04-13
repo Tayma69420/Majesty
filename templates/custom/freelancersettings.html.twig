@@ -111,6 +111,7 @@
 {% endblock %}
 
 {% block body %}
+{% include 'backandfront/Front/navbar.html.twig' %}
     <div class="dashboard">
         <div class="dashboard-menu">
             <ul>
@@ -143,4 +144,5 @@
             </form>
         </div>
     </div>
+        {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

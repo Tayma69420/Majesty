@@ -30,23 +30,19 @@ use App\Services\QrcodeService;
 class UserController extends AbstractController
 {
    /**
- * @Route("/admin_page", name="admin_page")
+ * @Route("/user", name="user_page")
  */
 public function userPage(SessionInterface $session)
 {
     $user = $session->get('user');
-    $is2faEnabled = $user->getIs2faEnabled();
+   
 
-    if ($is2faEnabled === false) {
-        $message = 'Vous n\'avez pas votre Google Authentication activé. <a href="/enable2fa">Cliquez ici</a> pour l\'activer.';
-    } else {
-        $message = null;
+    
+        return $this->render('home/profile.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
     }
 
-    return $this->render('custom/front.html.twig', [
-        'message' => $message,
-    ]);
-}
 
 
 
@@ -153,7 +149,7 @@ public function logout(SessionInterface $session)
     // Remove all session data
     $session->clear();
 
-    return $this->redirectToRoute('app_login'); // Redirect to home page after logout
+    return $this->redirectToRoute('app_home'); // Redirect to home page after logout
 }
 /**
  * @Route("/enable2fa", name="user_enable_2fa", methods={"GET"})

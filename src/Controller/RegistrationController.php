@@ -13,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormError;
 use Twilio\Rest\Client;
@@ -22,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Entity\Utilisateur;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-
+use Symfony\Component\HttpFoundation\File\File;
 use Twilio\Exceptions\RestException;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -43,7 +42,7 @@ public function userRegistration(Request $request, SessionInterface $session): R
     $user = new Utilisateur();
 // replace with your own Twilio credentials
 $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-$token = '7b2ddef0a7e2753c3afd1afcd9cf949f';
+$token = 'b26b2d278d028e1dd964f075f1599917';
 
 // A Twilio phone number you purchased at twilio.com/console
 $twilioPhoneNumber = '+12706481625';
@@ -146,6 +145,17 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+        $user = $form->getData();
+        $entityManager = $this->getDoctrine()->getManager();
+        $password = $this->encryptPassword($user->getPasswd());
+        $user->setPasswd($password);
+    
+        $gender = $form->get('sexe')->getData();
+        if ($gender == 'homme') {
+            $user->setImage('hommeimg.png');
+        } else if ($gender == 'femme') {
+            $user->setImage('femmeimg.png');
+        }
         $email = $form->get('email')->getData();
         $entityManager = $this->getDoctrine()->getManager();
         $existingUser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
@@ -201,6 +211,7 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
             move_uploaded_file($image, $this->getParameter('images_directory').'/'.$imageFileName);
             $user->setImage($imageFileName);
         }
+            
 
         $user->setPasswd($encryptedPassword);
         $user->setIdRole(2);
@@ -235,7 +246,7 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
         $Freelancer = new Utilisateur();
         // replace with your own Twilio credentials
         $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-        $token = 'c08b63254503320e3081f613bc65e09d';
+        $token = 'b26b2d278d028e1dd964f075f1599917';
         
         // A Twilio phone number you purchased at twilio.com/console
         $twilioPhoneNumber = '+12706481625';
@@ -338,7 +349,12 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
                 $email = $form->get('email')->getData();
                 $entityManager = $this->getDoctrine()->getManager();
                 $existingUser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
-        
+                $gender = $form->get('sexe')->getData();
+                if ($gender == 'homme') {
+                    $user->setImage('hommeimg.png');
+                } else if ($gender == 'femme') {
+                    $user->setImage('femmeimg.png');
+                }
                 if ($existingUser) {
                     $form->get('email')->addError(new FormError('This email address is already registered.'));
                     return $this->render('custom/freelancer_registration.html.twig', [

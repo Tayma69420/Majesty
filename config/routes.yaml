@@ -5,29 +5,32 @@ app_login:
     path: /login
     controller: App\Controller\SecurityController::login
 
+front_index:
+  path: /front-index
+  controller: App\Controller\SecurityController::index
 
 user_registration:
-    path: /register/user
+    path: /register-user
     controller: App\Controller\RegistrationController::userRegistration
 
 freelancer_registration:
-    path: /register/freelancer
+    path: /register-freelancer
     controller: App\Controller\RegistrationController::freelancerRegistration
 
 
 admin_dashboard:
-    path: /login/admin
+    path: /admin_dashboard
     controller: App\Controller\AdminController::adminPage
     
 user_dashboard:
-    path: /login/user
+    path: /user
     controller: App\Controller\UserController::UserPage
     
 freelancer_dashboard:
-    path: /login/freelancer
+    path: /freelancer
     controller: App\Controller\FreelancerController::freelancerPage
 app_forgot_password_confirm:
-    path: /forgot-password/confirm
+    path: /forgot-password-confirm
     controller: App\Controller\SecurityController::forgotPasswordConfirm
 
 app_2fa:

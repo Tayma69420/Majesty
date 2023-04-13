@@ -15,7 +15,7 @@ use Swift_SmtpTransport;
 use Swift_Mailer;
 use PragmaRX\Google2FAQRCode\Google2FAQRCode;
 use PragmaRX\Google2FA\Google2FA;
-
+use App\Controller\Response;
 
 
 
@@ -96,7 +96,7 @@ class SecurityController extends AbstractController
                     case 1:
                         return $this->redirectToRoute('admin_dashboard');
                     case 2:
-                        return $this->redirectToRoute('user_dashboard');
+                        return $this->redirectToRoute('app_home');
                     case 3:
                         return $this->redirectToRoute('freelancer_dashboard');
                     default:
@@ -110,8 +110,17 @@ class SecurityController extends AbstractController
             'errorMessage' => $errorMessage,
         ]);
     }
-    
-     
+
+
+    /**
+ * @Route("/front/index", name="Test")
+ */
+    public function index()
+    {
+        return $this->render('custom/test.html.twig');
+    }
+
+
      private function encryptPassword(string $password): string
      {
          return hash('sha256', $password);

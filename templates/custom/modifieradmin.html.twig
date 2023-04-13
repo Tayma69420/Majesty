@@ -80,10 +80,11 @@
     </style>
 {% endblock %}
 {% block body %}
+{% include 'backandfront/NiceAdmin/navbarmod.html.twig' %}
     <h1 class="text-center">Modifier Utilisateur</h1>
 
     <div class="container mt-4">
-        {{ form_start(form) }}
+       {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
             <div class="form-group">
                 {{ form_label(form.nom, 'Nom') }}
                 {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}

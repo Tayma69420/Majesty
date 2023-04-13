@@ -34,8 +34,10 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body>
+{% block body %}
+{% block navbar %}
     <!-- Spinner Start -->
+
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
@@ -47,13 +49,13 @@
     <div class="container-fluid bg-primary text-white d-none d-lg-flex">
         <div class="container py-3">
             <div class="d-flex align-items-center">
-                <a href="index.html">
+                <a href="{{ path('app_home') }}">
                     <h2 class="text-white fw-bold m-0">GrowMark</h2>
                 </a>
                 <div class="ms-auto d-flex align-items-center">
-                    <small class="ms-4"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</small>
-                    <small class="ms-4"><i class="fa fa-envelope me-3"></i>info@example.com</small>
-                    <small class="ms-4"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</small>
+                    <small class="ms-4"><i class="fa fa-map-marker-alt me-3"></i>Esprit, Tunis, Tunis</small>
+                    <small class="ms-4"><i class="fa fa-envelope me-3"></i>Pidevmajesty@gmail.com</small>
+                    <small class="ms-4"><i class="fa fa-phone-alt me-3"></i>+216 26354521</small>
                     <div class="ms-3 d-flex">
                         <a class="btn btn-sm-square btn-light text-primary rounded-circle ms-2" href=""><i
                                 class="fab fa-facebook-f"></i></a>
@@ -73,7 +75,7 @@
     <div class="container-fluid bg-white sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
-                <a href="index.html" class="navbar-brand d-lg-none">
+                <a href="{{ path('app_home') }}" class="navbar-brand d-lg-none">
                     <h1 class="fw-bold m-0">GrowMark</h1>
                 </a>
                 <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse"
@@ -82,10 +84,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
+                        <a href="{{ path('app_home') }}" class="nav-item nav-link active">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="service.html" class="nav-item nav-link">Services</a>
-                        <a href="project.html" class="nav-item nav-link">Projects</a>
+                        <a href="{{ path('user_settings') }}" class="nav-item nav-link">Settings</a>
+                        <a href="{{ path('user_dashboard') }}" class="nav-item nav-link">Profile</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu bg-light rounded-0 rounded-bottom m-0">
@@ -99,14 +101,21 @@
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="ms-auto d-none d-lg-block">
-                        <a href="" class="btn btn-primary rounded-pill py-2 px-3">Get A Quote</a>
-                    </div>
+    {% if app.session.get('user') %}
+        <a href="{{ path('user_logout') }}" class="btn btn-primary rounded-pill py-2 px-3">Logout</a>
+    {% else %}
+        <a href="{{ path('app_login') }}" class="btn btn-primary rounded-pill py-2 px-3">Connexion</a>
+    {% endif %}
+</div>
+
+
                 </div>
             </nav>
         </div>
     </div>
+ 
     <!-- Navbar End -->
-
+{% endblock %}
 
     <!-- Carousel Start -->
     <div class="container-fluid px-0 mb-5">
@@ -725,6 +734,6 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-</body>
+{% endblock %}
 
 </html>
