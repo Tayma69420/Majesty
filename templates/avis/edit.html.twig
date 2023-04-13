@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Avis{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/avis.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="page-title">Edit Avis</h1>
+
+        <div class="form-container">
+            {{ include('avis/_form.html.twig', {
+                'button_label': 'Update'
+            }) }}
+        </div>
+
+        <div class="actions-container">
+            <a href="{{ path('app_avis_index') }}" class="btn">Back to List</a>
+            {{ include('avis/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

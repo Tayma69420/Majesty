@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Portfolio{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            width: 50%;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            font-size: 1.2rem;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0062cc;
+        }
+
+        a {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Create new Portfolio</h1>
+
+    <form method="post" id="create-form" action="{{path('app_portfolio_new')}}" enctype="multipart/form-data">
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+        {{ form_widget(form) }}
+        <p>Image</p>
+        <input type="file" name="image" id="image" class="form-control">
+
+        <button type="submit" id="create-btn">Create</button>
+        {{ form_end(form) }}
+
+    </form>
+
+    <a href="{{ path('app_portfolio_index') }}">back to list</a>
+
+{% endblock %}

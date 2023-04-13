@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avis index{% endblock %}
+
+{% block body %}
+    
+    
+    <table style="border-collapse: collapse; width: 100%;">
+        <thead style="background-color: #eee;">
+            <tr>
+                <th style="border: 1px solid #ccc; padding: 0.5em;">ID</th>
+                <th style="border: 1px solid #ccc; padding: 0.5em;">Commentaire</th>
+                <th style="border: 1px solid #ccc; padding: 0.5em;">ID User</th>
+                <th style="border: 1px solid #ccc; padding: 0.5em;">Actions</th>
+            </tr>
+        </thead>
+        <tbody style="background-color: #eee;">
+        {% for avi in avis %}
+            <tr>
+                <td style="border: 1px solid #ccc; padding: 0.5em;">{{ avi.idavis }}</td>
+                <td style="border: 1px solid #ccc; padding: 0.5em;">{{ avi.commentaire }}</td>
+                <td style="border: 1px solid #ccc; padding: 0.5em;">{{ avi.iduser }}</td>
+                <td style="border: 1px solid #ccc; padding: 0.5em;">
+                    <a href="{{ path('app_avis_show', {'idavis': avi.idavis}) }}" style="text-decoration: none; margin-right: 0.5em;">Show</a>
+                    <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none;">Edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4" style="border: 1px solid #ccc; padding: 0.5em;">No records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_avis_new') }}" style="display: block; margin-top: 1em; text-align: center;">Create new</a>
+    <a href="{{ path('app_portfolio_index') }}">back to list</a>
+
+{% endblock %}
