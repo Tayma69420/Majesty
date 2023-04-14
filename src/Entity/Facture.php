@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Facture
@@ -13,11 +14,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Facture
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="idfac", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $idfac;
+
+  /**
      * @var string
      *
      * @ORM\Column(name="cardnumber", type="string", length=50, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Assert\NotBlank()
+     * @Assert\Length(max=16)
+     * @Assert\Regex(
+     *     pattern="/^\d{16}$/",
+     *     message="Card number must be 16 digits"
+     * )
      */
     private $cardnumber;
 
@@ -25,6 +39,13 @@ class Facture
      * @var string
      *
      * @ORM\Column(name="expirationdate", type="string", length=5, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=5)
+     * @Assert\Regex(
+     *     pattern="/^(0[1-9]|1[0-2])\/\d{2}$/",
+     *     message="Expiration date must be in format MM/YY"
+     * )
+     * 
      */
     private $expirationdate;
 
@@ -32,6 +53,9 @@ class Facture
      * @var int
      *
      * @ORM\Column(name="securitycode", type="integer", nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     * @Assert\Length(max=3)
      */
     private $securitycode;
 
@@ -39,6 +63,12 @@ class Facture
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]+$/",
+     *     message="First name can only contain alphabetical characters"
+     * )
+     * @Assert\Length(max=255)
      */
     private $firstname;
 
@@ -46,6 +76,12 @@ class Facture
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z]+$/",
+     *     message="Last name can only contain alphabetical characters"
+     * )
+     * @Assert\Length(max=255)
      */
     private $lastname;
 
@@ -57,15 +93,27 @@ class Facture
     private $total;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="iduser", type="integer", nullable=false)
+     * @ORM\Column(name="iduser", type="integer", nullable=true)
      */
     private $iduser;
+
+    public function getIdfac(): ?int
+    {
+        return $this->idfac;
+    }
 
     public function getCardnumber(): ?string
     {
         return $this->cardnumber;
+    }
+
+    public function setCardnumber(string $cardnumber): self
+    {
+        $this->cardnumber = $cardnumber;
+
+        return $this;
     }
 
     public function getExpirationdate(): ?string
@@ -133,7 +181,7 @@ class Facture
         return $this->iduser;
     }
 
-    public function setIduser(int $iduser): self
+    public function setIduser(?int $iduser): self
     {
         $this->iduser = $iduser;
 

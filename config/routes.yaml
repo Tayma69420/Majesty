@@ -33,6 +33,14 @@ app_forgot_password_confirm:
     path: /forgot-password-confirm
     controller: App\Controller\SecurityController::forgotPasswordConfirm
 
-app_2fa:
-    path: /2fa
-    controller: App\Controller\SecurityController::enable2FA
+
+app_cart_add:
+    path: /cart/add/{idprojet}/{prix}
+    controller: App\Controller\PanierController::add
+
+
+app_panier_incrementer:
+    path: /panier/increment/{id}
+    controller: App\Controller\PanierController::incrementerPanier
+
+    

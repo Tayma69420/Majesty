@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Styles for the table and buttons */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: normal;
+        }
+        tfoot td {
+            text-align: right;
+            font-weight: bold;
+        }
+        tfoot td:first-child {
+            text-align: left;
+        }
+        button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
+   
+ 
+{% block body %}
+{% include 'backandfront/Front/navbar.html.twig' %}
+    <h1>Panier</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set total = 0 %}
+            {% for item in cartItems %}
+                <tr>
+                    <td>{{ item.nom }}</td>
+                    <td>{{ item.prix }}</td>
+                    <td>
+                        <button onclick="location.href='{{ path('app_panier_incrementer', {'id': item.idprojet}) }}'">+</button>
+                        {{ item.qnt }}
+                        <button onclick="location.href='{{ path('app_panier_decrementer', {'id': item.idprojet}) }}'">-</button>
+                    </td>
+                    {% set subtotal = item.qnt * item.prix %}
+                    <td>{{ subtotal }}</td>
+                    <td>
+                        <form action="{{ path('app_panier_supprimer', {'id': item.idprojet}) }}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                    {% set total = total + subtotal %}
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3"><strong>Total:</strong></td>
+                <td>{{ total }}</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+    <button onclick="location.href='{{ path('app_facture_add') }}'">Checkout</button>
+       {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

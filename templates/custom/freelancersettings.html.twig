@@ -112,7 +112,13 @@
 
 {% block body %}
 {% include 'backandfront/Front/navbar.html.twig' %}
+                     {% if message %}
+    <message>{{ message }}</message>
+    <a href="{{ path('app_2fa') }}">Cliquez ici pour l'activer</a>
+{% endif %}
+
     <div class="dashboard">
+
         <div class="dashboard-menu">
             <ul>
                 <li><a href="{{ path('freelancer_dashboard') }}">Home</a></li>

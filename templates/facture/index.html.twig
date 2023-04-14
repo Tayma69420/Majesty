@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        h1 {
+            font-size: 36px;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 40px;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="submit"] {
+            background-color: #3C486B;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px; /* Limit the width of the button */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3C486B;
+        }
+
+        label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+            width: 100%;
+            max-width: 300px; /* Limit the width of the labels */
+            text-align: left;
+        }
+
+        input[type="password"] {
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 300px;
+        }
+
+        message {
+            font-size: 20px;
+            margin-top: 0;
+            margin-left: 370px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        table {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 300px; /* Limit the width of the table */
+        }
+
+        table td {
+            text-align: left;
+            padding: 5px;
+        }
+
+        table td:last-child {
+            text-align: right;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+    <h1 style="text-align: center;">Facture</h1>
+    <div style="display: flex; justify-content: center;">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_widget(form) }} 
+        <table>
+            <tr>
+                <td colspan="3"><strong>Total:</strong></td>
+                <td>{{ total }}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="text-align: center;">
+                    <button type="submit">Payer</button>
+                </td>
+            </tr>
+        </table>
+        {{ form_end(form) }}
+    </div>
+    {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

@@ -34,13 +34,13 @@
         input[type="password"],
         input[type="text"] {
             display: block;
-            width: 380px;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            transition: border-color 0.2s;
-            margin-bottom: 20px;
+  width: 100%;
+  max-width: 300px; /* Change the maximum width to your desired value */
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
         }
         
         input[type="email"]:focus,
@@ -57,16 +57,18 @@
         }
         
         button[type="submit"] {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            font-size: 16px;
+           display: block;
+  width: 100%;
+  max-width: 300px; /* Change the maximum width to your desired value */
+  padding: 8px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
         }
         
         button[type="submit"]:hover {
@@ -89,6 +91,7 @@
 
 
 {% block body %}
+{% include 'backandfront/Front/navbar.html.twig' %}
     <h1>Connexion</h1>
 
     <form action="{{ path('app_login') }}" method="post" novalidate>
@@ -115,4 +118,5 @@
         <a href="{{ path('user_registration') }}">S'inscrire en tant qu'utilisateur</a>
         <a href="{{ path('freelancer_registration') }}">S'inscrire en tant que freelancer</a>
     {% endblock %}
+       {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

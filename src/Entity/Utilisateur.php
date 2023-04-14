@@ -4,8 +4,6 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * Utilisateur
@@ -15,43 +13,6 @@ use Symfony\Component\Validator\Constraints\Email;
  */
 class Utilisateur
 {
-    
-    /**
- * @ORM\Column(type="string", length=255, nullable=true)
- */
-private $faSecretKey;
-
-/**
- * @ORM\Column(type="boolean")
- */
-private $is2faEnabled = false;
-
-public function getfaSecretKey(): ?string
-{
-    return $this->faSecretKey;
-}
-
-public function setfaSecretKey(?string $faSecretKey): self
-{
-    $this->faSecretKey = $faSecretKey;
-
-    return $this;
-}
-
-public function getIs2faEnabled(): bool
-{
-    return $this->is2faEnabled;
-}
-
-public function setIs2faEnabled(bool $is2faEnabled): self
-{
-    $this->is2faEnabled = $is2faEnabled;
-
-    return $this;
-}
-
-    
-    
     /**
      * @var int
      *
@@ -75,13 +36,12 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      */
     private $prenom;
 
-/**
- * @ORM\Column(type="string", length=255, unique=true)
- * @Assert\NotBlank(message="Email doit pas etre vide")
- * @Assert\Email(message="Email Invalid")
- */
-private $email;
-
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=true)
+     */
+    private $email;
 
     /**
      * @var string|null
@@ -131,7 +91,21 @@ private $email;
      * @ORM\Column(name="image", type="string", length=250, nullable=true)
      */
     private $image;
- 
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="fa_secret_key", type="string", length=255, nullable=true)
+     */
+    private $faSecretKey;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="is2fa_enabled", type="boolean", nullable=true)
+     */
+    private $is2faEnabled = '0';
+
     public function getIduser(): ?int
     {
         return $this->iduser;
@@ -253,6 +227,30 @@ private $email;
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getFaSecretKey(): ?string
+    {
+        return $this->faSecretKey;
+    }
+
+    public function setFaSecretKey(?string $faSecretKey): self
+    {
+        $this->faSecretKey = $faSecretKey;
+
+        return $this;
+    }
+
+    public function isIs2faEnabled(): ?bool
+    {
+        return $this->is2faEnabled;
+    }
+
+    public function setIs2faEnabled(?bool $is2faEnabled): self
+    {
+        $this->is2faEnabled = $is2faEnabled;
 
         return $this;
     }

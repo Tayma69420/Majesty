@@ -50,9 +50,9 @@ class Panier
     private $qnt;
 
     /**
-     * @var int
+     * @var int|null
      *
-     * @ORM\Column(name="iduser", type="integer", nullable=false)
+     * @ORM\Column(name="iduser", type="integer", nullable=true)
      */
     private $iduser;
 
@@ -114,7 +114,7 @@ class Panier
         return $this->iduser;
     }
 
-    public function setIduser(int $iduser): self
+    public function setIduser(?int $iduser): self
     {
         $this->iduser = $iduser;
 

@@ -3,18 +3,47 @@
     {{ parent() }}
         <style>
         
-    body {
-  font-family: Arial, sans-serif;
-  background-color: #f8f8f8;
+  body {
+             font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(to bottom, #00FFFF 0%, #FFFFFF 100%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+/* Center the form on the page */
+form {
+  max-width: 400px;
+  margin: 0 auto;
 }
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+/* Reduce the width of the input fields and select dropdown */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  display: block;
+  width: 100%;
+  max-width: 300px; /* Change the maximum width to your desired value */
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.2s;
+}
+
+/* Reduce the size of the button */
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  max-width: 300px; /* Change the maximum width to your desired value */
+  padding: 8px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 14px;
 }
 
 
@@ -23,9 +52,7 @@ h1 {
   margin-bottom: 30px;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
+
 
 label {
   font-weight: bold;
@@ -33,18 +60,7 @@ label {
   margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-select {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: border-color 0.2s;
-}
+
 
 input[type="text"]:focus,
 input[type="email"]:focus,
@@ -59,19 +75,6 @@ input[type="file"] {
   margin-top: 10px;
 }
 
-button[type="submit"] {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 20px; /* Add this line to create space above the button */
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 16px;
-}
 
 
 button[type="submit"]:hover {
@@ -137,10 +140,9 @@ a[href="{{ path('app_login') }}"]:hover {
 
 
 {% block body %}
-<div class="container">
-    <div>
-  <a href="{{ path('app_login') }}">↩</a>
-</div>
+{% include 'backandfront/Front/navbar.html.twig' %}
+
+ 
 
   <h1>Inscription Freelancer</h1>
   {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -200,5 +202,5 @@ a[href="{{ path('app_login') }}"]:hover {
 
 
   {{ form_end(form) }}
-</div>
+   {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

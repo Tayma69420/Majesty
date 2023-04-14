@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    .center {
+    text-align: center;
+}
+
+.table-center {
+    margin: 0 auto;
+}
+
+    </style>
+    {% endblock %}
+{% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+   
+    <h1 style="text-align: center;">Projects</h1>
+
+    <table style="margin: 0 auto;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for projet in projets %}
+                <tr>
+                    <td>{{ projet.titreprojet }}</td>
+                    <td>{{ projet.prixprojet }}</td>
+                    <td>
+                        <form method="post" action="{{ path('app_panier_ajouter', {'id': projet.idprojet}) }}">
+                            <input type="submit" value="Add to cart">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>  
+
+    {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

@@ -1,95 +1,40 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}hi freelancer{% endblock %}
-
 {% block stylesheets %}
-    {{ parent() }}
-    <style>
-      /* General styles */
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-      }
-
-      /* Dashboard styles */
-      .dashboard {
-        display: flex;
-        flex-direction: row;
-        background-color: #f5f5f5;
-      }
-
-      .dashboard-menu {
+<style>
+    img {
         width: 200px;
-        padding: 10px;
-        border-right: 1px solid #ccc;
-      }
-
-      .dashboard-menu ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-
-      .dashboard-menu li {
-        margin-bottom: 10px;
-      }
-
-      .dashboard-menu a {
-        display: block;
-        padding: 10px 5px;
-        color: #333;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.2s ease;
-      }
-
-      .dashboard-menu a:hover {
-        background-color: #ddd;
-      }
-
-      .dashboard-content {
-        flex: 1;
-        padding: 10px;
-      }
-
-      .dashboard-content h1 {
-        font-size: 36px;
-        margin-bottom: 20px;
-        color: #333;
-      }
-
-      .dashboard-content p {
-        font-size: 18px;
-        margin-bottom: 20px;
-        color: #666;
-      }
-
-      .dashboard-content img {
-        width: 100%;
-        max-width: 200px;
-        height: auto;
-        margin-top: -30px;
-        margin-left: 1000px;
+        height: 200px;
         border-radius: 50%;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
-      }
-    </style>
+        object-fit: cover;
+        margin: 20px auto;
+        display: block;
+    }
+
+   message {
+    font-size: 24px;
+    text-align: center;
+     margin-left: 300px;
+}
+
+span {
+    color: blue;
+}
+
+</style>
 {% endblock %}
 
+{% block title %}Profile{% endblock %}
+
 {% block body %}
-    <div class="dashboard">
-        <div class="dashboard-menu">
-            <ul>
-                <li><a href="{{ path('freelancer_settings') }}">Settings</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="{{ path('app_login') }}">Logout</a></li>
-            </ul>
-        </div>
-        <div class="dashboard-content">
-            <h1>Welcome to my website!</h1>
-            <p>Connecté comme  Freelancer {{ app.session.get('user').getNom }} {{ app.session.get('user').getPrenom }} </p>
+
+{% include 'backandfront/Front/navbar.html.twig' %}
+
+    
+ <message>Connecté comme Utilisateur : <span>{{ app.session.get('user').getNom }}</span> <span>{{ app.session.get('user').getPrenom }}</span> Email : <span>{{ app.session.get('user').getEmail }}</span></message>
+
             <img src="{{ asset('images/' ~ app.session.get('user').getImage) }}" alt="User Image">
         </div>
     </div>
+
+   {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

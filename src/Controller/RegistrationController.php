@@ -312,7 +312,7 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
                     ]),
                 ],
             ])
-            ->add('passwd', null, [
+            ->add('passwd', PasswordType::class, [
                 'constraints' => [
                     new Assert\NotBlank(['message' => 'Password doit pas etre vide']),
                     new Assert\Regex([
@@ -351,9 +351,9 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
                 $existingUser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email]);
                 $gender = $form->get('sexe')->getData();
                 if ($gender == 'homme') {
-                    $user->setImage('hommeimg.png');
+                    $Freelancer->setImage('hommeimg.png');
                 } else if ($gender == 'femme') {
-                    $user->setImage('femmeimg.png');
+                    $Freelancer->setImage('femmeimg.png');
                 }
                 if ($existingUser) {
                     $form->get('email')->addError(new FormError('This email address is already registered.'));
