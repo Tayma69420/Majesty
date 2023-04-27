@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réclamation{% endblock %}
+   
+{% block body %}
+{% include 'frontandback/back/NiceAdmin/navbarmod.html.twig' %}
+ <div style="margin: 60px">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="text-center">Réclamation</h1>
+            <a href="{{ path('app_admin_reclamation_index') }}" class="btn btn-primary">Retour à la liste</a>
+            </div>
+    <div class="container mt-4">
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Identifiant</th>
+                <td>{{ reclamation.idReclamation }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ reclamation.reclaDesc }}</td>
+            </tr>
+            <tr>
+                <th>Date de la réclamation</th>
+                <td>{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ reclamation.titre }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ reclamation.type }}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CategorieRec index{% endblock %}
+
+{% block body %}
+{% include 'frontandback/back/NiceAdmin/navbarmod.html.twig' %}
+    
+<div style="margin: 60px">
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="text-center">Catégories des Réclamations</h1>
+            <a href="{{ path('app_categorie_rec_new') }}" class="btn btn-primary">Nouvelle Catégorie</a>
+            </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie_rec in categorie_recs %}
+            <tr>
+                <td>{{ categorie_rec.id }}</td>
+                <td>{{ categorie_rec.type }}</td>
+                <td>
+                    <a href="{{ path('app_categorie_rec_show', {'id': categorie_rec.id}) }}"  class="btn btn-sm btn-outline-secondary">Afficher</a>
+                    <a href="{{ path('app_categorie_rec_edit', {'id': categorie_rec.id}) }}"  class="btn btn-sm btn-outline-primary">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    
+{% endblock %}

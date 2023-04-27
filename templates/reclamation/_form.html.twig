@@ -1,0 +1,43 @@
+{{ form_start(form, {'attr': {'class': 'was-validated', 'novalidate': 'novalidate'}}) }}
+
+  <div class="form-group">
+    {{ form_label(form.reclaDesc, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.reclaDesc, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+    <div class="invalid-feedback">{{ form_errors(form.reclaDesc) }}</div>
+  </div>
+
+  <div class="form-group">
+    {{ form_label(form.daterec, 'Date de réclamation', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.daterec, {'attr': {'class': 'form-control', 'required': 'required'}}) }}
+    <div class="invalid-feedback">{{ form_errors(form.daterec)}}</div>
+  </div>
+
+  <div class="form-group">
+    {{ form_label(form.titre, 'Titre', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.titre, {'attr': {'class': 'form-control', 'rows': 5, 'required': 'required'}}) }}
+    <div class="invalid-feedback">{{ form_errors(form.titre)}}</div>
+  </div>
+
+   <div class="form-group">
+    {{ form_label(form.type, 'Type', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.type, {'attr': {'class': 'form-control', 'rows': 5, 'required': 'required'}}) }}
+    <div class="invalid-feedback">{{ form_errors(form.type)}}</div>
+  </div>
+
+  <div class="form-group dropend">
+	{{ form_label(form.idcat, 'Catégorie') }}
+	{{ form_widget(form.idcat, {'attr': {'class': 'form-control btn btn-primary dropdown-toggle', 'data-bs-toggle': 'dropdown'}}) }}
+
+	<div class="invalid-feedback">
+		{{ form_errors(form.idcat) }}
+	    </div>
+    </div>
+    <br>
+    {{ form_label(form.rating, 'rating', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.rating, {'attr': {'class': 'form-control', 'rows': 5, 'required': 'required'}}) }}
+    <div class="invalid-feedback">{{ form_errors(form.rating)}}</div>
+    <button class="btn btn-outline-primary mr-2">{{ button_label|default('Sauvegarder') }}</button>
+  <br>
+  <br>
+  {{form_errors(form)}}
+{{ form_end(form) }}
