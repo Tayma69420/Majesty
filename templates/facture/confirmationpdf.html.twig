@@ -1,0 +1,14 @@
+{% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+    Voulez vous telecharger la facture :
+    <a href="{{ path('app_facture_pdf') }}?download_pdf=true">Oui</a>
+    <a href="{{ path('app_home') }}">Non</a>
+
+    <script>
+        // Redirect to homepage after 3 seconds
+        setTimeout(function() {
+            window.location.href = '{{ path('app_home') }}';
+        }, 10000); // 3000 milliseconds = 3 seconds
+    </script>
+        {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

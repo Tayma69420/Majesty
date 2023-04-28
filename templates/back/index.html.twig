@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
+    <h1>Factures</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Card Number</th>
+            <th>Expiration Date</th>
+            <th>Security Code</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Total</th>
+        </tr>
+        <p>{{ test }}</p>
+        {% for facture in factures %}
+            <tr>
+                <td>{{ facture.idfac }}</td>
+                <td>{{ facture.cardnumber }}</td>
+                <td>{{ facture.expirationdate }}</td>
+                <td>{{ facture.securitycode }}</td>
+                <td>{{ facture.firstname }}</td>
+                <td>{{ facture.lastname }}</td>
+                <td>{{ facture.total }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -41,11 +41,11 @@ public function userRegistration(Request $request, SessionInterface $session): R
 {
     $user = new Utilisateur();
 // replace with your own Twilio credentials
-$sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-$token = 'b26b2d278d028e1dd964f075f1599917';
+$sid = 'ACa3f47735bde23cea35aac8e3b509ac97';
+$token = '0e1f7131a59883516ba7e4888cc5efbc';
 
 // A Twilio phone number you purchased at twilio.com/console
-$twilioPhoneNumber = '+12706481625';
+$twilioPhoneNumber = '+16205088251';
 
 $twilioClient = new Client($sid, $token);
 $lastDayOfPreviousMonth = new \DateTime('last day of previous month');
@@ -172,7 +172,7 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
             $verificationCode = rand(1000, 9999);
             
             try {
-                $twilioPhoneNumber = '+12706481625'; // Your Twilio phone number
+                $twilioPhoneNumber = '+16205088251'; // Your Twilio phone number
                 $message = $twilioClient->messages->create($tel, [
                     'from' => $twilioPhoneNumber,
                     'body' => sprintf('Votre code de vérification est %d', $verificationCode),
@@ -244,12 +244,12 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
     public function freelancerRegistration(Request $request, SessionInterface $session): Response
     {
         $Freelancer = new Utilisateur();
-        // replace with your own Twilio credentials
-        $sid = 'AC888b21cc1072373d1fb728a2315dc79f';
-        $token = 'b26b2d278d028e1dd964f075f1599917';
-        
-        // A Twilio phone number you purchased at twilio.com/console
-        $twilioPhoneNumber = '+12706481625';
+    // replace with your own Twilio credentials
+$sid = 'ACa3f47735bde23cea35aac8e3b509ac97';
+$token = '0e1f7131a59883516ba7e4888cc5efbc';
+
+// A Twilio phone number you purchased at twilio.com/console
+$twilioPhoneNumber = '+16205088251';
         
         $twilioClient = new Client($sid, $token);
         $lastDayOfPreviousMonth = new \DateTime('last day of previous month');
@@ -367,7 +367,7 @@ $lastDayOfPreviousMonthAsString = $lastDayOfPreviousMonth->format('Y-m-d');
                     $verificationCode = rand(1000, 9999);
                     
                     try {
-                        $twilioPhoneNumber = '+12706481625'; // Your Twilio phone number
+                        $twilioPhoneNumber = '+16205088251'; // Your Twilio phone number
                         $message = $twilioClient->messages->create($tel, [
                             'from' => $twilioPhoneNumber,
                             'body' => sprintf('Votre code de vérification est %d', $verificationCode),

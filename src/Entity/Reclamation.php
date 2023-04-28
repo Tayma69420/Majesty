@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Reclamation
  *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="fkuserrec", columns={"iduser"}), @ORM\Index(name="fktyperec", columns={"type"})})
+ * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="fkuserrec", columns={"iduser"}), @ORM\Index(name="idcat", columns={"idcat"})})
  * @ORM\Entity
  */
 class Reclamation
@@ -22,10 +22,12 @@ class Reclamation
      */
     private $idReclamation;
 
-    /**
+   /**
      * @var string
      *
      * @ORM\Column(name="recla_desc", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="Description cannot be blank.")
+     * @Assert\Length(min=2, max=7)
      */
     private $reclaDesc;
 
@@ -36,22 +38,38 @@ class Reclamation
      */
     private $daterec;
 
+     /**
+     * @var \int
+     *
+     * @ORM\Column(name="rating", type="integer")
+     */
+    private $rating;
+
     /**
      * @var string
      *
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
+     * @Assert\Length(min=2, max=7)
      */
     private $titre;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true, options={"default"="NULL"})
+     * @Assert\Length(min=2, max=20)
+     */
+    private $type;
 
     /**
      * @var \CategorieRec
      *
      * @ORM\ManyToOne(targetEntity="CategorieRec")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="type", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="idcat", referencedColumnName="id")
      * })
      */
-    private $type;
+    private $idcat;
 
     /**
      * @var \Utilisateur
@@ -104,14 +122,26 @@ class Reclamation
         return $this;
     }
 
-    public function getType(): ?CategorieRec
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(?CategorieRec $type): self
+    public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getIdcat(): ?CategorieRec
+    {
+        return $this->idcat;
+    }
+
+    public function setIdcat(?CategorieRec $idcat): self
+    {
+        $this->idcat = $idcat;
 
         return $this;
     }
@@ -127,6 +157,18 @@ class Reclamation
 
         return $this;
     }
+    public function getRating(): int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(int $rating)
+    {
+        $this->rating = $rating;
+
+       
+    }
+    
 
 
 }

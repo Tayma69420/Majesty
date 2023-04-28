@@ -30,7 +30,7 @@ span {
 {% include 'backandfront/Front/navbar.html.twig' %}
 
     
- <message>Connecté comme Utilisateur : <span>{{ app.session.get('user').getNom }}</span> <span>{{ app.session.get('user').getPrenom }}</span> Email : <span>{{ app.session.get('user').getEmail }}</span></message>
+ <message>Connecté comme Freelancer : <span>{{ app.session.get('user').getNom }}</span> <span>{{ app.session.get('user').getPrenom }}</span> Email : <span>{{ app.session.get('user').getEmail }}</span></message>
 
             <img src="{{ asset('images/' ~ app.session.get('user').getImage) }}" alt="User Image">
         </div>

@@ -95,14 +95,49 @@
         <table>
             <tr>
                 <td colspan="3"><strong>Total:</strong></td>
+                
                 <td>{{ total }}</td>
             </tr>
             <tr>
+            
                 <td colspan="4" style="text-align: center;">
-                    <button type="submit">Payer</button>
+                 <input type="submit" value="Payer" id="submit" class="btn btn-block btn-primary" style="background-color: #3498db; border-color: #3498db;border-radius: 50px" onclick="return checkRecaptcha()">
+             
+                                    
+              <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+
+             <script>
+    function checkRecaptcha() {
+      if (grecaptcha.getResponse() == "") {
+        alert("Please verify that you are not a robot by completing the reCAPTCHA challenge.");
+        return false;
+      } else {
+       return true;
+       }
+  }
+
+  function onClick(e) {
+    e.preventDefault();
+    if (checkRecaptcha()) {
+      grecaptcha.ready(function() {
+        grecaptcha.execute('6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI', {action: 'submit'}).then(function(token) {
+          document.getElementById("myform").submit();
+        });
+      });
+    }
+  }
+
+  function validate(event) {
+    event.preventDefault();
+    grecaptcha.execute();
+  }
+</script>
+
+<div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" data-callback="onClick"></div>
                 </td>
             </tr>
         </table>
+        
         {{ form_end(form) }}
     </div>
     {% include 'backandfront/Front/footer.html.twig' %}

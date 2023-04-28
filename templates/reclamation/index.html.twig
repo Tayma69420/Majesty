@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %}Liste des Réclamations{% endblock %}
+        {% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+.chart-container {
+    width: 100%;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #f5f5f5;
+}
+
+.chart .title {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.chart .axis-label {
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.chart .bar {
+    background-color: #4e73df;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.chart .bar:hover {
+    background-color: #2e59d9;
+}
+
+.chart .bar .value {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.chart .bar .value:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #4e73df transparent;
+}
+
+.chart .bar .value:before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #4e73df transparent transparent transparent;
+}
+    </style>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  
+{% endblock %}
+    {% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+  
+<div style="margin: 60px">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+
+    <h1>Liste des Réclamations</h1>
+<div>
+    <canvas id="reclamationChart"></canvas>
+</div>
+
+    <a href="{{ path('app_reclamation_new') }}" class="btn btn-primary">Nouvelle Réclamation</a>
+
+    {# lmandher mtaa search #}
+
+    <div id="rec-search-form">
+		<form action="{{ path('app_reclamation_index') }}" method="get" class="d-inline">
+
+			<div class="input-group mb-3 ">
+				<input type="text" name="search" class="form-control" placeholder="Rechercher par titre" aria-describedby="button-addon2">
+				
+				<button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+
+			</div>
+		</form>
+	</div>
+
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                
+                <th>Description</th>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Type</th>
+                <th>Actions</th>
+                <th>rating</th>
+            </tr>
+        </thead>
+        <tbody id="rec-table">
+        {% for reclamation in reclamations %}
+            <tr>
+                
+                <td>{{ reclamation.reclaDesc }}</td>
+                <td>{{ reclamation.daterec ? reclamation.daterec|date('Y-m-d') : '' }}</td>
+                <td>{{ reclamation.titre }}</td>
+                <td>{{ reclamation.type }}</td>
+                <td>
+                    <a href="{{ path('app_reclamation_show', {'idReclamation': reclamation.idReclamation}) }}" class="btn btn-sm btn-outline-secondary">Afficher</a>
+                    <a href="{{ path('app_reclamation_edit', {'idReclamation': reclamation.idReclamation}) }}" class="btn btn-sm btn-outline-primary">Modifier</a>
+                </td>
+                <td>
+                 <div class="d-flex  align-items-center mb-3">
+                         {% if reclamation.rating != 0 %}
+                         <p class="text-blue-900 font-medium mr-2">Rating:</p>
+                         {% for i in range(1, reclamation.rating) %}
+                             <svg aria-hidden="true" class="w-5 h-5 text-warning" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                         {% endfor %}
+                         {% set x = 5 - reclamation.rating %}
+                         
+
+                             {% if x > 0 %}
+                                 {%  for i in range(1,x|round(0, 'floor')  )%}
+                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                 {% endfor %}
+                               {% endif %}
+                        
+
+                         <p class="ml-2 text-sm font-medium text-blue-900">{{ reclamation.rating }}/5</p>
+                         {% endif %}
+                     </div>
+                         </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+    {% include 'backandfront/Front/footer.html.twig' %}
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function () { // Listen for form submission
+$('#rec-search-form form').submit(function (event) { // Prevent default form submission behavior
+event.preventDefault();
+
+// Get the form data as a serialized string
+var formData = $(this).serialize();
+
+// Send an AJAX request to the form action URL with the form data
+$.ajax({
+url: $(this).attr('action'),
+method: 'GET',
+data: formData,
+success: function (response) {
+ // Replace the table and pagination contents with the updated HTML
+$('#rec-table').html($(response).find('#rec-table').html());
+$('#rec-pagination').html($(response).find('#rec-pagination').html());
+}
+error: function (jqXHR, textStatus, errorThrown) { // Handle AJAX errors here
+}
+});
+});
+});
+</script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Fetch the chart data from the controller
+    fetch('{{ path('app_reclamation_chart') }}')
+        .then(response => response.json())
+        .then(data => {
+            // Render the chart using the retrieved data
+            var ctx = document.getElementById('reclamationChart');
+            var myChart = new Chart(ctx, data);
+        });
+</script>
+
+{% endblock %}
+
+

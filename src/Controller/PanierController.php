@@ -9,27 +9,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface; 
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface ;
 class PanierController extends AbstractController
 {
     #[Route('/panier', name: 'app_panier_index')]
-    public function index(): Response
+    public function index(SessionInterface $session): Response
     {
         // Get the cart items from the database
         $panierRepository = $this->getDoctrine()->getRepository(Panier::class);
         $cartItems = $panierRepository->findAll();
     
         $total = 0;
-    foreach ($cartItems as $item) {
-        $subtotal = $item->getQnt() * $item->getPrix();
-        $total += $subtotal;
+        $panierCount = 0;
+        foreach ($cartItems as $item) {
+            $subtotal = $item->getQnt() * $item->getPrix();
+            $total += $subtotal;
+            $panierCount += $item->getQnt();
+        }
+    
+        // Store the panierCount variable in the session
+        $session->set('panierCount', $panierCount);
+    
+        return $this->render('panier/index.html.twig', [
+            'cartItems' => $cartItems,
+            'total' => $total,
+            'panierCount' => $panierCount, // Add the count to the template variables
+        ]);
     }
-
-    return $this->render('panier/index.html.twig', [
-        'cartItems' => $cartItems,
-        'total' => $total,
-    ]);
-    }
+    
+    
     
     #[Route('/panier/ajouter/{id}', name: 'app_panier_ajouter')]
     public function ajouter(Request $request, int $id): Response

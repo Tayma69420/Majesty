@@ -42,7 +42,7 @@ class SecurityController extends AbstractController
             if (!$utilisateur || $utilisateur->getPasswd() !== $this->encryptPassword($password)) {
                 $errorMessage = 'Invalid email or password.';
             } else {
-                $session->set('user', $utilisateur);
+              
     
                 // If the email and password are correct, check if 2FA is enabled for the user
                 if ($utilisateur->getIs2faEnabled()) {
@@ -86,8 +86,8 @@ class SecurityController extends AbstractController
     
     
                 // Store the user object in the session
+               
                 $session->set('user', $utilisateur);
-    
                 // Get the user's idRole
                 $idRole = $utilisateur->getIdRole();
     

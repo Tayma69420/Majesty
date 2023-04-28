@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifer la réclamation{% endblock %}
+
+
+{% block body %}
+{% include 'backandfront/Front/navbar.html.twig' %}
+    <div style="margin: 20px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Modifier la réclamation</h1>
+            <a href="{{ path('app_reclamation_index') }}" class="btn btn-primary">Retour à la liste</a>
+            </div>
+            {{ include('reclamation/_form.html.twig', {'button_label': 'Modifier'}) }}
+            
+        
+        
+    </div>
+{% endblock %}

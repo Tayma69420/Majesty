@@ -24,9 +24,46 @@ class FreelancerController extends AbstractController
      */
     public function freelancerSettings()
     {
-        return $this->render('custom/freelancersettings.html.twig');
-   
-    }
+        {
+            $user = $session->get('user');
+        
+            if ($user->getIs2faEnabled() === false) {
+                $message = 'Vous n\'avez pas votre Google Authentication active. Cliquez ici pour l\'activer.';
+            } else {
+                $message = null;
+            }
+        
+            if ($user->getIs2faEnabled() === true) {
+                $message = 'Votre Google Authentication est activée. Cliquez ici pour la désactiver.';
+            }
+        
+            if (isset($_POST['disable2fa'])) {
+                // Generate a code and email it to the user
+                $code = rand(100000, 999999);
+                $message = (new \Swift_Message('Code de désactivation 2FA'))
+                    ->setFrom('your_email@example.com')
+                    ->setTo($user->getEmail())
+                    ->setBody(
+                        $this->renderView(
+                            'email/disable_2fa.html.twig',
+                            ['code' => $code]
+                        ),
+                        'text/html'
+                    );
+        
+                $mailer->send($message);
+        
+                // Store the code in the session
+                $session->set('2fa_disable_code', $code);
+        
+                // Redirect to a page to enter the code
+                return $this->redirectToRoute('enter_2fa_disable_code');
+            }
+        
+            return $this->render('custom/settingsuser.html.twig', [
+                'message' => $message,
+            ]);
+        }}
 /**
  * @Route("/update-image-fr", name="freelancer_update_image", methods={"POST"})
  */

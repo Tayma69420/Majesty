@@ -10,6 +10,7 @@ parameters:
     mailer_port: 587
     mailer_user: 'your-gmail-username@gmail.com'
     mailer_password: 'your-gmail-password'
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 
 services:
 

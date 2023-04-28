@@ -63,12 +63,9 @@ class Facture
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Regex(
-     *     pattern="/^[a-zA-Z]+$/",
-     *     message="First name can only contain alphabetical characters"
-     * )
-     * @Assert\Length(max=255)
+     * 
+     
+     
      */
     private $firstname;
 
@@ -76,12 +73,7 @@ class Facture
      * @var string
      *
      * @ORM\Column(name="lastname", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Regex(
-     *     pattern="/^[a-zA-Z]+$/",
-     *     message="Last name can only contain alphabetical characters"
-     * )
-     * @Assert\Length(max=255)
+
      */
     private $lastname;
 

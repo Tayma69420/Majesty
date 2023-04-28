@@ -31,7 +31,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+   <link href="{{ asset('/css/style.css') }}" rel="stylesheet"/>
 </head>
 
 {% block body %}
@@ -71,7 +71,7 @@
     <!-- Topbar End -->
 
 
-    <!-- Navbar Start -->
+      <!-- Navbar Start -->
     <div class="container-fluid bg-white sticky-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
@@ -85,8 +85,17 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
                         <a href="{{ path('app_home') }}" class="nav-item nav-link active">Home</a>
-                        <a href="{{ path('app_panier_index') }}" class="nav-item nav-link">Panier</a>
+                 
     {% if app.session.get('user') %}
+                         
+ {% if app.session.get('panierCount') is not null %}
+          <a href="{{ path('app_panier_index') }}" class="nav-item nav-link">
+                                         <i class="fa fa-shopping-cart"></i> Panier({{ app.session.get('panierCount') }})</a>
+                                         {% else %}
+    <a href="{{ path('app_panier_index') }}">Panier</a>
+{% endif %}
+
+                        <a href="{{ path('app_projet') }}" class="nav-item nav-link">Projet</a>
                             <a href="{{ path('user_settings') }}" class="nav-item nav-link">Settings</a>
                             <a href="{{ path('user_dashboard') }}" class="nav-item nav-link">Profile</a>
                         {% endif %}
@@ -100,7 +109,7 @@
                                 <a href="404.html" class="dropdown-item">404 Page</a>
                             </div>
                         </div>
-                        <a href="{{ path('app_projet') }}" class="nav-item nav-link">Projet</a>
+                      
                     </div>
                     <div class="ms-auto d-none d-lg-block">
     {% if app.session.get('user') %}

@@ -15,7 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminController extends AbstractController
 {
@@ -156,6 +157,19 @@ public function modifierUtilisateur(Request $request, $id)
         'utilisateur' => $utilisateur,
     ]);
 }
+#[Route('/search', name:'searchSponsor')]
+    public function search(Request $request, SerializerInterface $serializer)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $request->query->get('query');
+        $users =  $entityManager->getRepository(Utilisateur::class)->createQueryBuilder('utilisateur')
+            ->where('utilisateur.nom LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+        $json = $serializer->serialize($users, 'json');
+        return new JsonResponse($json);
+    }
 
 
 }

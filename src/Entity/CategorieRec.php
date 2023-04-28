@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * CategorieRec
@@ -25,6 +26,7 @@ class CategorieRec
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255, nullable=false)
+     * @Assert\Length(min=2, max=20)
      */
     private $type;
 
