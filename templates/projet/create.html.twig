@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+    <h1>Add a new project</h1>
+
+    {{ form_start(form) }}
+
+    {{ form_row(form.titreprojet) }}
+    {{ form_row(form.prixprojet) }}
+        {{ form_row(form.type) }}
+
+
+    <button type="submit">Save</button>
+
+    {{ form_end(form) }}
+    <a href="{{ path('app_categorie_projet') }}">New Category</a>
+
+    {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

@@ -4,24 +4,18 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 /**
  * Utilisateur
  *
  * @ORM\Table(name="utilisateur")
  * @ORM\Entity
+
  */
 class Utilisateur
 {
-
-        /**
- * @ORM\Column(type="string", length=255, nullable=true)
- */
-private $faSecretKey;
-
-/**
- * @ORM\Column(type="boolean")
- */
-private $is2faEnabled = false;
 
 public function getfaSecretKey(): ?string
 {
@@ -53,6 +47,7 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @ORM\Column(name="iduser", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     *   @Groups({"utilisateur"})
      */
     private $iduser;
 
@@ -60,6 +55,7 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @var string|null
      *
      * @ORM\Column(name="nom", type="string", length=50, nullable=true)
+     *   @Groups({"utilisateur"})
      */
     private $nom;
 
@@ -67,6 +63,7 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @var string|null
      *
      * @ORM\Column(name="prenom", type="string", length=50, nullable=true)
+     *   @Groups({"utilisateur"})
      */
     private $prenom;
 
@@ -74,6 +71,7 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=true)
+     *   @Groups({"utilisateur"})
      */
     private $email;
 
@@ -81,50 +79,65 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @var string|null
      *
      * @ORM\Column(name="tel", type="string", length=50, nullable=true)
+     *   @Groups({"utilisateur"})
      */
     private $tel;
 
     /**
      * @var string|null
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="adresse", type="string", length=100, nullable=true)
      */
     private $adresse;
 
     /**
      * @var \DateTime|null
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="age", type="date", nullable=true)
      */
     private $age;
 
     /**
      * @var string|null
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="passwd", type="string", length=250, nullable=true)
      */
     private $passwd;
 
     /**
      * @var int|null
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="id_role", type="integer", nullable=true)
      */
     private $idRole;
 
     /**
      * @var string
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="sexe", type="string", length=55, nullable=false)
      */
     private $sexe;
 
     /**
      * @var string|null
-     *
+     *  @Groups({"utilisateur"})
      * @ORM\Column(name="image", type="string", length=250, nullable=true)
      */
     private $image;
+
+    
+        /**
+ * @ORM\Column(type="string", length=255, nullable=true)
+ *   @Groups({"utilisateur"})
+ */
+private $faSecretKey;
+
+/**
+ * @ORM\Column(type="boolean")
+ *    @Groups({"utilisateur"})
+ */
+private $is2faEnabled = false;
+
 
     public function getIduser(): ?int
     {
@@ -196,7 +209,7 @@ public function setIs2faEnabled(bool $is2faEnabled): self
         return $this->age;
     }
 
-    public function setAge(?\DateTimeInterface $age): self
+    public function setAge(?string $age): self
     {
         $this->age = $age;
 
@@ -232,12 +245,14 @@ public function setIs2faEnabled(bool $is2faEnabled): self
         return $this->sexe;
     }
 
-    public function setSexe(string $sexe): self
+    public function setSexe(?string $sexe): self
     {
-        $this->sexe = $sexe;
-
+        if (is_string($sexe)) {
+            $this->sexe = $sexe;
+        }
         return $this;
     }
+    
 
     public function getImage(): ?string
     {

@@ -153,7 +153,7 @@ public function chart(ReclamationRepository $reclamationRepository): Response
     $data = array_values($ratings);
 
     $chartData = [
-        'type' => 'bar',
+        'type' => 'pie',
         'data' => [
             'labels' => $labels,
             'datasets' => [

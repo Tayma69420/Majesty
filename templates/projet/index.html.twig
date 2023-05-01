@@ -12,10 +12,12 @@
 
     </style>
     {% endblock %}
-{% block body %}
+    {% block body %}
     {% include 'backandfront/Front/navbar.html.twig' %}
    
     <h1 style="text-align: center;">Projects</h1>
+
+    <a href="{{ path('app_projet_new') }}">Add Project</a>
 
     <table style="margin: 0 auto;">
         <thead>

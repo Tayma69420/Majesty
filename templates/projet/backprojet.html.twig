@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+
+
+
+{% block title %}Back office{% endblock %}
+
+{% block body %}
+
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
+    <h1>Liste des projets</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Prix</th>
+                <th>Catégorie</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for projet in projets %}
+                <tr>
+                    <td>{{ projet.titreprojet }}</td>
+                    <td>{{ projet.prixprojet }}</td>
+                    <td>{{ projet.type }}</td>
+                    <td>
+                   <a href="{{ path('app_projet_edit', {'id': projet.idprojet}) }}">Modifier</a> 
+                        <a href="{{ path('app_projet_delete', {'id': projet.idprojet}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+

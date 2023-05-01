@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+   
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+{% include 'backandfront/Front/navbar.html.twig' %}
+    <h1>New Category</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_projet_new') }}">Back to Categories</a>
+    
+    {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}
