@@ -1,29 +1,151 @@
 {% extends 'base.html.twig' %}
+
 {% block stylesheets %}
     {{ parent() }}
     <style>
-    .center {
-    text-align: center;
+    /* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #ddd;
 }
 
-.table-center {
-    margin: 0 auto;
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
+
+th:last-child,
+td:last-child {
+  border-right: none;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Center table */
+.table-center {
+  margin: 0 auto;
+}
+
+/* Center table header text */
+.table-center th {
+  text-align: center;
+}
+
+/* Center table cell text */
+.table-center td {
+  text-align: center;
+}
+
+/* Hide table cell overflow */
+.table-center td img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Style for "Add to Cart" button */
+.add-to-cart {
+  background-color: #4761ff;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border: none;
+}
+
+/* Hover effect for "Add to Cart" button */
+.add-to-cart:hover {
+  background-color: #3e8e41;
+}
+
+/* Hide "Add to Cart" button if there's no user in the session */
+{% if not app.session.get('user') %}
+  .add-to-cart {
+    display: none;
+  }
+{% endif %}
+
+        .center {
+            text-align: center;
+        }
+
+        .table-center {
+            margin: 0 auto;
+        }
+
+        /* Style for "Add Project" button */
+        .add-project {
+            background-color: #4761ff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 100px;
+            margin-bottom: 40px;
+            margin-left: 665px;
+            border-radius: 5px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        /* Hover effect for "Add Project" button */
+        .add-project:hover {
+            background-color: #3e8e41;
+        }
+
+   {% if not app.session.get('user') %}
+    /* Hide "Add to Cart" button if there's no user in the session */
+    .add-project {
+        display: none;
+    }
+    .add-to-cart {
+        display: none;
+    }
+{% endif %}
+
+{% if app.session.get('user') and app.session.get('user').idrole != 2 %}
+    /* Hide "Add Project" button if the user's idrole is not 2 */
+     .add-to-cart {
+        display: none;
+    }
+    .add-project {
+        display: none;
+    }
+{% endif %}
 
     </style>
-    {% endblock %}
-    {% block body %}
+{% endblock %}
+
+{% block body %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
     {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+
+
+
+    <h1 class="center">Projects</h1>
+
    
-    <h1 style="text-align: center;">Projects</h1>
-
-    <a href="{{ path('app_projet_new') }}">Add Project</a>
-
-    <table style="margin: 0 auto;">
+<input class="form-control form-control-navbar" id="searchInput" onkeyup="searchTable()" type="search" placeholder="Search" aria-label="Search">
+    <table  id="t" class="table-center">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Price</th>
+                <th>Titre Projet</th>
+                <th>Prix</th>
+                 <th>Image du Projet</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -32,15 +154,67 @@
                 <tr>
                     <td>{{ projet.titreprojet }}</td>
                     <td>{{ projet.prixprojet }}</td>
+                            
+                                 <td>{% if projet.imageproj %}<img src="{{ asset('images/'~projet.imageproj) }}" width="100" alt="{{ projet.titreprojet }}">{% endif %}</td>
                     <td>
                         <form method="post" action="{{ path('app_panier_ajouter', {'id': projet.idprojet}) }}">
-                            <input type="submit" value="Add to cart">
+                          <button type="submit" class="add-to-cart">Ajouter au panier</button>
+
+                            
                         </form>
                     </td>
                 </tr>
+                
             {% endfor %}
+         
         </tbody>
-    </table>  
-
+    </table>
+    <a href="{{ path('app_projet_new') }}" class="add-project">Ajouter Project</a>
     {% include 'backandfront/Front/footer.html.twig' %}
+       
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function searchTable() {
+
+        // Get the search query from the input field
+        var query = document.getElementById("searchInput").value;
+
+        // Send an AJAX request to the server
+        $.ajax({
+            url: "/searchpro", // The URL of the search endpoint
+            type: "GET",
+            data: {query: query}, // The search query
+            success: function(data) {
+                // Parse the JSON data
+                var users = JSON.parse(data);
+
+                // Clear the existing table rows
+                $("#t tbody").empty();
+
+                // Loop through the search results and add new rows to the table
+                for (var i = 0; i < users.length; i++) {
+                    var user = users[i];
+                    var row = "<tr>" +
+                        "<td>" + user.titreprojet + "</td>" +
+                        "<td>" + user.prixprojet + "</td>" +
+
+                         "<td>" + (user.imageproj ? "<img src='/images/" + user.imageproj + "' width='100' alt='" + user.titreprojet + "'>" : "") + "</td>" +
+                    "<td>" +
+                       "<a href=\"/panier/ajouter/" + user.idprojet + "\" class=\"add-to-cart\">Add to cart</a>" +
+                    
+                      
+                       
+                        "</td>" +
+                        "</tr>";
+                    $("#t tbody").append(row);
+                }
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        $("#searchInput").on("input", searchTable);
+    });
+</script>
 {% endblock %}

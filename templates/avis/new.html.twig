@@ -1,11 +1,34 @@
 {% extends 'base.html.twig' %}
+{% block title %}Avis{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+    .center {
+        text-align: center;
+    }
 
-{% block title %}New Avis{% endblock %}
-
+    .table-center {
+        margin: 0 auto;
+    }
+    </style>
+{% endblock %}
 {% block body %}
-    <h1>Create new Avis</h1>
+    {% include 'backandfront/Front/navbar.html.twig' %}
 
-    {{ include('avis/_form.html.twig') }}
+    <div class="center">
+        <table class="table-center">
+            <tbody>
+                <tr>
+                    <td>
+                        <h1 style="font-size: 36px;">Create new Avis</h1>
 
-    <a href="{{ path('app_avis_index') }}">back to list</a>
+                        {{ include('avis/_form.html.twig') }}
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div>
+
+    {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

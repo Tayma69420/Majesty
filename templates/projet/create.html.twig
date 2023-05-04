@@ -1,20 +1,172 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Style the form */
+        form {
+             margin-bottom: 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1em;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 1em;
+        }
+        
+        /* Style the form fields */
+        input[type="text"],
+        input[type="number"],
+        select {
+            margin: 0.5em 0;
+            padding: 0.5em;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        /* Style the submit button */
+        button[type="submit"] {
+            margin-top: 1em;
+            padding: 0.5em;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        
+        /* Style the "New Category" link */
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 1em;
+            color: #007bff;
+        }
+        
+        /* Style the page header */
+        h1 {
+            font-size: 2em;
+            text-align: center;
+            margin-top: 2em;
+        }
+        
+        /* Style the form label */
+        label {
+            font-weight: bold;
+        }
+        input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
 
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+input[type="range"]::-ms-track {
+  height: 10px;
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+input[type="range"]::-ms-fill-lower {
+  background-color: #007bff;
+  border-radius: 5px;
+}
+
+input[type="range"]::-ms-fill-upper {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+/* Add margin to form rows */
+.form-group {
+    margin-bottom: 2em;
+}
+
+
+    </style>
+{% endblock %}
 {% block body %}
+   {% if app.session.get('user') and app.session.get('user').idrole == 2 %}
     {% include 'backandfront/Front/navbar.html.twig' %}
-    <h1>Add a new project</h1>
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
 
-    {{ form_start(form) }}
+    <h1>Ajotuer Un Nouveau Project</h1>
+
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div class="form-group">
 
     {{ form_row(form.titreprojet) }}
+</div>
+
+<div class="form-group">
     {{ form_row(form.prixprojet) }}
-        {{ form_row(form.type) }}
+    <label id="slider-value">{{ form.prixprojet.vars.value }}</label>
+</div>
 
+<div class="form-group">
+    {{ form_row(form.imageproj) }}
+</div>
 
-    <button type="submit">Save</button>
+<div class="form-group">
+    {{ form_row(form.type) }}
+</div>
 
-    {{ form_end(form) }}
-    <a href="{{ path('app_categorie_projet') }}">New Category</a>
+<button type="submit">Save</button>
+
+{{ form_end(form) }}
+
+    <a href="{{ path('app_categorie_projet') }}">Nouveau Type</a>
+
+<script>
+    const slider = document.querySelector('input[type="range"]');
+    const sliderValue = document.querySelector('#slider-value');
+    sliderValue.textContent = slider.value;
+    slider.addEventListener('input', () => {
+        sliderValue.textContent = slider.value;
+    });
+</script>
 
     {% include 'backandfront/Front/footer.html.twig' %}
 {% endblock %}

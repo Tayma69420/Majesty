@@ -25,7 +25,7 @@
             text-align: left;
         }
         button {
-            background-color: #4CAF50; /* Green */
+            background-color: #4761ff; /* Green */
             border: none;
             color: white;
             padding: 10px 16px;
@@ -42,7 +42,12 @@
    
  
 {% block body %}
-{% include 'backandfront/Front/navbar.html.twig' %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+
     <h1>Panier</h1>
     <table>
         <thead>

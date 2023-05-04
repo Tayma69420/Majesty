@@ -80,7 +80,12 @@
   
 {% endblock %}
     {% block body %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
     {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+
   
 <div style="margin: 60px">
     <div class="d-flex justify-content-between align-items-center mb-3">

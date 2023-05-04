@@ -43,4 +43,15 @@ app_panier_incrementer:
     path: /panier/increment/{id}
     controller: App\Controller\PanierController::incrementerPanier
 
-    
+account_disabled:
+    path: /account-disabled
+    controller: App\Controller\SecurityController::accountDisabled
+
+update_votes:
+    path: /update-votes
+    controller: App\Controller\PortfolioController::updateVotes
+
+update_portfolio:
+    path: /portfolio/update_portfolio
+    controller: App\Controller\PortfolioController::update_portfolio
+    methods: [POST]

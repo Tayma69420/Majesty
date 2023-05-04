@@ -2,7 +2,12 @@
 
     {% block body %}
 
-{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+
  <h1>Edit Project</h1>
 
     {{ form_start(form) }}

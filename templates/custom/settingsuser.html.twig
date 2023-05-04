@@ -111,6 +111,11 @@
             </form>
         </div>
     </div>
+{% if showDeactivateButton %}
+    <form action="{{ path('user_deactivate_account') }}" method="POST">
+        <button type="submit" class="btn btn-danger">Désactiver mon compte</button>
+    </form>
+{% endif %}
 
    {% include 'backandfront/Front/footer.html.twig' %}
 

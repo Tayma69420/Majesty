@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Portfolio{% endblock %}
+
+{% block body %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+    <h1>Create new Portfolio</h1>
+
+    <form method="post" id="create-form" action="{{path('app_portfolio_new')}}" enctype="multipart/form-data">
+        {{ form_start(form,{'attr': {'novalidate': 'novalidate'}} ) }}
+        {{ form_widget(form) }}
+        <p>Image</p>
+        <input type="file" name="image" id="image" class="form-control">
+
+        <button type="submit" id="create-btn">Create</button>
+        {{ form_end(form) }}
+
+    </form>
+
+    <a href="{{ path('app_portfolio_index') }}">back to list</a>
+  {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

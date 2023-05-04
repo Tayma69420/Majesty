@@ -22,7 +22,7 @@ class FreelancerController extends AbstractController
     /**
      * @Route("/settings-fr", name="freelancer_settings")
      */
-    public function freelancerSettings()
+    public function freelancerSettings(SessionInterface $session)
     {
         {
             $user = $session->get('user');
@@ -60,7 +60,7 @@ class FreelancerController extends AbstractController
                 return $this->redirectToRoute('enter_2fa_disable_code');
             }
         
-            return $this->render('custom/settingsuser.html.twig', [
+            return $this->render('custom/freelancersettings.html.twig', [
                 'message' => $message,
             ]);
         }}

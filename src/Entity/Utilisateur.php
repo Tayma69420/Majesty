@@ -137,6 +137,11 @@ private $faSecretKey;
  *    @Groups({"utilisateur"})
  */
 private $is2faEnabled = false;
+/**
+ * @ORM\Column(type="boolean")
+ *    @Groups({"utilisateur"})
+ */
+private $isDisabled  = false;
 
 
     public function getIduser(): ?int
@@ -209,7 +214,7 @@ private $is2faEnabled = false;
         return $this->age;
     }
 
-    public function setAge(?string $age): self
+    public function setAge(?\DateTimeInterface $age): self
     {
         $this->age = $age;
 
@@ -274,9 +279,15 @@ private $is2faEnabled = false;
     {
         return $this->is2faEnabled;
     }
+    public function getIsDisabled(): bool
+    {
+        return $this->isDisabled;
+    }
 
-
-
+    public function setIsDisabled(bool $isDisabled): void
+    {
+        $this->isDisabled = $isDisabled;
+    }
 
 }
 

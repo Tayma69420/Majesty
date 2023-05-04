@@ -1,7 +1,5 @@
 <?php
 
-// src/Controller/SecurityController.php
-// src/Controller/SecurityController.php
 
 namespace App\Controller;
 
@@ -16,7 +14,7 @@ use Swift_Mailer;
 use PragmaRX\Google2FAQRCode\Google2FAQRCode;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controller\Response;
-
+use Symfony\Component\HttpFoundation\JsonResponse ;
 
 
 
@@ -42,7 +40,12 @@ class SecurityController extends AbstractController
             if (!$utilisateur || $utilisateur->getPasswd() !== $this->encryptPassword($password)) {
                 $errorMessage = 'Invalid email or password.';
             } else {
-              
+                // If the user is disabled, redirect them to a page that tells them their account is disabled
+                if ($utilisateur->getIsDisabled()=== true) {
+                    var_dump($utilisateur->getIsDisabled());
+                    return $this->redirectToRoute('account_disabled');
+                }
+                
     
                 // If the email and password are correct, check if 2FA is enabled for the user
                 if ($utilisateur->getIs2faEnabled()) {
@@ -85,6 +88,7 @@ class SecurityController extends AbstractController
                 }
     
     
+    
                 // Store the user object in the session
                
                 $session->set('user', $utilisateur);
@@ -111,8 +115,54 @@ class SecurityController extends AbstractController
         ]);
     }
 
+/**
+ * @Route("/account-disabled", name="app_account_disabled")
+ */
+public function accountDisabled()
+{
+    return $this->render('custom/account_disabled.html.twig');
+}
+/**
+ * @Route("/send-activation-link/{id}", name="send_activation_link")
+ */
+public function sendActivationLink(Request $request, EntityManagerInterface $em, \Swift_Mailer $mailer, int $id)
+{
+    $user = $em->getRepository(Utilisateur::class)->find($id);
 
-    /**
+    if (!$user || !$user->isDisabled()) {
+        throw $this->createNotFoundException('User not found or account not disabled.');
+    }
+
+    $token = bin2hex(random_bytes(32));
+    $user->setActivationToken($token);
+    $em->flush();
+
+    $activationLink = $request->getSchemeAndHttpHost() . $this->generateUrl('activate_account', ['id' => $user->getId(), 'token' => $token]);
+
+    $message = (new \Swift_Message('Account activation'))
+        ->setFrom('noreply@example.com')
+        ->setTo($user->getEmail())
+        ->setBody(
+            $this->renderView(
+                'custom/activation_email.html.twig',
+                ['activationLink' => $activationLink]
+            ),
+            'text/html'
+        );
+
+    $mailer->send($message);
+
+    return $this->redirectToRoute('account_reactivation_pending');
+}
+
+
+
+
+
+
+
+
+/**
  * @Route("/front/index", name="Test")
  */
     public function index()

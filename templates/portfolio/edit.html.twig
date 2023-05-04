@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Portfolio{% endblock %}
+
+{% block body %}
+{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
+    {% include 'backandfront/Front/navbarfree.html.twig' %}
+{% endif %}
+    <div style="margin: 20px;">
+        <h1 style="text-align: center; font-size: 36px;">Edit Portfolio</h1>
+
+        <form method="post" id="create-form" action="{{ path('app_portfolio_edit', {'idportfolio': portfolio.idportfolio}) }}" enctype="multipart/form-data">
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                <tbody>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 10px; border: 1px solid #ddd;">Description</th>
+                        <td style="padding: 10px; border: 1px solid #ddd;">{{ form_widget(form.description) }}</td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Image</th>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><input type="file" name="image" id="image" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Cv</th>
+                        <td style="padding: 10px; border: 1px solid #ddd;"> {{ form_end(form) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ form_errors(form.description) }}
+
+            <div style="margin-top: 20px;">
+                <button type="submit" style="text-decoration: none; background-color: ; color: #ccf; padding: 10px 20px; border-radius: 4px;" >Edit</button>
+            </div>
+            
+            {{ form_end(form) }}
+        </form>
+
+        <div style="margin-top: 20px;">
+            <a href="{{ path('app_portfolio_show', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 4px;">Cancel</a>
+        </div>
+    </div>
+{% endblock %}

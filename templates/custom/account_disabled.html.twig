@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Account Disabled{% endblock %}
+
+{% block body %}
+    {% include 'backandfront/Front/navbar.html.twig' %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">{{ 'Account Disabled'|trans }}</div>
+
+                    <div class="card-body">
+                        <p>{{ 'Your account has been disabled. Please contact the administrator for more information.'|trans }}</p>
+                      
+                        {% if app.user and app.user.isDisabled %}
+                            <a href="{{ path('send_activation_link', {'id': app.user.id}) }}">{{ 'Send activation link'|trans }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'backandfront/Front/footer.html.twig' %}
+{% endblock %}

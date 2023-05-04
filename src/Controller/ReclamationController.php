@@ -16,7 +16,7 @@ use Apy\DataGridBundle\Grid\Source\Entity;
 use Apy\DataGridBundle\Grid\Action\RowAction;
 use Apy\DataGridBundle\Grid\Column\TextColumn;
 use Chartjs\ChartJSBundle\ChartJSFactory;
-
+use Symfony\Component\HttpFoundation\Session\SessionInterface ;
 /**
  * @Route("/reclamation")
  */
@@ -24,33 +24,38 @@ class ReclamationController extends AbstractController
 {
 
     
-    /**
-     * @Route("", name="app_reclamation_index", methods={"GET"})
-     */
-    public function index(ReclamationRepository $reclamationRepository, Request $request, PaginatorInterface $paginator): Response
-    {
-        $search = $request->query->get('search');
-        $queryBuilder = $reclamationRepository->createQueryBuilder('r');
-        if ($search) {
-            $queryBuilder->andWhere('r.titre LIKE :search')
-                ->setParameter('search', '%' . $search . '%');
-        }
-
-        $query = $queryBuilder->getQuery();
-        $reclamations = $paginator->paginate($query, $request->query->getInt('page', 1), 100);
-
-        // Check for bad words and replace them with asterisks
-        $badWords = ['bad', 'badword', 'badwordd'];
-        foreach ($reclamations as $reclamation) {
-            $reclamation->setTitre($this->replaceBadWords($reclamation->getTitre(), $badWords));
-            $reclamation->setReclaDesc($this->replaceBadWords($reclamation->getReclaDesc(), $badWords));
-        }
-
-        return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamations,
-            'search' => $search,
-        ]);
+   /**
+ * @Route("", name="app_reclamation_index", methods={"GET"})
+ */
+public function index(SessionInterface $session,ReclamationRepository $reclamationRepository, Request $request, PaginatorInterface $paginator): Response
+{
+    $user = $session->get('user');
+    $user->getIduser();
+    $search = $request->query->get('search');
+    $queryBuilder = $reclamationRepository->createQueryBuilder('r');
+    if ($search) {
+        $queryBuilder->andWhere('r.titre LIKE :search')
+            ->setParameter('search', '%' . $search . '%');
     }
+    $queryBuilder->andWhere('r.iduser = :user_id') // Add a condition to select only reclamations of the user
+        ->setParameter('user_id', $user);
+
+    $query = $queryBuilder->getQuery();
+    $reclamations = $paginator->paginate($query, $request->query->getInt('page', 1), 100);
+
+    // Check for bad words and replace them with asterisks
+    $badWords = ['bad', 'badword', 'badwordd'];
+    foreach ($reclamations as $reclamation) {
+        $reclamation->setTitre($this->replaceBadWords($reclamation->getTitre(), $badWords));
+        $reclamation->setReclaDesc($this->replaceBadWords($reclamation->getReclaDesc(), $badWords));
+    }
+
+    return $this->render('reclamation/index.html.twig', [
+        'reclamations' => $reclamations,
+        'search' => $search,
+    ]);
+}
+
 
     /**
      * Replace bad words with asterisks
@@ -71,22 +76,27 @@ class ReclamationController extends AbstractController
     /**
      * @Route("-new", name="app_reclamation_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, ReclamationRepository $recrepository): Response
+    public function new(SessionInterface $session,Request $request, ReclamationRepository $recrepository): Response
     {
+        $user = $session->get('user');
+        $utilisateur = $this->getDoctrine()->getRepository(Utilisateur::class)->find($user->getIduser());
+        
         $reclamation = new Reclamation();
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
+            $reclamation->setIduser($utilisateur);
             $recrepository->add($reclamation, true);
-
+        
             return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        
         return $this->renderForm('reclamation/new.html.twig', [
             'reclamation' => $reclamation,
             'form' => $form,
         ]);
+        
     }
 
     

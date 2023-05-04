@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Avis
  *
@@ -33,7 +33,7 @@ class Avis
      *
      * @ORM\Column(name="iduser", type="integer", nullable=true)
      */
-    private $iduser;
+    private  $iduser;
 
     /**
      * @var \Portfolio
@@ -44,6 +44,12 @@ class Avis
      * })
      */
     private $idportfolio;
+
+
+    public function __construct()
+    {
+        $this->Portfolio = new ArrayCollection();
+    }
 
     public function getIdavis(): ?int
     {
@@ -86,5 +92,5 @@ class Avis
         return $this;
     }
 
-
+    
 }

@@ -40,6 +40,12 @@ class Projet
      *@ORM\Column(type="string", length=255, nullable=true)
      */
     private $type;
+        /**
+     * @var string|null
+     * 
+     * @ORM\Column(name="imageproj", type="string", length=250, nullable=true)
+     */
+    private $imageproj;
 
     public function getType(): ?string
     {
@@ -81,5 +87,15 @@ class Projet
         return $this;
     }
 
+    public function getImageproj(): ?string
+    {
+        return $this->imageproj;
+    }
 
+    public function setImageproj(?string $imageproj): self
+    {
+        $this->imageproj = $imageproj;
+
+        return $this;
+    }
 }

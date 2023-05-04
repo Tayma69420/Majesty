@@ -24,11 +24,7 @@ class ReclamationType extends AbstractType
                 'choice_label'=>'type',
                 'label'=>'Categorie'
             ])
-            ->add('iduser',EntityType::class,
-            ['class'=>Utilisateur::class,
-                'choice_label'=>'nom',
-                'label'=>'User'
-            ]) 
+           
             ->add('rating',ChoiceType::class,[
                 'choices'=>[
                     '1'=>'1',
@@ -41,11 +37,6 @@ class ReclamationType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Reclamation::class,
-        ]);
-    }
+   
     
 }

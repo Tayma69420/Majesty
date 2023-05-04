@@ -3,28 +3,33 @@
 {% block title %}Avis{% endblock %}
 
 {% block body %}
-    <h1>Avis</h1>
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
+    <div style="margin: 20px;">
+        <h1 style="text-align: center; font-size: 36px;">Avis</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Idavis</th>
-                <td>{{ avi.idavis }}</td>
-            </tr>
-            <tr>
-                <th>Commentaire</th>
-                <td>{{ avi.commentaire }}</td>
-            </tr>
-            <tr>
-                <th>Iduser</th>
-                <td>{{ avi.iduser }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+            <tbody>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Idavis</th>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ avi.idavis }}</td>
+                </tr>
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ddd;">Commentaire</th>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ avi.commentaire }}</td>
+                </tr>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Iduser</th>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ avi.iduser }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_avis_index') }}">back to list</a>
+        <div style="margin-top: 20px;">
+            <a href="{{ path('app_avis_index') }}" style="text-decoration: none; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 4px;">Back to list</a>
+            <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none; background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 4px; margin-left: 10px;">Edit</a>
+             {{ include('avis/_delete_form.html.twig') }}
+        </div>
 
-    <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}">edit</a>
-
-    {{ include('avis/_delete_form.html.twig') }}
+       
+    </div>
 {% endblock %}

@@ -2,12 +2,22 @@
 
 {% block title %}Edit Avis{% endblock %}
 
+
+
 {% block body %}
-    <h1>Edit Avis</h1>
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
+   <center> <div class="container">
+        <h1 class="page-title">Edit Avis</h1>
 
-    {{ include('avis/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="form-container">
+            {{ include('avis/_form.html.twig', {
+                'button_label': 'Update'
+            }) }}
+        </div>
 
-    <a href="{{ path('app_avis_index') }}">back to list</a>
-
-    {{ include('avis/_delete_form.html.twig') }}
+        <div class="actions-container">
+            <a href="{{ path('app_avis_index') }}" class="btn">Back to List</a>
+            {{ include('avis/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

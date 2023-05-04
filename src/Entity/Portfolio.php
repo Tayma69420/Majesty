@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Portfolio
@@ -22,19 +23,22 @@ class Portfolio
      */
     private $idportfolio;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
-    private $description;
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="description", type="string", length=255, nullable=false)
+         * @Assert\Length(min=2, max=4)
+         */
+        private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="cv", type="blob", length=65535, nullable=false)
-     */
-    private $cv;
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="cv", type="blob", length=65535, nullable=false)
+         * @Assert\Length(min=2, max=7)
+         */
+        private $cv;
+
 
     /**
      * @var string
@@ -57,12 +61,25 @@ class Portfolio
      */
     private $idprojet;
 
+
+    
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="rating", type="string", length=255, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $rating;
+     // Getter and setter for the new "rating" property
+
+     public function getRating(): ?int
+     {
+         return $this->rating;
+     }
+ 
+     public function setRating(int $rating): self
+     {
+         $this->rating = $rating;
+ 
+         return $this;
+     }
 
     public function getIdportfolio(): ?int
     {
@@ -129,17 +146,40 @@ class Portfolio
         return $this;
     }
 
-    public function getRating(): ?string
+  
+    
+ /**
+     * @ORM\Column(type="integer")
+     */
+    private $likes;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $dislikes;
+
+    public function getLikes(): ?int
     {
-        return $this->rating;
+        return $this->likes;
     }
 
-    public function setRating(?string $rating): self
+    public function setLikes(int $likes): self
     {
-        $this->rating = $rating;
+        $this->likes = $likes;
 
         return $this;
     }
 
+    public function getDislikes(): ?int
+    {
+        return $this->dislikes;
+    }
+
+    public function setDislikes(int $dislikes): self
+    {
+        $this->dislikes = $dislikes;
+
+        return $this;
+    }
 
 }

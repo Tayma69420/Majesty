@@ -61,6 +61,7 @@ public function userSettings(SessionInterface $session)
 
     return $this->render('custom/settingsuser.html.twig', [
         'message' => $message,
+        'showDeactivateButton' => true, // Add this line
     ]);
 }
 
@@ -187,6 +188,24 @@ public function enable2fa(SessionInterface $session, QrcodeService $qrcodeServic
         'qr_code_data' => $qrCodeData,
         
     ]);
+}
+/**
+ * @Route("/deactivate-account", name="user_deactivate_account", methods={"POST"})
+ */
+public function deactivateAccount(SessionInterface $session)
+{
+    $userId = $session->get('user');
+    $entityManager = $this->getDoctrine()->getManager();
+    $user = $entityManager->getRepository(Utilisateur::class)->find($userId);
+
+    // Set the `isDisabled` flag to true
+    $user->setIsDisabled(true);
+    $entityManager->flush();
+
+    // Remove all session data
+    $session->clear();
+
+    return $this->redirectToRoute('app_home');
 }
 
 }

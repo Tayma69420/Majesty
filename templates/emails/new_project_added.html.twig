@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+
+    {{ parent() }}
+    <style>
+        /* Center the content */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style the heading */
+        h1 {
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+
+        /* Style the table */
+        table {
+            border-collapse: collapse;
+            margin-bottom: 1em;
+            padding: 0 1em 1em 1em;
+        }
+
+        /* Style the table cells */
+        td {
+            padding: 0.5em;
+            border: 1px solid #ddd;
+        }
+
+        /* Style the table header cells */
+        th {
+            padding: 0.5em;
+            border: 1px solid #ddd;
+            background-color: #f2f2f2;
+        }
+
+        /* Style the label for each list item */
+        label {
+            font-weight: bold;
+            margin-right: 0.5em;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <h1>Nouveau projet ajouté !</h1>
+    <p>Un nouveau projet a été ajouté sur le site PidevMajesty:</p>
+    <table>
+        <tr>
+            <th>Label</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><label>Titre :</label></td>
+            <td>{{ projet.titreprojet }}</td>
+        </tr>
+        <tr>
+            <td><label>Prix :</label></td>
+            <td>{{ projet.prixprojet }}</td>
+        </tr>
+        <tr>
+            <td><label>Catégorie :</label></td>
+            <td>{{ projet.type }}</td>
+        </tr>
+    </table>
+    <p>Date : {{ "now"|date("Y-m-d H:i:s") }}</p>
+{% endblock %}

@@ -15,4 +15,11 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+    #[Route('/homefree', name: 'app_home-free')]
+    public function indexfree(): Response
+    {
+        return $this->render('home/indevfree.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
 }
