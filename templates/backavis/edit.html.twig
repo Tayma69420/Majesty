@@ -5,11 +5,7 @@
 
 
 {% block body %}
-{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
-    {% include 'backandfront/Front/navbar.html.twig' %}
-{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
-    {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}    
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
    <center> <div class="container">
         <h1 class="page-title">Edit Avis</h1>
 
@@ -20,7 +16,6 @@
         </div>
 
         <div class="actions-container">
-            <a href="{{ path('app_avis_index') }}" class="btn">Back to List</a>
             {{ include('avis/_delete_form.html.twig') }}
         </div>
     </div>

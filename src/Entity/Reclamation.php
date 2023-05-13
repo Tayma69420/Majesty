@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Reclamation
  *
@@ -15,7 +15,7 @@ class Reclamation
 {
     /**
      * @var int
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="id_reclamation", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -24,7 +24,7 @@ class Reclamation
 
    /**
      * @var string
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="recla_desc", type="string", length=255, nullable=false)
      * @Assert\NotBlank(message="Description cannot be blank.")
      * @Assert\Length(min=2, max=7)
@@ -33,21 +33,21 @@ class Reclamation
 
     /**
      * @var \DateTime
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="daterec", type="date", nullable=false)
      */
     private $daterec;
 
      /**
      * @var \int
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="rating", type="integer")
      */
     private $rating;
 
     /**
      * @var string
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="titre", type="string", length=50, nullable=false)
      * @Assert\Length(min=2, max=7)
      */
@@ -55,7 +55,7 @@ class Reclamation
 
     /**
      * @var string|null
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\Column(name="type", type="string", length=255, nullable=true, options={"default"="NULL"})
      * @Assert\Length(min=2, max=20)
      */
@@ -63,7 +63,7 @@ class Reclamation
 
     /**
      * @var \CategorieRec
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\ManyToOne(targetEntity="CategorieRec")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idcat", referencedColumnName="id")
@@ -73,7 +73,7 @@ class Reclamation
 
     /**
      * @var \Utilisateur
-     *
+     *     *@Groups({"reclamations"})
      * @ORM\ManyToOne(targetEntity="Utilisateur")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="iduser", referencedColumnName="iduser")
@@ -91,7 +91,7 @@ class Reclamation
         return $this->reclaDesc;
     }
 
-    public function setReclaDesc(string $reclaDesc): self
+    public function setReclaDesc(?string $reclaDesc): self
     {
         $this->reclaDesc = $reclaDesc;
 
@@ -103,7 +103,7 @@ class Reclamation
         return $this->daterec;
     }
 
-    public function setDaterec(\DateTimeInterface $daterec): self
+    public function setDaterec(?\DateTimeInterface $daterec): self
     {
         $this->daterec = $daterec;
 
@@ -115,7 +115,7 @@ class Reclamation
         return $this->titre;
     }
 
-    public function setTitre(string $titre): self
+    public function setTitre(?string $titre): self
     {
         $this->titre = $titre;
 
@@ -162,7 +162,7 @@ class Reclamation
         return $this->rating;
     }
 
-    public function setRating(int $rating)
+    public function setRating(?int $rating)
     {
         $this->rating = $rating;
 

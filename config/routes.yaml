@@ -47,6 +47,7 @@ account_disabled:
     path: /account-disabled
     controller: App\Controller\SecurityController::accountDisabled
 
+
 update_votes:
     path: /update-votes
     controller: App\Controller\PortfolioController::updateVotes

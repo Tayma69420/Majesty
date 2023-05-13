@@ -24,13 +24,13 @@ class Avis1Type extends AbstractType
             //     // 'required' => false,
             // ])
 
-            
             ->add('idportfolio', EntityType::class, [
+                'label' => 'Portfolio Description',
                 'class' => 'App\Entity\Portfolio',
-                'choice_label' => 'idportfolio',
-                'expanded' => true,
+                'choice_label' => 'description',
                 'multiple' => false,
             ]);
+                
             
     }
 

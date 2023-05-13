@@ -7,7 +7,7 @@
     {% include 'backandfront/Front/navbar.html.twig' %}
 {% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
     {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}
+{% endif %}    
     <h1>Create new Portfolio</h1>
 
     <form method="post" id="create-form" action="{{path('app_portfolio_new')}}" enctype="multipart/form-data">

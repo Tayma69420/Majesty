@@ -3,17 +3,16 @@
 {% block title %}Avis{% endblock %}
 
 {% block body %}
-{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
-    {% include 'backandfront/Front/navbar.html.twig' %}
-{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
-    {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}    
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
     <div style="margin: 20px;">
         <h1 style="text-align: center; font-size: 36px;">Avis</h1>
 
         <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
             <tbody>
-               
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 10px; border: 1px solid #ddd;">Idavis</th>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ avi.idavis }}</td>
+                </tr>
                 <tr>
                     <th style="padding: 10px; border: 1px solid #ddd;">Commentaire</th>
                     <td style="padding: 10px; border: 1px solid #ddd;">{{ avi.commentaire }}</td>
@@ -26,8 +25,7 @@
         </table>
 
         <div style="margin-top: 20px;">
-            <a href="{{ path('app_avis_index') }}" style="text-decoration: none; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 4px;">Back to list</a>
-            <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none; background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 4px; margin-left: 10px;">Edit</a>
+           <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none; background-color: #28a745; color: #fff; padding: 10px 20px; border-radius: 4px; margin-left: 10px;">Edit</a>
              {{ include('avis/_delete_form.html.twig') }}
         </div>
 

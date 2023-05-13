@@ -124,6 +124,12 @@ public function setIs2faEnabled(bool $is2faEnabled): self
      * @ORM\Column(name="image", type="string", length=250, nullable=true)
      */
     private $image;
+    /**
+     * @var string|null
+     *  @Groups({"utilisateur"})
+     * @ORM\Column(name="activationToken", type="string", length=250, nullable=true)
+     */
+    private $activationToken;
 
     
         /**
@@ -258,7 +264,7 @@ private $isDisabled  = false;
         return $this;
     }
     
-
+    
     public function getImage(): ?string
     {
         return $this->image;
@@ -271,6 +277,17 @@ private $isDisabled  = false;
         return $this;
     }
 
+    public function getActivationToken(): ?string
+    {
+        return $this->activationToken;
+    }
+
+    public function setActivationToken(?string $activationToken): self
+    {
+        $this->activationToken = $activationToken;
+
+        return $this;
+    }
   
 
   

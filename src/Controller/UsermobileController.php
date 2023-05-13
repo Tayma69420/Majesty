@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controller;
-
+use App\Entity\Portfolio;
+use App\Entity\Reclamation;
 use App\Entity\Utilisateur;
+use App\Entity\Panier;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,11 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Swift_SmtpTransport;
 use Swift_Mailer;
 use Twilio\Rest\Client;
 use Twilio\Jwt\ClientToken;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsermobileController extends AbstractController
 {
@@ -34,6 +38,8 @@ class UsermobileController extends AbstractController
         $json = $serializer->serialize($utilisateurs, 'json', ['groups' => "utilisateur"]);
         return new Response($json);
     }
+
+
       //ajouter
       #[Route("/user/new", name: "adduser")]
       public function adduser(ManagerRegistry $doctrine, Request $req,NormalizerInterface $Normalizer)
@@ -62,7 +68,7 @@ class UsermobileController extends AbstractController
           return new Response(json_encode($jsonContent));
       }
      
-     
+ 
       #[Route("/updateuserjson-{id}", name: "updateuser")]
       public function updateuser(ManagerRegistry $doctrine, Request $req, $id, NormalizerInterface $Normalizer)
       {
@@ -79,10 +85,12 @@ class UsermobileController extends AbstractController
           $utilisateur->setEmail($req->get('email'));
           $utilisateur->setTel($req->get('tel'));
           $utilisateur->setAdresse($req->get('adresse'));
-          $utilisateur->setAge($req->get('age'));
-          $utilisateur->setPasswd(encryptPassword($req->get('passwd')));
-          $utilisateur->setImage($req->get('image'));
-          $utilisateur->setSexe($req->get('sexe'));
+          //$utilisateur->setAge($req->get('age'));
+          $password = $req->get('passwd');
+          $encryptedPassword = $this->encryptPassword($password);
+          $utilisateur->setPasswd($encryptedPassword);
+        //  $utilisateur->setImage($req->get('image'));
+        //  $utilisateur->setSexe($req->get('sexe'));
       
           $em->persist($utilisateur);
           $em->flush();
@@ -193,6 +201,243 @@ public function sendCode(Request $request)
     }
 }
 
+/**
+ * @Route("/user-json", name="user_json")
+ */
+public function getUserJson(Request $request, SerializerInterface $serializer): JsonResponse
+{
+
+    $email = $request->get('email');
+   $mdp = $request->get('passwd');
+    // Check if user exists with given email
+    
+    $entityManager = $this->getDoctrine()->getManager();
+    $user = $entityManager->getRepository(Utilisateur::class)->findOneBy(['email' => $email,'passwd' => $this->encryptPassword($mdp)]);
+
+    if (!$user) {
+        return new JsonResponse(['error' => 'User not found with given email'], Response::HTTP_NOT_FOUND);
+    }
+
+    $json = $serializer->serialize($user, 'json', ['groups' => 'utilisateur']);
+    return new JsonResponse($json, Response::HTTP_OK, [], true);
+}
+
+
+//affichage
+#[Route("/ReclamationMobile/list", name: "liist")]
+public function getReclamation(SerializerInterface $serializer)
+{ 
+$ReclamationRepository = $this->getDoctrine()->getRepository(Reclamation::class);
+$reclamations = $ReclamationRepository->findAll();
+$json = $serializer->serialize($reclamations, 'json', ['groups' => "reclamations"]);
+return new Response($json);
+}
+
+//ajouter
+#[Route("/addReclamationJSON/new", name: "addReclamationJSON")]
+public function addReclamationJSON(ManagerRegistry $doctrine, Request $req,NormalizerInterface $Normalizer)
+{
+
+$em = $this->getDoctrine()->getManager();
+$reclamation = new reclamation();
+$reclamation->setReclaDesc($req->get('reclaDesc'));
+$reclamation->setTitre($req->get('titre'));
+
+
+
+
+$em->persist($reclamation);
+$em->flush();
+
+$jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamations']);
+return new Response(json_encode($jsonContent));
+}
+
+
+
+//supprimer
+
+#[Route("/deleteReclamationJSON/{idreclamation}", name: "deleteReclamationJSON")]
+public function deletereclamationJSON(ManagerRegistry $doctrine, Request $req, $idreclamation, NormalizerInterface $Normalizer)
+{
+
+$em = $doctrine->getManager();
+$reclamation = $em->getRepository(reclamation::class)->find($idreclamation);
+$em->remove($reclamation);
+$em->flush();
+$jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamations']);
+return new Response("reclamation deleted successfully " . json_encode($jsonContent));
+}
+
+
+
+//modifier
+
+#[Route("/updatereclamationjsonn-{id}", name: "updatereclamation")]
+  public function updateuserr(ManagerRegistry $doctrine, Request $req, $id, NormalizerInterface $Normalizer)
+  {
+      $em = $this->getDoctrine()->getManager();
+
+      $utilisateur = $em->getRepository(Reclamation::class)->find($id);
+  
+      if (!$reclamation) {
+          return new Response("Reclamation not found");
+      }
+  
+      $reclamation->setReclaDesc($req->get('reclaDesc'));
+      $reclamation->setTitre($req->get('titre'));
+      $em->persist($reclamation);
+      $em->flush();
+  
+      $jsonContent = $Normalizer->normalize($reclamation, 'json', ['groups' => 'reclamation']);
+      return new Response("Reclamation updated successfully " . json_encode($jsonContent));
+  }
+
+
+//--------------------------AHMED---------------------------------------------------//
+ //ajouter
+ #[Route("/addPortfolioJSON/new", name: "addPortfolioJSON")]
+ public function addPortfolioJSON(ManagerRegistry $doctrine, Request $req,NormalizerInterface $Normalizer)
+ {
+
+     $em = $this->getDoctrine()->getManager();
+     $portfolio = new Portfolio();
+     $portfolio->setDescription($req->get('description'));
+     $portfolio->setimage($req->get('image'));
+
+     $em->persist($portfolio);
+     $em->flush();
+
+     $jsonContent = $Normalizer->normalize($portfolio, 'json', ['groups' => 'portfolios']);
+     return new Response(json_encode($jsonContent));
+ }
+
+ //affichage
+#[Route("/portfoliomobile/list", name: "lisst")]
+public function getPortfolio(SerializerInterface $serializer)
+ { 
+     $portfolioRepository = $this->getDoctrine()->getRepository(Portfolio::class);
+     $portfolios = $portfolioRepository->findAll();
+     $json = $serializer->serialize($portfolios, 'json', ['groups' => "portfolios"]);
+     return new Response($json);
+ }
+
+ //supprimer
+ #[Route("/deleteportfolioJSON/{idportfolio}", name: "deleteportfolioJSON")]
+ public function deleteportfolioJSON(ManagerRegistry $doctrine, Request $req, $idportfolio, NormalizerInterface $Normalizer)
+ {
+
+     $em = $doctrine->getManager();
+     $portfolio = $em->getRepository(Portfolio::class)->find($idportfolio);
+     $em->remove($portfolio);
+     $em->flush();
+     $jsonContent = $Normalizer->normalize($portfolio, 'json', ['groups' => 'portfolios']);
+     return new Response("portfolio deleted successfully " . json_encode($jsonContent));
+ }
+ //-----------------------------farouk-------//
+
+ #[Route("/clearDatabasePanierJSON", name: "deleteAllPaniersJSON")]
+    public function deleteAllPaniersJSON(ManagerRegistry $doctrine, NormalizerInterface $normalizer)
+    {
+        $em = $doctrine->getManager();
+        $paniers = $em->getRepository(Panier::class)->findAll();
+
+        foreach ($paniers as $panier) {
+            $em->remove($panier);
+        }
+
+        $em->flush();
+
+        $jsonContent = $normalizer->normalize($paniers, 'json', ['groups' => 'paniers']);
+        return new Response(count($paniers) . " paniers deleted successfully " . json_encode($jsonContent));
+    }
+//-------oussema-----//
+    //affichage
+#[Route("/projetmobile/list", name: "lissst")]
+public function getProjet(SerializerInterface $serializer)
+    { 
+        $projetRepository = $this->getDoctrine()->getRepository(Projet::class);
+        $projets = $projetRepository->findAll();
+        $json = $serializer->serialize($projets, 'json', ['groups' => "projets"]);
+        return new Response($json);
+    }
+
+
+//ajouter
+    #[Route("/addProjetJSON/new", name: "addProjetJSON")]
+    public function addProjetJSON(ManagerRegistry $doctrine, Request $req,NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $projet = new Projet();
+        $projet->settitreprojet($req->get('titreprojet'));
+        $projet->setprixprojet($req->get('prixprojet'));
+        $projet->settype($req->get('type'));
+        $projet->setidprojet($req->get('idprojet'));
+
+        $em->persist($projet);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($projet, 'json', ['groups' => 'projets']);
+        return new Response(json_encode($jsonContent));
+    }
+
+//supprimer
+
+    #[Route("/deleteProjetJSON/{idprojet}", name: "deleteProjetJSON")]
+    public function deleteProjetJSON(ManagerRegistry $doctrine, Request $req, $idprojet, NormalizerInterface $Normalizer)
+    {
+
+        $em = $doctrine->getManager();
+        $panier = $em->getRepository(Projet::class)->find($idprojet);
+        $em->remove($projet);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($panier, 'json', ['groups' => 'projets']);
+        return new Response("projet deleted successfully " . json_encode($jsonContent));
+    }
+
+    #[Route("/sendEmailPrix", name: "sendPrixEmail")]
+public function sendEmailPrix(ManagerRegistry $doctrine, Request $request, NormalizerInterface $normalizer)
+{
+    $entityManager = $doctrine->getManager();
+    
+    // Replace this email address with the desired recipient email address
+    $email = "daadaa.farouk@live.fr";
+    
+   
+    
+
+    
+     {
+        // Create the SwiftMailer transport
+        $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+            ->setUsername('pidevmajesty@gmail.com')
+            ->setPassword('xfbyslhggajvfdjz');
+        
+        // Create the SwiftMailer instance
+        $mailer = new Swift_Mailer($transport);
+        
+        // Create the message to send
+        $message = (new \Swift_Message('Thank you for your purchase'))
+            ->setFrom('noreply@example.com')
+            ->setTo($email)
+            ->setBody(
+                $this->renderView('emails/thank_you.html.twig', [
+                
+                ]),
+                'text/html'
+            );
+        
+        // Send the message
+        $mailer->send($message);
+        
+        return new Response("Email sent successfully."); 
+     
+    }
+}
 
 
 }
+
+
+

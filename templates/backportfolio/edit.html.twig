@@ -3,15 +3,11 @@
 {% block title %}Edit Portfolio{% endblock %}
 
 {% block body %}
-{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
-    {% include 'backandfront/Front/navbar.html.twig' %}
-{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
-    {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}    
+{% include 'backandfront/NiceAdmin/navbar.html.twig' %}
     <div style="margin: 20px;">
         <h1 style="text-align: center; font-size: 36px;">Edit Portfolio</h1>
 
-        <form method="post" id="create-form" action="{{ path('app_portfolio_edit', {'idportfolio': portfolio.idportfolio}) }}" enctype="multipart/form-data">
+        <form method="post" id="create-form" action="{{ path('bapp_portfolio_edit', {'idportfolio': portfolio.idportfolio}) }}" enctype="multipart/form-data">
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
             <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                 <tbody>
@@ -39,7 +35,7 @@
         </form>
 
         <div style="margin-top: 20px;">
-            <a href="{{ path('app_portfolio_show', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 4px;">Cancel</a>
+            <a href="{{ path('bapp_portfolio_show', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; background-color: #007bff; color: #fff; padding: 10px 20px; border-radius: 4px;">Cancel</a>
         </div>
     </div>
 {% endblock %}

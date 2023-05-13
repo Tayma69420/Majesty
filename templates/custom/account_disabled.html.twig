@@ -12,11 +12,13 @@
                     <div class="card-header">{{ 'Account Disabled'|trans }}</div>
 
                     <div class="card-body">
-                        <p>{{ 'Your account has been disabled. Please contact the administrator for more information.'|trans }}</p>
-                      
-                        {% if app.user and app.user.isDisabled %}
-                            <a href="{{ path('send_activation_link', {'id': app.user.id}) }}">{{ 'Send activation link'|trans }}</a>
-                        {% endif %}
+               {% if disabledUserEmail %}
+    <p>Your account with email {{ disabledUserEmail }} has been disabled. Click <a href="{{ path('send_activation_link', {'id': userId}) }}">here</a> to send an activation link to your email and restore your account.</p>
+{% else %}
+    <p>Your account has been disabled. Contact the administrator to restore it.</p>
+{% endif %}
+
+    
                     </div>
                 </div>
             </div>

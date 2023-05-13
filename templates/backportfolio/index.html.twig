@@ -3,16 +3,13 @@
 {% block title %}Portfolio Index{% endblock %}
 
 {% block body %}
-{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
-    {% include 'backandfront/Front/navbar.html.twig' %}
-{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
-    {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}    
+   {% include 'backandfront/NiceAdmin/navbar.html.twig' %}     
 
     
     <table style="border-collapse: collapse; width: 100%;">
         <thead style="background-color: #ccc;">
     <tr>
+    <th style="border: 1px solid #ccc; padding: 0.5em;">ID</th>
         <th style="border: 1px solid #ccc; padding: 0.5em;">Description</th>
         <th style="border: 1px solid #ccc; padding: 0.5em;">CV</th>
         <th style="border: 1px solid #ccc; padding: 0.5em;">Image</th>
@@ -24,13 +21,14 @@
 <tbody style="background-color: #">
     {% for portfolio in portfolios %}
     <tr>
+    <td style="border: 1px solid #ccc; padding: 0.5em;">{{ portfolio.Idportfolio }}</td>
         <td style="border: 1px solid #ccc; padding: 0.5em;">{{ portfolio.description }}</td>
         <td style="border: 1px solid #ccc; padding: 0.5em;">{{ portfolio.cv }}</td>
         <td style="border: 1px solid #ccc; padding: 0.5em;"><img src="{{asset('/images/'~portfolio.image)}}" width="100" height="100" class="img" alt="{{ portfolio.description }}" /></td>
         <td style="border: 1px solid #ccc; padding: 0.5em;">
-            <a href="{{ path('app_portfolio_edit', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; margin-right: 0.5em;" class="btn btn-sm btn-outline-primary">Edit </a>
-            <a href="{{ path('app_portfolio_delete', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none;" class="btn btn-danger">Delete</a>
-            <a href="{{ path('app_portfolio_show', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; margin-right: 0.5em;" class="btn btn-sm btn-outline-primary">Show </a>
+            <a href="{{ path('bapp_portfolio_edit', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; margin-right: 0.5em;" class="btn btn-sm btn-outline-primary">Edit </a>
+            <a href="{{ path('bapp_portfolio_delete', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none;" class="btn btn-danger">Delete</a>
+            <a href="{{ path('bapp_portfolio_show', {'idportfolio': portfolio.idportfolio}) }}" style="text-decoration: none; margin-right: 0.5em;" class="btn btn-sm btn-outline-primary">Show </a>
         </td>
         <td style="border: 1px solid #ccc; padding: 0.5em;">
             {{ portfolio.likes }} / {{ portfolio.dislikes }}

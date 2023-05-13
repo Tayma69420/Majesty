@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Portfolio
  *
@@ -16,7 +16,7 @@ class Portfolio
 {
     /**
      * @var int
-     *
+     *@Groups({"portfolios"})
      * @ORM\Column(name="idportfolio", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -25,7 +25,7 @@ class Portfolio
 
         /**
          * @var string
-         *
+         *@Groups({"portfolios"})
          * @ORM\Column(name="description", type="string", length=255, nullable=false)
          * @Assert\Length(min=2, max=4)
          */
@@ -33,7 +33,7 @@ class Portfolio
 
         /**
          * @var string
-         *
+         
          * @ORM\Column(name="cv", type="blob", length=65535, nullable=false)
          * @Assert\Length(min=2, max=7)
          */
@@ -42,21 +42,21 @@ class Portfolio
 
     /**
      * @var string
-     *
+     *@Groups({"portfolios"})
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
      */
     private $image;
 
     /**
      * @var int|null
-     *
+     *@Groups({"portfolios"})
      * @ORM\Column(name="iduser", type="integer", nullable=true)
      */
     private $iduser;
 
     /**
      * @var int|null
-     *
+     *@Groups({"portfolios"})
      * @ORM\Column(name="idprojet", type="integer", nullable=true)
      */
     private $idprojet;
@@ -74,7 +74,7 @@ class Portfolio
          return $this->rating;
      }
  
-     public function setRating(int $rating): self
+     public function setRating(?int $rating): self
      {
          $this->rating = $rating;
  
@@ -91,7 +91,7 @@ class Portfolio
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -115,7 +115,7 @@ class Portfolio
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -163,7 +163,7 @@ class Portfolio
         return $this->likes;
     }
 
-    public function setLikes(int $likes): self
+    public function setLikes(?int $likes): self
     {
         $this->likes = $likes;
 
@@ -175,7 +175,7 @@ class Portfolio
         return $this->dislikes;
     }
 
-    public function setDislikes(int $dislikes): self
+    public function setDislikes(?int $dislikes): self
     {
         $this->dislikes = $dislikes;
 

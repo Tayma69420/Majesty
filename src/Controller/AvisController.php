@@ -45,7 +45,7 @@ class AvisController extends AbstractController
         return $commentaire;
     }
     
-    #[Route('/new', name: 'app_avis_new', methods: ['GET', 'POST'])]
+    #[Route('-new', name: 'app_avis_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Create a new Avis object
@@ -81,7 +81,7 @@ class AvisController extends AbstractController
     
 
 
-    #[Route('/{idavis}', name: 'app_avis_show', methods: ['GET'])]
+    #[Route('-{idavis}', name: 'app_avis_show', methods: ['GET'])]
     public function show(Avis $avi): Response
     {
         // Render the show.html.twig template and pass the $avi object as a variable
@@ -92,7 +92,7 @@ class AvisController extends AbstractController
         
     }
 
-    #[Route('/{idavis}/edit', name: 'app_avis_edit', methods: ['GET', 'POST'])]
+    #[Route('-{idavis}-edit', name: 'app_avis_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
     {
         // Create a form based on the Avis1Type form class and the $avi object
@@ -116,7 +116,7 @@ class AvisController extends AbstractController
         ]);
     }
 
-    #[Route('/{idavis}', name: 'app_avis_delete', methods: ['POST'])]
+    #[Route('-{idavis}', name: 'app_avis_delete', methods: ['POST'])]
     public function delete(Request $request, Avis $avi, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$avi->getIdavis(), $request->request->get('_token'))) {
@@ -129,7 +129,7 @@ class AvisController extends AbstractController
 
 
 
-    #[Route('/dashboard/stat', name: 'stat', methods: ['POST','GET'])]
+    #[Route('-dashboard-stat', name: 'stat', methods: ['POST','GET'])]
     public function VoitureStatistics( AvisRepository $repo): Response
     {
         $total = $repo->countByLibelle('a') +
@@ -158,7 +158,7 @@ class AvisController extends AbstractController
     
 
 
-    #[Route('/avis/exportpdf', name: 'exportpdf')]
+    #[Route('-avis-exportpdf', name: 'exportpdf')]
     public function exportToPdf(AvisRepository $repository): Response
     {
         // Récupérer les données de réservation depuis votre base de données

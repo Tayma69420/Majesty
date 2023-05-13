@@ -15,7 +15,7 @@ use PragmaRX\Google2FAQRCode\Google2FAQRCode;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controller\Response;
 use Symfony\Component\HttpFoundation\JsonResponse ;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 
@@ -41,10 +41,11 @@ class SecurityController extends AbstractController
                 $errorMessage = 'Invalid email or password.';
             } else {
                 // If the user is disabled, redirect them to a page that tells them their account is disabled
-                if ($utilisateur->getIsDisabled()=== true) {
-                    var_dump($utilisateur->getIsDisabled());
+                if ($utilisateur->getIsDisabled() === true) {
+                    $session->set('disabled_user_email', $email);
                     return $this->redirectToRoute('account_disabled');
                 }
+                
                 
     
                 // If the email and password are correct, check if 2FA is enabled for the user
@@ -118,41 +119,83 @@ class SecurityController extends AbstractController
 /**
  * @Route("/account-disabled", name="app_account_disabled")
  */
-public function accountDisabled()
+public function accountDisabled(SessionInterface $session, EntityManagerInterface $em)
 {
-    return $this->render('custom/account_disabled.html.twig');
+    $disabledUserEmail = $session->get('disabled_user_email');
+    $user = $em->getRepository(Utilisateur::class)->findOneBy(['email' => $disabledUserEmail]);
+
+    return $this->render('custom/account_disabled.html.twig', [
+        'disabledUserEmail' => $disabledUserEmail,
+        'userId' => $user ? $user->getIduser() : null,
+    ]);
 }
+
+
 /**
- * @Route("/send-activation-link/{id}", name="send_activation_link")
+ * @Route("/send-activation-link-{id}", name="send_activation_link")
  */
 public function sendActivationLink(Request $request, EntityManagerInterface $em, \Swift_Mailer $mailer, int $id)
 {
+    $transport = (new Swift_SmtpTransport('smtp.gmail.com', 587, 'tls'))
+        ->setUsername('pidevmajesty@gmail.com')
+        ->setPassword('xfbyslhggajvfdjz');
+    $mailer = new Swift_Mailer($transport);
+
+    // Find the user with the given id
     $user = $em->getRepository(Utilisateur::class)->find($id);
 
-    if (!$user || !$user->isDisabled()) {
-        throw $this->createNotFoundException('User not found or account not disabled.');
-    }
-
+    // Generate a token to include in the activation link
     $token = bin2hex(random_bytes(32));
+
+    // Update the user's token in the database
     $user->setActivationToken($token);
+    $em->persist($user);
     $em->flush();
 
-    $activationLink = $request->getSchemeAndHttpHost() . $this->generateUrl('activate_account', ['id' => $user->getId(), 'token' => $token]);
+    // Generate the activation link
+    $activationLink = $this->generateUrl('activate_account', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-    $message = (new \Swift_Message('Account activation'))
+    // Send the activation email
+    $message = (new \Swift_Message('Account Activation'))
         ->setFrom('noreply@example.com')
         ->setTo($user->getEmail())
         ->setBody(
             $this->renderView(
-                'custom/activation_email.html.twig',
+                'emails/activation.html.twig',
                 ['activationLink' => $activationLink]
             ),
             'text/html'
         );
-
     $mailer->send($message);
 
-    return $this->redirectToRoute('account_reactivation_pending');
+    // Redirect to the login page with a success message
+    $this->addFlash('success', 'An activation link has been sent to your email address.');
+    return $this->redirectToRoute('app_login');
+}
+
+
+
+/**
+ * @Route("/activate-account-{token}", name="activate_account")
+ */
+public function activateAccount(Request $request, EntityManagerInterface $em, $token)
+{
+    // find the user with the given activation token
+    $user = $em->getRepository(Utilisateur::class)->findOneBy(['activationToken' => $token]);
+
+    // if no user was found with the given token, show an error message
+    if (!$user) {
+        throw $this->createNotFoundException('The user was not found.');
+    }
+
+    // activate the user's account
+    $user->setIsDisabled(false);
+    $user->setActivationToken(null);
+    $em->persist($user);
+    $em->flush();
+
+    // redirect the user to the login page
+    return $this->redirectToRoute('app_login');
 }
 
 

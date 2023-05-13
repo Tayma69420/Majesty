@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * Projet
  *
@@ -14,7 +15,7 @@ class Projet
 {
     /**
      * @var int
-     *
+     **@Groups({"projets"})
      * @ORM\Column(name="idprojet", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -24,6 +25,7 @@ class Projet
 
     /**
      * @var string
+     * *@Groups({"projets"})
      *@Assert\NotBlank()
      * @ORM\Column(name="titreprojet", type="string", length=150, nullable=false)
      */
@@ -31,18 +33,20 @@ class Projet
 
     /**
      * @var float
+     * *@Groups({"projets"})
      *@Assert\NotBlank()
      * @ORM\Column(name="prixprojet", type="float", precision=100, scale=0, nullable=false)
      */
     private $prixprojet;
     /**
      * @var string
+     * *@Groups({"projets"})
      *@ORM\Column(type="string", length=255, nullable=true)
      */
     private $type;
         /**
      * @var string|null
-     * 
+     * *@Groups({"projets"})
      * @ORM\Column(name="imageproj", type="string", length=250, nullable=true)
      */
     private $imageproj;

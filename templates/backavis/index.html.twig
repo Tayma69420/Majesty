@@ -3,16 +3,12 @@
 {% block title %}Avis index{% endblock %}
 
 {% block body %}
-{% if app.session.get('user') and app.session.get('user').idrole == 2 %}
-    {% include 'backandfront/Front/navbar.html.twig' %}
-{% elseif app.session.get('user') and app.session.get('user').idrole == 3 %}
-    {% include 'backandfront/Front/navbarfree.html.twig' %}
-{% endif %}    
+   {% include 'backandfront/NiceAdmin/navbar.html.twig' %}
     
     <table style="border-collapse: collapse; width: 100%;">
         <thead style="background-color: #7ve;">
             <tr>
-                
+                <th style="border: 1px solid #ccc; padding: 0.5em;">ID</th>
                 <th style="border: 1px solid #ccc; padding: 0.5em;">Commentaire</th>
                 <th style="border: 1px solid #ccc; padding: 0.5em;">Actions</th>
             </tr>
@@ -20,11 +16,11 @@
         <tbody style="background-color: #7vr;">
         {% for avi in avis %}
             <tr>
-                
+                <td style="border: 1px solid #ccc; padding: 0.5em;">{{ avi.idavis }}</td>
                 <td style="border: 1px solid #ccc; padding: 0.5em;">{{ avi.commentaire }}</td>
                 <td style="border: 1px solid #ccc; padding: 0.5em;">
-                    <a href="{{ path('app_avis_show', {'idavis': avi.idavis}) }}" style="text-decoration: none; margin-right: 0.5em;">Show</a>
-                    <a href="{{ path('app_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none;">Edit</a>
+                    <a href="{{ path('bapp_avis_show', {'idavis': avi.idavis}) }}" style="text-decoration: none; margin-right: 0.5em;">Show</a>
+                    <a href="{{ path('bapp_avis_edit', {'idavis': avi.idavis}) }}" style="text-decoration: none;">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,8 +31,7 @@
         </tbody>
     </table>
     
-    <a href="{{ path('app_avis_new') }}"  class="btn btn-primary mt-4 mb-4">Create new</a>
-    <center> {{ knp_pagination_render(avis) }} 
     
+    <center> {{ knp_pagination_render(avis) }} 
 
 {% endblock %}

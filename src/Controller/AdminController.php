@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin_dashboard", name="admin_page")
+     * @Route("/admin_dashboard", name="adminn_page")
 
      */
     public function adminPage(Request $request)
